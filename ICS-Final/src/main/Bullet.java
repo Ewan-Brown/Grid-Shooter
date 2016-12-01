@@ -22,5 +22,4 @@ public class Bullet extends Projectile{
 		this.dX += dX;
 		this.dY += dY;
 	}
-
 }
