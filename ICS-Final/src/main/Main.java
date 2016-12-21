@@ -14,6 +14,7 @@ class Main {
 		JFrame frame = new JFrame();
 		Panel panel = new Panel();
 		frame.add(panel);
+		frame.addKeyListener(new Input());
 		frame.setVisible(true);
 		frame.setSize(500, 500);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

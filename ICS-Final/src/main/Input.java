@@ -23,7 +23,23 @@ public class Input implements KeyListener{
 
 	}
 	public static void updateKeys(){
-		
+		if(keySet.get(KeyEvent.VK_W)){
+			Game.player.thrust(1);
+		}
+		if(keySet.get(KeyEvent.VK_A)){
+			Game.player.strafe(-1);
+		}
+		if(keySet.get(KeyEvent.VK_S)){
+			Game.player.thrust(-1);
+		}
+		if(keySet.get(KeyEvent.VK_D)){
+			Game.player.strafe(1);		}
+		if(keySet.get(KeyEvent.VK_LEFT)){
+			Game.player.turn(-1);
+		}
+		if(keySet.get(KeyEvent.VK_RIGHT)){
+			Game.player.turn(1);
+		}
 	}
 
 	

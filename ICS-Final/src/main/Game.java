@@ -18,8 +18,10 @@ public class Game implements Runnable,ActionListener{
 		entities.add(new Particle(100,100, 0.1, 0));
 		entities.add(new Particle(100,200, 0, 0.1));
 		entities.add(new Bullet(100,200, 0, 1, 0));
+		entities.add(player = new Ship(100, 100));
 	}
 	public static void loop(){
+		Input.updateKeys();
 		for(int i = 0; i < entities.size();i++){
 			Entity p = entities.get(i);
 			p.update();
