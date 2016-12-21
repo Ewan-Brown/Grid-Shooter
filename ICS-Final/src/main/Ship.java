@@ -11,6 +11,7 @@ public class Ship extends Entity{
 	int MAX_COOLDOWN = 10;
 	double muzzleVelocity = 40;
 	int caliber = 10;
+	Point[] turrets;
 	{
 		points = new Point[7];
 		points[0] = new Point(24,12);
@@ -24,6 +25,8 @@ public class Ship extends Entity{
 		for(int i = 0; i < points.length;i++){
 			tempPoints[i] = new Point(0,0);
 		}
+		turrets = new Point[1];
+		turrets[0] = points[0];
 	}
 	public Ship(double x, double y) {
 		super(x, y,0,0);
@@ -36,6 +39,20 @@ public class Ship extends Entity{
 	}
 	public void turn(double t){
 		realAngle += turnSpeed * t;
+	}
+	public void shoot(){
+		Bullet[] bA = new Bullet[turrets.length];
+		if(cooldown < 0){
+			cooldown = MAX_COOLDOWN;
+			Point[] p = turrets;
+			for(int i = 0; i < p.length;i++){
+				double x = p[i].x + getTrueX();
+				double y = p[i].y + getTrueY();
+				Bullet b = new Bullet(x,y,realAngle,muzzleVelocity,this.caliber);
+				bA[i] = b;
+			}
+			Game.entities.addAll(bA);
+		}
 	}
 	public void strafe(double t){
 		double dX = (Math.cos(Math.toRadians(realAngle + 90)))*speed*t;

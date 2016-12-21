@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,9 +16,6 @@ public class Game implements Runnable,ActionListener{
 	static long t1 = 0;
 	static Timer timer = new Timer(16, new Game());
 	public static void start(){
-		entities.add(new Particle(100,100, 0.1, 0));
-		entities.add(new Particle(100,200, 0, 0.1));
-		entities.add(new Bullet(100,200, 0, 1, 0));
 		entities.add(player = new Ship(100, 100));
 	}
 	public static void loop(){

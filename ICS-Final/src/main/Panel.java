@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,8 +29,17 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		for(int i = 0; i < drawables.size();i++){
 			Drawable d = drawables.get(i);
 			g2.setColor(d.c);
-			g2.fillPolygon(d.getRotatedPolygon());
+			g2.fillPolygon(transformPolygon(d.getRotatedPolygon()));
 		}
+	}
+	public Polygon transformPolygon(Polygon p){
+		double pX = Game.player.x;
+		double pY = Game.player.y;
+		for(int ix = 0 ; ix < p.xpoints.length;ix++){
+			p.xpoints[ix] = (int) (p.xpoints[ix] - pX) + this.getWidth() / 2;
+			p.ypoints[ix] = (int) (p.ypoints[ix] - pY) + this.getHeight() / 2;
+		}
+		return p;
 	}
 	public void loop(){
 		repaint();
