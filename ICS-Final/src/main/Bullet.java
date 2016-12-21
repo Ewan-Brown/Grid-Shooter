@@ -17,6 +17,7 @@ public class Bullet extends Projectile{
 	public Bullet(double x, double y, double angle,double speed, double damage) {
 		super(x, y, 0,0);
 		this.damage = damage;
+		realAngle = angle;
 		double dX = (Math.cos(Math.toRadians(realAngle)))*speed;
 		double dY = (Math.sin(Math.toRadians(realAngle)))*speed;
 		this.dX += dX;

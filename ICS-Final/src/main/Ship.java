@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Ship extends Entity{
 
@@ -8,8 +9,8 @@ public class Ship extends Entity{
 	double speed = 0.1;
 	double strafeSpeed = 0.1;
 	int cooldown = 0;
-	int MAX_COOLDOWN = 10;
-	double muzzleVelocity = 40;
+	int MAX_COOLDOWN = 0;
+	double muzzleVelocity = 10;
 	int caliber = 10;
 	Point[] turrets;
 	{
@@ -40,16 +41,20 @@ public class Ship extends Entity{
 	public void turn(double t){
 		realAngle += turnSpeed * t;
 	}
+	public void update(){
+		super.update();
+		cooldown--;
+	}
 	public void shoot(){
-		Bullet[] bA = new Bullet[turrets.length];
+		ArrayList<Bullet> bA = new ArrayList<Bullet>(turrets.length);
 		if(cooldown < 0){
 			cooldown = MAX_COOLDOWN;
 			Point[] p = turrets;
 			for(int i = 0; i < p.length;i++){
-				double x = p[i].x + getTrueX();
-				double y = p[i].y + getTrueY();
+				double x = p[i].x + this.x;
+				double y = p[i].y + this.y;
 				Bullet b = new Bullet(x,y,realAngle,muzzleVelocity,this.caliber);
-				bA[i] = b;
+				bA.add(b);
 			}
 			Game.entities.addAll(bA);
 		}

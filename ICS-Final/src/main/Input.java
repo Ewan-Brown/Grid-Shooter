@@ -40,8 +40,11 @@ public class Input implements KeyListener{
 		if(keySet.get(KeyEvent.VK_RIGHT)){
 			Game.player.turn(1);
 		}
+		if(keySet.get(KeyEvent.VK_SPACE)){
+			Game.player.shoot();
+		}
 	}
 
-	
-	
+
+
 }
