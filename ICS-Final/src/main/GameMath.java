@@ -1,8 +1,5 @@
 package main;
 
-import java.awt.Color;
-import java.util.Random;
-
 public class GameMath {
 
 	public static double getDistance(double x1, double y1, double x2, double y2){

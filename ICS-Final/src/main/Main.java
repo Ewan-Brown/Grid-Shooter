@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 class Main {
@@ -11,15 +13,17 @@ class Main {
 	//* disclaimer game may or may not actually be fun
 	
 	public static void main(String[] args){
+		System.setProperty("sun.java2d.opengl","True");
 		JFrame frame = new JFrame();
-		Panel panel = new Panel();
-		frame.add(panel);
+		Panel.instance = new Panel();
+		Panel.instance.setBackground(Color.BLACK);
+		frame.add(Panel.instance);
 		frame.addKeyListener(new Input());
 		frame.setVisible(true);
 		frame.setSize(500, 500);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Thread t1 = new Thread(new Game());
-		Thread t2 = new Thread(panel);
+		Thread t2 = new Thread(Panel.instance);
 		t1.start();
 		t2.start();
 	}

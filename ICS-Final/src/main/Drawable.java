@@ -14,6 +14,9 @@ public abstract class Drawable {
 	public Point[] tempPoints;
 	public double realAngle = 0;
 	public Color c;
+	public Color getColor(){
+		return c;
+	}
 	public Point[] updatePoints(Point[] p){
 		Point[] newPoints = new Point[p.length];
 		for(int i = 0; i < p.length;i++){
