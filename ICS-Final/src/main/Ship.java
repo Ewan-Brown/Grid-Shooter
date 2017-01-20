@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Ship extends Entity{
 
-	double turnSpeed = 0.3;
+	double turnSpeed = 0.4;
 	double speed = 0.1;
 	double strafeSpeed = 0.1;
 	int cooldown = 0;
@@ -18,7 +18,7 @@ public class Ship extends Entity{
 	double thrustParticleTimer = maxCount;
 	double strafeParticleTimer = maxCount;
 	int caliber = 10;
-
+	
 	Point[] turrets;
 	{
 		points = new Point[7];
@@ -89,6 +89,7 @@ public class Ship extends Entity{
 				double x = p[i].x + this.x;
 				double y = p[i].y + this.y;
 				Bullet b = new Bullet(x,y,realAngle + (rand.nextDouble() - 0.5) * accuracy,muzzleVelocity,this.caliber);
+				b.team = this.team;
 				bA.add(b);
 			}
 			Game.entities.addAll(bA);

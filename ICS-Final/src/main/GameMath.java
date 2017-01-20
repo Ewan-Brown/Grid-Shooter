@@ -8,5 +8,8 @@ public class GameMath {
 	public static double getDistance(Entity e1,Entity e2){
 		return getDistance(e1.x,e1.y,e2.x,e2.y);
 	}
+	public static boolean areColliding(Entity e1,Entity e2){
+		return true;
+	}
 	
 }

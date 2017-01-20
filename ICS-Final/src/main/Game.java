@@ -18,9 +18,11 @@ public class Game implements Runnable,ActionListener{
 	static Timer timer = new Timer(16, new Game());
 	public static void start(){
 		player = new Ship(100, 100);
-		player.team = 0;
+		player.team = -1;
 		entities.add(player);
 		player.c = Color.GREEN;
+		player.accuracy = 5;
+		player.MAX_COOLDOWN = 4;
 		entities.add(new Enemy(400,400));
 		entities.add(new Enemy(400,400));
 		entities.add(new Enemy(400,400));
@@ -37,12 +39,18 @@ public class Game implements Runnable,ActionListener{
 	}
 	public static void loop(){
 		Input.updateKeys();
-		ArrayList<Entity> e = new ArrayList<Entity>(entities);
-		e.addAll(effects);
-		for(int i = 0; i < e.size();i++){
-			Entity p = e.get(i);
+		for(int i = 0; i < entities.size();i++){
+			Entity p = entities.get(i);
 			if(p.isDead()){
-				e.remove(i);
+				entities.remove(i);
+				continue;
+			}
+			p.update();
+		}
+		for(int i = 0; i < effects.size();i++){
+			Entity p = effects.get(i);
+			if(p.isDead()){
+				effects.remove(i);
 				continue;
 			}
 			p.update();
