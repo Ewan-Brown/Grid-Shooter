@@ -4,29 +4,59 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 public abstract class Drawable {
 
-	public double x;
-	public double y;
-	public Point[] points;
-	public Point[] tempPoints;
+	public double xPos;
+	public double yPos;
+	public Point[] polygonPoints;
 	public double realAngle = 0;
-	public Color c;
+	public Color color;
+	public Point2D centerPoint;
+	public Drawable(double x, double y, Point[] points){
+		this.xPos = x;
+		this.yPos = y;
+		this.polygonPoints = points;
+		centerPoint = getCenter(points);
+		this.xPos -= centerPoint.getX();
+		this.yPos -= centerPoint.getY();
+	}
 	public Color getColor(){
-		return c;
+		return color;
 	}
 	public Point[] updatePoints(Point[] p){
 		Point[] newPoints = new Point[p.length];
 		for(int i = 0; i < p.length;i++){
-			newPoints[i] = new Point((int)(p[i].x + x),(int)(p[i].y + y));
+			newPoints[i] = new Point((int)(p[i].x + xPos),(int)(p[i].y + yPos));
 		}
 		return newPoints;
 	}
+	public Point[] getRotatedPoints(){
+		Polygon poly = getRotatedPolygon();
+		Point[] p = new Point[poly.npoints];
+		for(int i = 0; i < p.length;i++){
+			p[i] = new Point(poly.xpoints[i],poly.ypoints[i]);
+		}
+		return p;
+	}
+	public Line2D[] getRotatedSides(){
+		Point[] p = getRotatedPoints();
+		Line2D[] lines = new Line2D[p.length];
+		for(int i = 0; i < p.length - 1;i++){
+			lines[i] = new Line2D.Double(p[i],p[i+1]);
+		}
+		lines[p.length - 1] = new Line2D.Double(p[p.length - 1], p[0]);
+		return lines;
+		
+	}
 	public Polygon getRotatedPolygon(){
-
-		rotatePointMatrix(points,realAngle,tempPoints);
+		Point[] tempPoints = new Point[polygonPoints.length];
+		for(int i = 0; i < tempPoints.length;i++){
+			tempPoints[i] = new Point(0,0);
+		}
+		rotatePointMatrix(polygonPoints,realAngle,tempPoints);
 		return getPolygon(tempPoints);
 
 	}
@@ -49,13 +79,13 @@ public abstract class Drawable {
 		 *  After the operation is complete the points are stored to the 
 		 *  array given to the method.
 		 */
-		Point2D p = getCenter();
+		Point2D p = centerPoint;
 		AffineTransform.getRotateInstance
 		(Math.toRadians(angle), p.getX(), p.getY())
-		.transform(origPoints,0,storeTo,0,points.length);
+		.transform(origPoints,0,storeTo,0,polygonPoints.length);
 
 	}
-	public Point2D getCenter(){
+	public static Point2D getCenter(Point[] points){
 		double centreX = 0;
 		double centreY = 0;
 		double signedArea = 0.0;

@@ -10,6 +10,7 @@ import java.util.BitSet;
 
 public class Input implements KeyListener,MouseListener{
 	static BitSet keySet = new BitSet(256);
+	static boolean mouseClicked = false;
 	public static boolean getKey(int k){
 		return keySet.get(k);
 	}
@@ -27,6 +28,12 @@ public class Input implements KeyListener,MouseListener{
 
 	}
 	public static void updateKeys(){
+		if(Game.gameOver){
+			if(keySet.get(KeyEvent.VK_SPACE)){
+				Game.startNew();
+			}
+			return;
+		}
 		int x = 0;
 		int y = 0;
 		if(keySet.get(KeyEvent.VK_W)){
@@ -41,18 +48,24 @@ public class Input implements KeyListener,MouseListener{
 		if(keySet.get(KeyEvent.VK_D)){
 			y += 1;
 		}
-//		if(keySet.get(KeyEvent.VK_LEFT)){
-//			Game.player.turn(-1);
-//		}
-//		if(keySet.get(KeyEvent.VK_RIGHT)){
-//			Game.player.turn(1);
-//		}
+		if(keySet.get(KeyEvent.VK_LEFT)){
+			Properties.zoom -= 0.01;
+			if(Properties.zoom < 0.4){
+				Properties.zoom = 0.4;
+			}
+		}
+		if(keySet.get(KeyEvent.VK_RIGHT)){
+			Properties.zoom += 0.01;
+			if(Properties.zoom > 10){
+				Properties.zoom = 10;
+			}
+		}
 		Point2D p1 = MouseInfo.getPointerInfo().getLocation();
 		Point2D p2 = Panel.instance.getLocationOnScreen();
 		Point2D p = new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
-		double mouseAngle = Math.atan2(p.getY() - ((Panel.instance.getHeight() / 2D) - (Game.player.dY * 5)),p.getX() - ((Panel.instance.getWidth() / 2D) - (Game.player.dX * 5)));
+		double mouseAngle = Math.atan2(p.getY() - ((Panel.instance.getHeight() / 2D)),p.getX() - ((Panel.instance.getWidth() / 2D)));
 		Game.player.turnToTarget(Math.toDegrees(mouseAngle));
-		if(keySet.get(KeyEvent.VK_SPACE)){
+		if(keySet.get(KeyEvent.VK_SPACE) || mouseClicked){
 			Game.player.shoot();
 		}
 		if(x == 0 && y == 0){
@@ -67,19 +80,24 @@ public class Input implements KeyListener,MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		mouseClicked = true;
+		if(Game.gameOver){
+			Game.startNew();
+			return;
+		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		mouseClicked = false;
 
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
+		mouseClicked = false;
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-
+		mouseClicked = false;
 	}
 
 

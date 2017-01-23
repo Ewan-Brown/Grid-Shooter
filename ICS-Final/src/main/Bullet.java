@@ -4,17 +4,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class Bullet extends Projectile{
-	{
-		points = new Point[4];
-		points[0] = new Point(20,4);
-		points[1] = new Point(4,8);
-		points[2] = new Point(0,4);
-		points[3] = new Point(4,0);
-		tempPoints = new Point[points.length];
-		for(int i = 0; i < points.length;i++){
-			tempPoints[i] = new Point(0,0);
-		}
-	}
 	public void update(){
 		super.update();
 		for(int i = 0 ; i < Game.entities.size();i++){
@@ -25,23 +14,24 @@ public class Bullet extends Projectile{
 			if(e instanceof Bullet){
 				continue;
 			}
-			Point2D p = getCenter();
-			double x1 = p.getX() + x;
-			double y1 = p.getY() + y;
-			if(e.getRotatedPolygon().contains(new Point2D.Double(x1,y1))){
-				e.health -= 100;
+			Point2D p = centerPoint;
+			double x1 = p.getX() + xPos;
+			double y1 = p.getY() + yPos;
+			if(GameMath.areColliding(this, e)){
+				e.health -= 10;
+				this.health = 0;
 			}
 		}
 		health--;
 	}
-	public Bullet(double x, double y, double angle,double speed, double damage) {
-		super(x, y, 0,0);
+	public Bullet(double x, double y, double angle,double speed, double damage,Point[] points) {
+		super(x, y, 0,0,points);
 		this.damage = damage;
 		realAngle = angle;
 		double dX = (Math.cos(Math.toRadians(realAngle)))*speed;
 		double dY = (Math.sin(Math.toRadians(realAngle)))*speed;
-		this.dX += dX;
-		this.dY += dY;
+		this.xSpeed += dX;
+		this.ySpeed += dY;
 	}
-	
+
 }

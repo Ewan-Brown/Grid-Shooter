@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,13 +8,13 @@ public class Enemy extends Ship{
 	int strafeCount = 100;
 	double strafeChance = 50;
 	double strafe = 1;
-	int maxDist = 120;
-	int minDist = 100;
+	int maxDist = 300;
+	int minDist = 150;
 	Entity target = null;
 	public static Random rand = new Random();
-	public Enemy(double x, double y) {
-		super(x, y);
-		team = 1;
+	public Enemy(double x, double y,Point[] points,Point[] turrets) {
+		super(x, y,points,turrets);
+		team = Game.ENEMY_TEAM;
 	}
 	public void update(){
 		super.update();
@@ -32,7 +33,6 @@ public class Enemy extends Ship{
 		if(diffAngle > 180){
 			diffAngle -= 360;
 		}
-		//		if(Math.abs(diffAngle)  < thrustAccuracy){
 		double d = GameMath.getDistance(this, target); 
 		double tempStrafe = (rand.nextDouble() - 0.5) / 4;
 		if(d > maxDist){
@@ -66,23 +66,6 @@ public class Enemy extends Ship{
 		}
 		//		}
 	}
-	public void turnToTarget(double targetAngle){
-		double a = targetAngle - realAngle;
-		a = a % 360;
-//		double diffAngle = Math.abs((targetAngle - realAngle) % 360);
-		//		if(diffAngle < turnAccuracy){
-		//			return;
-		//		}
-		if(a < 0){
-			a += 360;
-		}
-		if(a < 180){
-			turn(1);
-		}
-		else if (a > 180){
-			turn(-1);
-		}
-	}
 	public void updateTarget(ArrayList<Entity> array){
 		target = null;
 		double dist = 0;
@@ -100,8 +83,8 @@ public class Enemy extends Ship{
 	}
 	public Double getTargetAngle(){
 			if(target != null){
-				double xD = target.x - x;
-				double yD = target.y - y;
+				double xD = target.xPos - xPos;
+				double yD = target.yPos - yPos;
 				return Math.toDegrees(Math.atan2(yD, xD));
 			}
 			return null;
