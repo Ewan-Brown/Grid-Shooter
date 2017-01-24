@@ -12,9 +12,19 @@ public class Enemy extends Ship{
 	int minDist = 150;
 	Entity target = null;
 	public static Random rand = new Random();
+	{
+		bullet = new Point[4];
+		bullet[0] = new Point(10,2);
+		bullet[1] = new Point(2,4);
+		bullet[2] = new Point(0,2);
+		bullet[3] = new Point(2,0);
+	}
 	public Enemy(double x, double y,Point[] points,Point[] turrets) {
 		super(x, y,points,turrets);
 		team = Game.ENEMY_TEAM;
+		health = 50;
+		maxHealth = 20;
+		caliber = 1;
 	}
 	public void update(){
 		super.update();

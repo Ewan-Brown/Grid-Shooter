@@ -72,7 +72,7 @@ public class Input implements KeyListener,MouseListener{
 			return;
 		}
 		double movementAngle = Math.atan2(y, x);
-		Game.player.move(1, Math.toDegrees(movementAngle));
+		Game.player.move(Math.toDegrees(movementAngle));
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

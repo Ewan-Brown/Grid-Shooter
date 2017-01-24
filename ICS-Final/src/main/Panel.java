@@ -33,18 +33,20 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		Graphics2D g2 = (Graphics2D)g1;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		int lineSpace = (int)(80D * Properties.zoom);
+		double lineSpace = 80D * Properties.zoom;
 		int h = getHeight();
 		int w = getWidth();
 		//TODO Undo these negatives for a trippy effect!
-		int y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2) % lineSpace);
-		int x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2) % lineSpace);
+		double y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D + lineSpace*1000) % lineSpace);
+		double x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D + lineSpace*1000) % lineSpace);
+//		int y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D) % lineSpace);
+//		int x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D) % lineSpace);
 		do{
-			g2.drawLine(0, y, w, y);
+			g2.drawLine(0, (int)y, w, (int)y);
 			y += lineSpace;
 		}while(y < h);
 		do{
-			g2.drawLine(x, 0, x, h);
+			g2.drawLine((int)x, 0, (int)x, h);
 			x += lineSpace;
 		}while(x < w);
 		
@@ -59,7 +61,7 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			g2.fillPolygon(transformPolygon(d.getRotatedPolygon()));
 		}
 		g2.setColor(Color.WHITE);
-		g2.drawString(Properties.zoom+" ", w/2, h/2);
+		g2.drawString(""+Game.player.health, w/2, (h/2) + 200);
 //		System.out.println("hey");
 	}
 	public Polygon transformPolygon(Polygon p){

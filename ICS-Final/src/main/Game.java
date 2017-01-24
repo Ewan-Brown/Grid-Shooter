@@ -16,7 +16,7 @@ public class Game implements Runnable,ActionListener{
 	static final int PLAYER_TEAM = 0;
 	static final int ENEMY_TEAM = 1;
 	static int score;
-	static int level = 1;
+	static int level = 10;
 	static long t1 = 0;
 	static boolean gameOver = false;
 	static Timer timer = new Timer(10, new Game());
@@ -38,7 +38,7 @@ public class Game implements Runnable,ActionListener{
 	public static void startNew(){
 		entities.clear();
 		effects.clear();
-		level = 1;
+		level = 30;
 		gameOver = false;
 		player = new Ship(100, 100,points,turrets);
 		player.team = PLAYER_TEAM;

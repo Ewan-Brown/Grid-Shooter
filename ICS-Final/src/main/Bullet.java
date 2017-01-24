@@ -18,14 +18,17 @@ public class Bullet extends Projectile{
 			double x1 = p.getX() + xPos;
 			double y1 = p.getY() + yPos;
 			if(GameMath.areColliding(this, e)){
-				e.health -= 10;
-				this.health = 0;
+				onCollide(e);
 			}
 		}
 		health--;
 	}
-	public Bullet(double x, double y, double angle,double speed, double damage,Point[] points) {
-		super(x, y, 0,0,points);
+	public void onCollide(Entity e){
+		super.onCollide(e);
+		this.health = 0;
+	}
+	public Bullet(double x, double y, double angle,double speed, int damage,Point[] points) {
+		super(x, y, 0,0,points,damage);
 		this.damage = damage;
 		realAngle = angle;
 		double dX = (Math.cos(Math.toRadians(realAngle)))*speed;

@@ -10,7 +10,7 @@ public class Ship extends Entity{
 	double turnSpeed = 4;
 	double speed = 0.03;
 	int cooldown = 0;
-	int MAX_COOLDOWN = 20;
+	int MAX_COOLDOWN = 30;
 	double muzzleVelocity = 10;
 	double maxCount = 5;
 	double accuracy = 10;
@@ -20,10 +20,10 @@ public class Ship extends Entity{
 	Point[] bullet;
 	{
 		bullet = new Point[4];
-		bullet[0] = new Point(20,4);
-		bullet[1] = new Point(4,8);
-		bullet[2] = new Point(0,4);
-		bullet[3] = new Point(4,0);
+		bullet[0] = new Point(15,3);
+		bullet[1] = new Point(3,6);
+		bullet[2] = new Point(0,3);
+		bullet[3] = new Point(3,0);
 	}
 	Point[] particle;
 	{
@@ -55,10 +55,9 @@ public class Ship extends Entity{
 			thrustParticleTimer = maxCount;
 		}
 	}
-	public void move(double t,double angle){
-		if(t < 0){
-			t = t / 2D;
-		}
+	public void move(double angle){
+		angle = Math.abs(angle);
+		double t = 0.5 + (0.5 - (0.5 * (angle / 180D)));
 		double dX = (Math.cos(Math.toRadians(realAngle + angle)))*speed*t;
 		double dY = (Math.sin(Math.toRadians(realAngle + angle)))*speed*t;
 		this.xSpeed += dX;
@@ -103,7 +102,8 @@ public class Ship extends Entity{
 			for(int i = 0; i < p.length;i++){
 				double x = p[i].x;
 				double y = p[i].y;
-				Bullet b = new Bullet(x,y,realAngle,muzzleVelocity,this.caliber,bullet);
+				double a = (rand.nextDouble() - 0.5) * accuracy;
+				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,caliber,bullet);
 				b.team = this.team;
 				bA.add(b);
 			}
