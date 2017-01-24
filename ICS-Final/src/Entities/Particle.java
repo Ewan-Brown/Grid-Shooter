@@ -1,9 +1,14 @@
-package main;
+package Entities;
 
 import java.awt.Color;
 import java.awt.Point;
 
+/**
+ * @author Ewan
+ *	Class for Aesthetic Particles
+ */
 public class Particle extends Entity{
+	double spin;
 	Color c = Color.ORANGE;
 	{
 		health = maxHealth;
@@ -18,9 +23,11 @@ public class Particle extends Entity{
 	}
 	public void update(){
 		super.update();
-				xSpeed -= xSpeed / 100D;
-				ySpeed -= ySpeed / 100D;
-				health--;
+		xSpeed -= xSpeed / 300D;
+		ySpeed -= ySpeed / 300D;
+		realAngle += spin;
+		spin -= spin / 20;
+		health--;
 	}
 
 

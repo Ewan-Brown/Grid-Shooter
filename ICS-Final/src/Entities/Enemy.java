@@ -1,8 +1,11 @@
-package main;
+package Entities;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+
+import main.Game;
+import tools.GameMath;
 
 public class Enemy extends Ship{
 	int strafeCount = 100;
@@ -18,17 +21,37 @@ public class Enemy extends Ship{
 		bullet[1] = new Point(2,4);
 		bullet[2] = new Point(0,2);
 		bullet[3] = new Point(2,0);
+		maxHealth = 40;
+		health = maxHealth;
 	}
 	public Enemy(double x, double y,Point[] points,Point[] turrets) {
 		super(x, y,points,turrets);
 		team = Game.ENEMY_TEAM;
-		health = 50;
-		maxHealth = 20;
 		caliber = 1;
+	}
+	public void strafe(double t){
+		double dX = (Math.cos(Math.toRadians(realAngle + 90)))*speed*t;
+		double dY = (Math.sin(Math.toRadians(realAngle + 90)))*speed*t;
+		this.xSpeed += dX;
+		this.ySpeed += dY;
+		if(strafeParticleCooldown < 0){
+			fumes(t, realAngle + 90);
+			strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
+		}
+	}
+	public void thrust(double t){
+		double dX = (Math.cos(Math.toRadians(realAngle)))*speed*t;
+		double dY = (Math.sin(Math.toRadians(realAngle)))*speed*t;
+		this.xSpeed += dX;
+		this.ySpeed += dY;
+		if(thrustParticleCooldown < 0){
+			fumes(t, realAngle);
+			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
+		}
 	}
 	public void update(){
 		super.update();
-		updateTarget(Game.entities);
+		updateTarget(Game.entityArray);
 		Double targetAngle = getTargetAngle();
 		if(targetAngle != null){
 			turnToTarget(targetAngle);
@@ -36,6 +59,7 @@ public class Enemy extends Ship{
 		}
 	}
 	public void moveToTarget(double targetAngle){
+		
 		if(target == null){
 			return;
 		}
@@ -51,14 +75,14 @@ public class Enemy extends Ship{
 		}
 		else if(d < minDist){
 			if(diffAngle < 20){
-				shoot();
+				shootBullet();
 			}
 			thrust(-1);
 			strafe(tempStrafe * 2);
 		}
 		else{
 			if(diffAngle < 20){
-				shoot();
+				shootBullet();
 			}
 			strafeCount--;
 			if(strafeCount > 0){
@@ -74,7 +98,6 @@ public class Enemy extends Ship{
 				}
 			}
 		}
-		//		}
 	}
 	public void updateTarget(ArrayList<Entity> array){
 		target = null;

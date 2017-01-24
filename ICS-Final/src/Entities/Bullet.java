@@ -1,31 +1,31 @@
-package main;
+package Entities;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
+import main.Game;
+import tools.GameMath;
+
+/**
+ * @author Ewan
+ * Class for the bullets shot by the player and enemies
+ */
 public class Bullet extends Projectile{
 	public void update(){
 		super.update();
-		for(int i = 0 ; i < Game.entities.size();i++){
-			Entity e = Game.entities.get(i);
+		//Loops through all other entites, ignores allies, itself, and other projectiles
+		for(int i = 0 ; i < Game.entityArray.size();i++){
+			Entity e = Game.entityArray.get(i);
 			if(e == this || e.team == this.team){
 				continue;
 			}
-			if(e instanceof Bullet){
+			if(e instanceof Projectile){
 				continue;
 			}
-			Point2D p = centerPoint;
-			double x1 = p.getX() + xPos;
-			double y1 = p.getY() + yPos;
 			if(GameMath.areColliding(this, e)){
 				onCollide(e);
 			}
 		}
 		health--;
-	}
-	public void onCollide(Entity e){
-		super.onCollide(e);
-		this.health = 0;
 	}
 	public Bullet(double x, double y, double angle,double speed, int damage,Point[] points) {
 		super(x, y, 0,0,points,damage);

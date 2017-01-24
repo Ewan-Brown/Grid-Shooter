@@ -1,4 +1,4 @@
-package main;
+package Entities;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -7,13 +7,31 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-public abstract class Drawable {
 
+
+/**
+ * @author Ewan Brown
+ *	
+ *	Base class for any object that moves on the global co-ordinates and can be drawn.
+ *	Contains methods for rotating, getting polygons, and getting the center
+ */
+public abstract class Drawable {
+	
 	public double xPos;
 	public double yPos;
+	/**
+	 * an array of Points that make up the structure of the polygon
+	 */
 	public Point[] polygonPoints;
+	
+	/** 
+	 * The angle in degrees of this drawable relative to the global 2D Plane, 0 degrees would be 'east'
+	 */
 	public double realAngle = 0;
 	public Color color;
+	/**
+	 * Precalculated center point of the drawable's non-translated/rotated polygon
+	 */
 	public Point2D centerPoint;
 	public Drawable(double x, double y, Point[] points){
 		this.xPos = x;
@@ -26,13 +44,20 @@ public abstract class Drawable {
 	public Color getColor(){
 		return color;
 	}
-	public Point[] updatePoints(Point[] p){
+	/**
+	 * @param p Point[] points to be translated
+	 * @return p points translated to the drawable's current location
+	 */
+	public Point[] translatePoints(Point[] p){
 		Point[] newPoints = new Point[p.length];
 		for(int i = 0; i < p.length;i++){
 			newPoints[i] = new Point((int)(p[i].x + xPos),(int)(p[i].y + yPos));
 		}
 		return newPoints;
 	}
+	/**
+	 * @return this drawable's points, translated and rotated
+	 */
 	public Point[] getRotatedPoints(){
 		Polygon poly = getRotatedPolygon();
 		Point[] p = new Point[poly.npoints];
@@ -41,6 +66,9 @@ public abstract class Drawable {
 		}
 		return p;
 	}
+	/**
+	 * @return get this drawable's sides, translated and rotated
+	 */
 	public Line2D[] getRotatedSides(){
 		Point[] p = getRotatedPoints();
 		Line2D[] lines = new Line2D[p.length];
@@ -51,18 +79,25 @@ public abstract class Drawable {
 		return lines;
 		
 	}
+	/**
+	 * @return this drawable's points as a Polygon object, translated and rotated
+	 */
 	public Polygon getRotatedPolygon(){
 		Point[] tempPoints = new Point[polygonPoints.length];
 		for(int i = 0; i < tempPoints.length;i++){
 			tempPoints[i] = new Point(0,0);
 		}
-		rotatePointMatrix(polygonPoints,realAngle,tempPoints);
+		rotatePoints(polygonPoints,realAngle,tempPoints);
 		return getPolygon(tempPoints);
 
 	}
+	/**
+	 * @param p points to be translated
+	 * @return translates points to drawable's location then returns as a polygon
+	 */
 	public Polygon getPolygon(Point[] p){
 
-		Point[] p2 = updatePoints(p);
+		Point[] p2 = translatePoints(p);
 
 		Polygon tempPoly = new Polygon();
 
@@ -72,7 +107,16 @@ public abstract class Drawable {
 
 		return tempPoly;
 	}
-	public void rotatePointMatrix(Point2D[] origPoints, double angle, Point2D[] storeTo){
+	
+	/***************************************************************************************
+	*    Forum post "How to rotate a polygon/points around a point in Java"<p>
+	*    
+	*    From: Usernam TRU7H on Stackoverflow<p>
+	*    
+	*    URL: http://stackoverflow.com/a/13788646<p>
+	*
+	***************************************************************************************/
+	public void rotatePoints(Point2D[] origPoints, double angle, Point2D[] storeTo){
 
 		/* We ge the original points of the polygon we wish to rotate
 		 *  and rotate them with affine transform to the given angle. 

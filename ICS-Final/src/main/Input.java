@@ -8,9 +8,23 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.BitSet;
 
+/**
+ * @author Ewan
+ *	Input class that deals with keyboard and mouse actions
+ */
 public class Input implements KeyListener,MouseListener{
+	/**
+	 * 256 bits representing all possible keys
+	 */
 	static BitSet keySet = new BitSet(256);
-	static boolean mouseClicked = false;
+	/**
+	 * boolean for if left mouse button is currently held down
+	 */
+	static boolean mouseLMBClicked = false;
+	/**
+	 * @param k from KeyEvent.keyCode
+	 * @return corresponding boolean to that k in keycode. true if the key is currently pressed
+	 */
 	public static boolean getKey(int k){
 		return keySet.get(k);
 	}
@@ -27,6 +41,9 @@ public class Input implements KeyListener,MouseListener{
 		keySet.set(e.getKeyCode(),false);
 
 	}
+	/**
+	 * updates all key actions, called from game timer
+	 */
 	public static void updateKeys(){
 		if(Game.gameOver){
 			if(keySet.get(KeyEvent.VK_SPACE)){
@@ -65,8 +82,8 @@ public class Input implements KeyListener,MouseListener{
 		Point2D p = new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
 		double mouseAngle = Math.atan2(p.getY() - ((Panel.instance.getHeight() / 2D)),p.getX() - ((Panel.instance.getWidth() / 2D)));
 		Game.player.turnToTarget(Math.toDegrees(mouseAngle));
-		if(keySet.get(KeyEvent.VK_SPACE) || mouseClicked){
-			Game.player.shoot();
+		if(mouseLMBClicked){
+			Game.player.shootBullet();
 		}
 		if(x == 0 && y == 0){
 			return;
@@ -80,7 +97,9 @@ public class Input implements KeyListener,MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseClicked = true;
+		if(e.getButton() == MouseEvent.BUTTON1){
+			mouseLMBClicked = true;
+		}
 		if(Game.gameOver){
 			Game.startNew();
 			return;
@@ -88,16 +107,18 @@ public class Input implements KeyListener,MouseListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouseClicked = false;
+		if(e.getButton() == MouseEvent.BUTTON1){
+			mouseLMBClicked = false;
+		}
 
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		mouseClicked = false;
+		mouseLMBClicked = false;
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		mouseClicked = false;
+		mouseLMBClicked = false;
 	}
 
 
