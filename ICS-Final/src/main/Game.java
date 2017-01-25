@@ -148,7 +148,7 @@ public class Game implements Runnable,ActionListener{
 			player.turrets = turretPoints2;
 		}
 		if(Properties.level == 10){
-			player.bulletAccuracy = 0;
+			player.bulletAccuracy = 2;
 		}
 		if(Properties.level == 20){
 			player.maxBulletCooldown = 0;

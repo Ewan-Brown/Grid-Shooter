@@ -77,7 +77,6 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			g2.drawLine((int)x, 0, (int)x, h);
 			x += lineSpace;
 		}while(x < w);
-
 		//Draws effects first, and the entities on top. The only reason for separation is aesthetic
 		for(int i = 0; i < effects.size();i++){
 			Drawable d = effects.get(i);

@@ -8,11 +8,15 @@ import main.Game;
 import tools.GameMath;
 
 public class Enemy extends Ship{
+	//Strafe timer to go left or right instead of just randomly bouncing back and forward vibrating
 	int strafeCount = 100;
-	double strafeChance = 50;
+	//Chance to switch strafe direction
+	static final double STRAFE_CHANCE = 50;
+	//Strafe direction, 1 is right
 	double strafe = 1;
-	int maxDist = 300;
-	int minDist = 150;
+	//Target must be within these distances to strafe and begin circling, if too far go forward , if too close go back
+	static final int maxDist = 300;
+	static final int minDist = 150;
 	Entity target = null;
 	public static Random rand = new Random();
 	{
@@ -58,29 +62,35 @@ public class Enemy extends Ship{
 			moveToTarget(targetAngle);
 		}
 	}
+	
 	public void moveToTarget(double targetAngle){
-		
+		//If there is no target, quit method
 		if(target == null){
 			return;
 		}
+		//Get the difference between this ship's real angle and the direction it needs to go in
 		double diffAngle = Math.abs((targetAngle - realAngle) % 360);
 		if(diffAngle > 180){
 			diffAngle -= 360;
 		}
 		double d = GameMath.getDistance(this, target); 
 		double tempStrafe = (rand.nextDouble() - 0.5) / 4;
+		//If the target is too far away, thrust forward, if too close thrust backwards. Strafe at the same time to simulate dodging
 		if(d > maxDist){
 			thrust(1);
 			strafe(tempStrafe * 5);
 		}
 		else if(d < minDist){
+			//If target is in shooting range, shoot
 			if(diffAngle < 20){
 				shootBullet();
 			}
 			thrust(-1);
 			strafe(tempStrafe * 2);
 		}
+		//If target is at good distance, attempt to shoot and then strafe to simulate dodging/circling
 		else{
+			//If target is in shooting range, shoot
 			if(diffAngle < 20){
 				shootBullet();
 			}
@@ -88,7 +98,7 @@ public class Enemy extends Ship{
 			if(strafeCount > 0){
 				strafe(strafe);
 			}
-			else if(rand.nextInt() < strafeChance){
+			else if(rand.nextInt() < STRAFE_CHANCE){
 				strafeCount = rand.nextInt(100);
 				if(rand.nextBoolean()){
 					strafe = -1;
