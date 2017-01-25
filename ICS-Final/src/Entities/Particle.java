@@ -10,14 +10,13 @@ import java.awt.Point;
 public class Particle extends Entity{
 	double spin;
 	Color c = Color.ORANGE;
-	{
-		health = maxHealth;
-	}
 	public Color getColor(){
 		return new Color(c.getRed(),c.getGreen(),c.getBlue(),(int)Math.abs((255 *((double)health / (double)maxHealth))));
+
 	}
 	public Particle(double x, double y, double dX, double dY,Point[] points) {
 		super(x, y, dX, dY,points);
+		health = maxHealth;
 		spin = (rand.nextDouble() - 0.5) * 30;
 
 	}

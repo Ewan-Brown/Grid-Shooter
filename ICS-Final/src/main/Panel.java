@@ -56,15 +56,19 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		//spacing between grid lines
 		double lineSpace = (double)GRID_SIZE * Properties.zoom;
-		
+
 		//Variables to keep things less cluttered,also less method calls
 		int h = getHeight();
 		int w = getWidth();
 		//Draws the background grid, applies zoom to grid.
 		double y = 0;
 		double x = 0;
-		y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D + lineSpace*1000) % lineSpace);
-		x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D + lineSpace*1000) % lineSpace);
+		//because the game and the panel are on separate threads, there is a possibility Game.player may not be initialized when
+		//this is called, so there is a check first.
+		if(Game.player != null){
+			y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D + lineSpace*1000) % lineSpace);
+			x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D + lineSpace*1000) % lineSpace);
+		}
 		do{
 			g2.drawLine(0, (int)y, w, (int)y);
 			y += lineSpace;
@@ -89,14 +93,16 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			g2.fillPolygon(p);
 		}
 		//Draws the player health bar, scaled to screen size
-		double hp = (double)Game.player.health / (double)Game.player.maxHealth;
-		g2.setColor(Color.RED);
-		int ws = w - 200;
-		g2.fillRect((w/2) - (ws / 2),h - 100,ws,60);
-		if(hp > 0){
-			int ws2 = (int)((double)ws * hp);
-			g2.setColor(Color.GREEN);
-			g2.fillRect((w / 2) - (ws2 / 2),h - 100,ws2,60);
+		if(Game.player != null){
+			double healthPercentage = (double)Game.player.health / (double)Game.player.maxHealth;
+			g2.setColor(Color.RED);
+			int spacing = w - 200;
+			g2.fillRect((w/2) - (spacing / 2),h - 100,spacing,60);
+			if(healthPercentage > 0){
+				int ws2 = (int)((double)spacing * healthPercentage);
+				g2.setColor(Color.GREEN);
+				g2.fillRect((w / 2) - (ws2 / 2),h - 100,ws2,60);
+			}
 		}
 		//If the game is over, keep it running but show the 'end screen' with score
 		g2.setColor(Color.BLUE);
