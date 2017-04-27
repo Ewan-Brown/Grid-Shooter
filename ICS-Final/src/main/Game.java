@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import Entities.Enemy;
+import Entities.EnemyCache;
 import Entities.Entity;
 import Entities.Particle;
 import Entities.Ship;
@@ -56,6 +57,10 @@ public class Game implements Runnable,ActionListener{
 	 * third, final set of turrets, 5 turrets
 	 */
 	static Point[] turretPoints3;
+	/**
+	 * set of points for missile launchers
+	 */
+	static Point[] missilePoints;
 	//Initialized the ships' points and turret locations
 	{
 		shipStructure = new Point[7];
@@ -77,6 +82,8 @@ public class Game implements Runnable,ActionListener{
 		turretPoints3[2] = shipStructure[0];
 		turretPoints3[3] = shipStructure[1];
 		turretPoints3[4] = shipStructure[2];
+		missilePoints = new Point[1];
+		missilePoints[0] = shipStructure[0];
 
 	}
 	static Random rand = new Random();
@@ -90,7 +97,7 @@ public class Game implements Runnable,ActionListener{
 		entityArray.clear();
 		effectsArray.clear();
 		gameOver = false;
-		player = new Ship(100, 100,shipStructure,turretPoints1);
+		player = new Ship(100, 100,shipStructure,turretPoints1,missilePoints);
 		player.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
 		player.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
 		player.team = PLAYER_TEAM;
@@ -98,10 +105,14 @@ public class Game implements Runnable,ActionListener{
 		player.color = Color.GREEN;
 		for(int i = 0; i < Properties.level;i++){
 			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * rand.nextInt(400) + 600;
-			double y = Math.sin(angle) * rand.nextInt(400) + 600;
-			entityArray.add(new Enemy(player.xPos + x,player.yPos + y,shipStructure,turretPoints1));
+			double x = Math.cos(angle) * rand.nextInt(500);
+			double y = Math.sin(angle) * rand.nextInt(500);
+			Entity e = EnemyCache.getEntity("light");
+			e.xPos = x;
+			e.yPos = y;
+			entityArray.add(e);
 		}
+
 
 	}
 	/**
@@ -144,25 +155,29 @@ public class Game implements Runnable,ActionListener{
 	 */
 	public static void nextLevel(){
 		Properties.level++;
+		player.missiles = (Properties.level / 2) + 1;
 		if(Properties.level == 5){
-			player.turrets = turretPoints2;
+			player.bulletTurrets = turretPoints2;
 		}
 		if(Properties.level == 10){
 			player.bulletAccuracy = 2;
 		}
 		if(Properties.level == 20){
-			player.maxBulletCooldown = 0;
+			player.maxBulletCooldown = 10;
 		}
 		if(Properties.level == 30){
-			player.turrets = turretPoints3;
+			player.bulletTurrets = turretPoints3;
 		}
 		player.maxHealth += 10;
 		player.health = player.maxHealth;
 		for(int i = 0; i < Properties.level;i++){
 			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * (rand.nextInt(500));
-			double y = Math.sin(angle) * (rand.nextInt(500));
-			entityArray.add(new Enemy(player.xPos + x,player.yPos + y,shipStructure,turretPoints1));
+			double x = Math.cos(angle) * rand.nextInt(500);
+			double y = Math.sin(angle) * rand.nextInt(500);
+			Entity e = EnemyCache.getEntity("light");
+			e.xPos = x;
+			e.yPos = y;
+			entityArray.add(e);
 		}
 	}
 	public void run() {

@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+import Entities.EnemyCache;
+
 /**
  * @author Ewan
  *	Main class where threads are started
@@ -36,6 +38,7 @@ class Main {
 		if(optionPane.getValue() == "CANCEL" || optionPane.getValue() == null){
 			System.exit(0);
 		}
+		EnemyCache.loadCache();
 		JFrame frame = new JFrame("Grid Shooter");
 		Panel.instance = new Panel();
 		Panel.instance.setBackground(Color.BLACK);

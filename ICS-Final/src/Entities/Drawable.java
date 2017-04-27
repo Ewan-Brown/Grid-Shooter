@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  *	Base class for any object that moves on the global co-ordinates and can be drawn.
  *	Contains methods for rotating, getting polygons, and getting the center
  */
-public abstract class Drawable {
+public abstract class Drawable implements Cloneable{
 	
 	public double xPos;
 	public double yPos;
@@ -43,6 +43,13 @@ public abstract class Drawable {
 	}
 	public Color getColor(){
 		return color;
+	}
+	public double getX(){
+		return xPos + centerPoint.getX();
+		
+	}
+	public double getY(){
+		return yPos + centerPoint.getY();
 	}
 	/**
 	 * @param p Point[] points to be translated
@@ -106,6 +113,18 @@ public abstract class Drawable {
 		}
 
 		return tempPoly;
+	}
+	public Object clone() {
+		Object clone = null;
+
+		try {
+			clone = super.clone();
+
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+
+		return clone;
 	}
 	
 	/***************************************************************************************

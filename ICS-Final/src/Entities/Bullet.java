@@ -27,7 +27,7 @@ public class Bullet extends Projectile{
 		}
 		health--;
 	}
-	public Bullet(double x, double y, double angle,double speed, int damage,Point[] points) {
+	public Bullet(double x, double y, double angle,double speed,Point[] points,int damage) {
 		super(x, y, 0,0,points,damage);
 		this.damage = damage;
 		realAngle = angle;

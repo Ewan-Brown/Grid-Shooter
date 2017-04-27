@@ -28,8 +28,8 @@ public class Enemy extends Ship{
 		maxHealth = 40;
 		health = maxHealth;
 	}
-	public Enemy(double x, double y,Point[] points,Point[] turrets) {
-		super(x, y,points,turrets);
+	public Enemy(double x, double y,Point[] points,Point[] turrets,Point[] missileTurrets) {
+		super(x, y,points,turrets,missileTurrets);
 		team = Game.ENEMY_TEAM;
 		caliber = 1;
 	}
@@ -126,9 +126,7 @@ public class Enemy extends Ship{
 	}
 	public Double getTargetAngle(){
 			if(target != null){
-				double xD = target.xPos - xPos;
-				double yD = target.yPos - yPos;
-				return Math.toDegrees(Math.atan2(yD, xD));
+				return Math.toDegrees(getTargetAngle(target));
 			}
 			return null;
 	}

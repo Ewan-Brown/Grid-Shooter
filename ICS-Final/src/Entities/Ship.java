@@ -1,5 +1,6 @@
 package Entities;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -13,52 +14,19 @@ import main.Game;
  */
 public class Ship extends Entity{
 
-	/**
-	 * max speed at which this ship can turn in either direction
-	 */
 	public double turnSpeed = 4;
-	/**
-	 * max acceleration speed
-	 */
 	public double speed = 0.03;
-	/**
-	 * current delay for how long until next bullet can be shot
-	 */
 	public int bulletCooldown = 0;
-	/**
-	 * maximum timer for delay between bullet shots
-	 */
+	public int missileCooldown = 0;
 	public int maxBulletCooldown = 30;
-	/**
-	 * speed of bullets shot 
-	 */
 	public double muzzleVelocity = 7;
-	/**
-	 * maximum timer for delay between particle effects (too much causes painting lag)
-	 */
-	public static final double MAX_PARTICLE_COOLDOWN = 3;
-	/**
-	 * Angle in degrees by which the bullet shots can possibly miss by<p>
-	 * 0 is 100% accuracy
-	 */
+	public static final int MAX_MISSILE_COUNTDOWN = 50;
+	public static final int MAX_PARTICLE_COOLDOWN = 3;
 	public double bulletAccuracy = 10;
-	/**
-	 * Current delay for how long until the next thrust particles can be shot
-	 */
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
-	/**
-	 * current delay for how long until the next strafe particles can be shot
-	 */
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
-	
-	/**
-	 * damage applied from bullets shot from this ship.
-	 */
 	public int caliber = 10;
-	
-	/**
-	 * Bullet structure shape points
-	 */
+	public int missiles = 0;
 	Point[] bullet;
 	{
 		bullet = new Point[4];
@@ -81,18 +49,20 @@ public class Ship extends Entity{
 	/**
 	 * array of points representing the points from which bullets are shot (there may be multiple)
 	 */
-	public Point[] turrets;
-	public Ship(double x, double y,Point[] points,Point[] turrets) {
+	public Point[] bulletTurrets;
+	public Point[] missileTurrets;
+	public Ship(double x, double y,Point[] points,Point[] turrets,Point[] missileTurrets) {
 		super(x, y,0,0,points);
-		this.turrets = turrets;
+		this.bulletTurrets = turrets;
+		this.missileTurrets = missileTurrets;
 	}
 	/**
 	 * Accelerates the ship forward or backwards relative to it's angle, depending on the throttle. 
 	 * @param t Throttle + for forward, - for backwards
 	 */
-	
+
 	public void move(double angle){
-		
+
 		double t = 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D)));
 		double dX = (Math.cos(Math.toRadians(realAngle + angle)))*speed*t;
 		double dY = (Math.sin(Math.toRadians(realAngle + angle)))*speed*t;
@@ -103,7 +73,7 @@ public class Ship extends Entity{
 			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 		}
 	}
-	
+
 	/**
 	 * Ejects particle effects in the opposite angle to simulate engine smoke/fire
 	 * @param t particle speed
@@ -114,15 +84,35 @@ public class Ship extends Entity{
 		double dX2 = (Math.cos(Math.toRadians(angle2)))*speed*t*10;
 		double dY2 = (Math.sin(Math.toRadians(angle2)))*speed*t*10;
 		Point2D p = centerPoint;
-		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle));
+		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,Color.ORANGE));
 	}
 	public void update(){
 		super.update();
 		bulletCooldown--;
+		missileCooldown--;
 		thrustParticleCooldown--;
 		strafeParticleCooldown--;
 		xSpeed -= xSpeed / 100D;
 		ySpeed -= ySpeed / 100D;
+	}
+	public Color getColor(){
+		return new Color(color.getRed(),color.getGreen(),color.getBlue(),54 + (int)Math.abs((200 *((double)health / (double)maxHealth))));
+	}
+	public void onDeath(){
+		ArrayList<Particle> a = new ArrayList<Particle>();
+		for(int i = 0; i < 10;i++){
+			int r = rand.nextInt(10);
+			Point[] deadParticles;
+			deadParticles = new Point[4];
+			deadParticles[0] = new Point(0,0);
+			deadParticles[1] = new Point(r,0);
+			deadParticles[2] = new Point(r,r);
+			deadParticles[3] = new Point(0,r);
+			Particle p = new Particle(this.getX(),this.getY(),(rand.nextDouble()- 0.5)*2,(rand.nextDouble()- 0.5)*2,deadParticles,(rand.nextDouble()-0.5) * 100,this.color);
+			a.add(p);
+		}
+
+		Game.effectsArray.addAll(a);
 	}
 	/**
 	 * Shoot bullets from all turrets towards the direction the ship is facing in
@@ -135,10 +125,28 @@ public class Ship extends Entity{
 				double x = p[i].x;
 				double y = p[i].y;
 				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,caliber,bullet);
+				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
 				b.team = this.team;
 				Game.entityArray.add(b);
 
+			}
+		}
+	}
+	public void shootMissile(){
+		if(missileCooldown < 0){
+			if(missiles > 0){
+				missiles--;
+				missileCooldown = MAX_MISSILE_COUNTDOWN;
+				Point[] p = getMissileTurrets();
+				for(int i = 0; i < p.length;i++){
+					double x = p[i].x;
+					double y = p[i].y;
+					double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
+					Missile m = new Missile(x,y,realAngle,bullet,100);
+					m.team = this.team;
+					Game.entityArray.add(m);
+
+				}
 			}
 		}
 	}
@@ -146,14 +154,30 @@ public class Ship extends Entity{
 	 * @return all turret points translated and rotated
 	 */
 	public Point[] getTurrets(){
-		Point[] tempPoints = new Point[turrets.length];
-		for(int i = 0; i < turrets.length;i++){
+		Point[] tempPoints = new Point[bulletTurrets.length];
+		for(int i = 0; i < bulletTurrets.length;i++){
 			tempPoints[i] = new Point(0,0);
 		}
 		Point2D c = centerPoint;
 		AffineTransform.getRotateInstance
 		(Math.toRadians(realAngle), c.getX(), c.getY())
-		.transform(turrets,0,tempPoints,0,turrets.length);
+		.transform(bulletTurrets,0,tempPoints,0,bulletTurrets.length);
+		for(int i = 0; i < tempPoints.length;i++){
+			Point point = tempPoints[i];
+			point.x += this.xPos;
+			point.y += this.yPos;
+		}
+		return tempPoints;
+	}
+	public Point[] getMissileTurrets(){
+		Point[] tempPoints = new Point[missileTurrets.length];
+		for(int i = 0; i < missileTurrets.length;i++){
+			tempPoints[i] = new Point(0,0);
+		}
+		Point2D c = centerPoint;
+		AffineTransform.getRotateInstance
+		(Math.toRadians(realAngle), c.getX(), c.getY())
+		.transform(missileTurrets,0,tempPoints,0,missileTurrets.length);
 		for(int i = 0; i < tempPoints.length;i++){
 			Point point = tempPoints[i];
 			point.x += this.xPos;

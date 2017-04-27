@@ -21,6 +21,7 @@ public class Input implements KeyListener,MouseListener{
 	 * boolean for if left mouse button is currently held down
 	 */
 	static boolean mouseLMBClicked = false;
+	static boolean mouseRMBClicked = false;
 	/**
 	 * @param k from KeyEvent.keyCode
 	 * @return corresponding boolean to that k in keycode. true if the key is currently pressed
@@ -85,6 +86,9 @@ public class Input implements KeyListener,MouseListener{
 		if(mouseLMBClicked){
 			Game.player.shootBullet();
 		}
+		if(mouseRMBClicked){
+			Game.player.shootMissile();
+		}
 		if(x == 0 && y == 0){
 			return;
 		}
@@ -100,6 +104,9 @@ public class Input implements KeyListener,MouseListener{
 		if(e.getButton() == MouseEvent.BUTTON1){
 			mouseLMBClicked = true;
 		}
+		if(e.getButton() == MouseEvent.BUTTON3){
+			mouseRMBClicked = true;
+		}
 		if(Game.gameOver){
 			Game.startNew();
 			return;
@@ -110,15 +117,22 @@ public class Input implements KeyListener,MouseListener{
 		if(e.getButton() == MouseEvent.BUTTON1){
 			mouseLMBClicked = false;
 		}
+		if(e.getButton() == MouseEvent.BUTTON3){
+			mouseRMBClicked = false;
+		}
 
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		mouseLMBClicked = false;
+		mouseRMBClicked = false;
+
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseLMBClicked = false;
+		mouseRMBClicked = false;
+
 	}
 
 

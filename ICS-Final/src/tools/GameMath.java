@@ -10,7 +10,8 @@ public class GameMath {
 		return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 	}
 	public static double getDistance(Entity e1,Entity e2){
-		return getDistance(e1.xPos,e1.yPos,e2.xPos,e2.yPos);
+		return getDistance(e1.getX(),e1.getY(),e2.getX(),e2.getY());
+		
 	}
 	/**
 	 * @param e1 Entity 1
