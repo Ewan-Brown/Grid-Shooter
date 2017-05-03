@@ -2,7 +2,7 @@ package tools;
 
 import java.awt.geom.Line2D;
 
-import Entities.Entity;
+import entities.Entity;
 
 public class GameMath {
 

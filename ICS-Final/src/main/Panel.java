@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Entities.Drawable;
+import entities.Drawable;
 
 /**
  * @author Ewan

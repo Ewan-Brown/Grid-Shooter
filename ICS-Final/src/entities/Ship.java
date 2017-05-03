@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -45,6 +45,15 @@ public class Ship extends Entity{
 		particle[1] = new Point(4,0);
 		particle[2] = new Point(4,4);
 		particle[3] = new Point(0,4);
+	}
+	static Point[] laser;
+	{
+		
+		laser = new Point[4];
+		laser[0] = new Point(0,0);
+		laser[1] = new Point(2000,0);
+		laser[2] = new Point(2000,2);
+		laser[3] = new Point(0,2);
 	}
 	/**
 	 * array of points representing the points from which bullets are shot (there may be multiple)
@@ -126,6 +135,8 @@ public class Ship extends Entity{
 				double y = p[i].y;
 				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
 				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
+//				Laser b = new Laser(x,y,laser,0,0);
+//				b.realAngle = realAngle;
 				b.team = this.team;
 				Game.entityArray.add(b);
 

@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import Entities.EnemyCache;
+import entities.EnemyCache;
 
 /**
  * @author Ewan

@@ -9,11 +9,11 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
-import Entities.Enemy;
-import Entities.EnemyCache;
-import Entities.Entity;
-import Entities.Particle;
-import Entities.Ship;
+import entities.Enemy;
+import entities.EnemyCache;
+import entities.Entity;
+import entities.Particle;
+import entities.Ship;
 
 public class Game implements Runnable,ActionListener{
 	/**
@@ -86,6 +86,7 @@ public class Game implements Runnable,ActionListener{
 		missilePoints[0] = shipStructure[0];
 
 	}
+
 	static Random rand = new Random();
 
 	/**
@@ -112,8 +113,6 @@ public class Game implements Runnable,ActionListener{
 			e.yPos = y;
 			entityArray.add(e);
 		}
-
-
 	}
 	/**
 	 * game update method, called 100 times per second to update all entities
