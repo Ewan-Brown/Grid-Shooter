@@ -13,7 +13,7 @@ public class Laser extends Projectile{
 		super(x, y, 0, 0, points,damage);
 		this.realAngle = angle;
 		color = Color.RED;
-		maxHealth = 1000;
+		maxHealth = 70;
 		health = maxHealth;
 		centerPoint = new Point2D.Double(0, 1);
 		this.xPos = x;
@@ -38,7 +38,6 @@ public class Laser extends Projectile{
 		return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)Math.abs((255 *((double)health / (double)maxHealth))));
 	}
 	public void onCollide(Entity e){
-		System.out.println("hey");
 		if(e.team != this.team){
 			//damages opposing entity, kills itself.
 			e.health -= damage;
