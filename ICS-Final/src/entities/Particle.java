@@ -10,7 +10,7 @@ import java.awt.Point;
 public class Particle extends Entity{
 	double spin;
 	public Color getColor(){
-		return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)Math.abs((255 *((double)health / (double)maxHealth))));
+		return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)(255 *(getHealthPercent())));
 	}
 	public Particle(double x, double y, double dX, double dY,Point[] points,double s, Color c) {
 		super(x, y, dX, dY,points);

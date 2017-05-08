@@ -18,6 +18,7 @@ public class Ship extends Entity{
 	public double speed = 0.03;
 	public int bulletCooldown = 0;
 	public int missileCooldown = 0;
+	public int laserCooldown = 0;
 	public int maxBulletCooldown = 30;
 	public double muzzleVelocity = 7;
 	public static final int MAX_MISSILE_COUNTDOWN = 50;
@@ -105,7 +106,8 @@ public class Ship extends Entity{
 		ySpeed -= ySpeed / 100D;
 	}
 	public Color getColor(){
-		return new Color(color.getRed(),color.getGreen(),color.getBlue(),54 + (int)Math.abs((200 *((double)health / (double)maxHealth))));
+		Color c = new Color(color.getRed(),color.getGreen(),color.getBlue(),50 + (int)(200*getHealthPercent()));
+		return c;
 	}
 	public void onDeath(){
 		ArrayList<Particle> a = new ArrayList<Particle>();

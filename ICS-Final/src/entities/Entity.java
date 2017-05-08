@@ -37,6 +37,13 @@ public class Entity extends Drawable{
 	public double getTargetAngle(Entity e){
 		return Math.atan2(e.getY() - this.getY(),e.getX()-this.getX());
 	}
+	public double getHealthPercent(){
+		if(health < 0){
+			return 0;
+		}
+
+		return health/maxHealth;
+	}
 	/**
 	 * Updates entity physics, AI, and anything else that needs to be changed every game tick
 	 */
