@@ -44,7 +44,7 @@ public class Game implements Runnable,ActionListener{
 	 */
 	static Point[] shipStructure;
 	//Arrays of points representing where bullets should be shot from/ how many. 3 levels upgrade sequentially
-	
+
 	/**
 	 * first set of turrets, only 1
 	 */
@@ -93,7 +93,7 @@ public class Game implements Runnable,ActionListener{
 	 * method called to start new game with fresh stats
 	 */
 	public static void startNew(){
-		Properties.level = 1;
+		Properties.level = 10;
 		Properties.score = 0;
 		entityArray.clear();
 		effectsArray.clear();
@@ -118,6 +118,12 @@ public class Game implements Runnable,ActionListener{
 	 * game update method, called 100 times per second to update all entities
 	 */
 	public static void loop(){
+		if(effectsArray.size() > 5000){
+			int f = effectsArray.size() - 5000;
+			for(int i = 0; i < f;i++){
+				effectsArray.remove(0);
+			}
+		}
 		boolean areaCleared = true;
 		for(int i = 0; i < entityArray.size();i++){
 			Entity p = entityArray.get(i);

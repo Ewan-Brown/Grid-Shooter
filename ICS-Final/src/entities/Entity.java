@@ -12,11 +12,12 @@ public class Entity extends Drawable{
 
 	double xSpeed = 0;
 	double ySpeed = 0;
-	public double maxHealth = 100;
+	public double maxHealth = 1000;
 	public double health = maxHealth;
 	public double team = 0;
 	//Random object, used for AI,effects and shooting accuracy
 	Random rand = new Random();
+	boolean flag = false;
 
 	public Entity(double x, double y,double dX,double dY,Point[] points){
 		super(x,y,points);
@@ -27,7 +28,8 @@ public class Entity extends Drawable{
 	}
 	public boolean isDead(){
 		boolean b = (health <= 0);
-		if(b){
+		if(b && !flag){
+			flag = true;
 			onDeath();
 		}
 		return b;

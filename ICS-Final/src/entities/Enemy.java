@@ -31,7 +31,7 @@ public class Enemy extends Ship{
 	public Enemy(double x, double y,Point[] points,Point[] turrets,Point[] missileTurrets) {
 		super(x, y,points,turrets,missileTurrets);
 		team = Game.ENEMY_TEAM;
-		caliber = 1;
+		caliber = 10;
 	}
 	public void strafe(double t){
 		double dX = (Math.cos(Math.toRadians(realAngle + 90)))*speed*t;

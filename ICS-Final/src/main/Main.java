@@ -19,7 +19,6 @@ class Main {
 
 	public static void main(String[] args){
 		System.setProperty("sun.java2d.opengl","True");
-
 		//The game code and panel code are independantly run on separate threads, for maximum performance and to prevent freezing.
 		ExecutorService e = Executors.newCachedThreadPool();
 		final JOptionPane optionPane = new JOptionPane();
@@ -34,7 +33,7 @@ class Main {
 						+ "Mouse - turn ship\n"
 						+ "Left click - shoot");
 		optionPane.setMessageType(JOptionPane.OK_CANCEL_OPTION);
-		final JDialog dialog = optionPane.createDialog(new JFrame(), "Pixel Physics");
+		final JDialog dialog = optionPane.createDialog(new JFrame(), "ICS");
 		dialog.setVisible(true);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		if(optionPane.getValue() == "CANCEL" || optionPane.getValue() == null){

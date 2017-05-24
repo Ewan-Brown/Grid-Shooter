@@ -18,15 +18,15 @@ public class Ship extends Entity{
 	public double speed = 0.03;
 	public int bulletCooldown = 0;
 	public int missileCooldown = 0;
-	public int laserCooldown = 0;
+	public int laserCooldown = 30;
 	public int maxBulletCooldown = 30;
 	public double muzzleVelocity = 7;
 	public static final int MAX_MISSILE_COUNTDOWN = 50;
-	public static final int MAX_PARTICLE_COOLDOWN = 3;
+	public static final int MAX_PARTICLE_COOLDOWN = 5;
 	public double bulletAccuracy = 10;
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
-	public int caliber = 10;
+	public int caliber = 100;
 	public int missiles = 0;
 	Point[] bullet;
 	{
@@ -94,7 +94,7 @@ public class Ship extends Entity{
 		double dX2 = (Math.cos(Math.toRadians(angle2)))*speed*t*10;
 		double dY2 = (Math.sin(Math.toRadians(angle2)))*speed*t*10;
 		Point2D p = centerPoint;
-		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,Color.ORANGE));
+		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,Color.ORANGE,40));
 	}
 	public void update(){
 		super.update();
@@ -119,7 +119,7 @@ public class Ship extends Entity{
 			deadParticles[1] = new Point(r,0);
 			deadParticles[2] = new Point(r,r);
 			deadParticles[3] = new Point(0,r);
-			Particle p = new Particle(this.getX(),this.getY(),(rand.nextDouble()- 0.5)*2,(rand.nextDouble()- 0.5)*2,deadParticles,(rand.nextDouble()-0.5) * 100,this.color);
+			Particle p = new Particle(this.getX(),this.getY(),(rand.nextDouble()- 0.5)*2,(rand.nextDouble()- 0.5)*2,deadParticles,(rand.nextDouble()-0.5) * 100,this.color,100);
 			a.add(p);
 		}
 
@@ -155,7 +155,7 @@ public class Ship extends Entity{
 					double x = p[i].x;
 					double y = p[i].y;
 					double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-					Missile m = new Missile(x,y,realAngle,bullet,100);
+					Missile m = new Missile(x,y,realAngle,bullet,1000);
 					m.team = this.team;
 					Game.entityArray.add(m);
 

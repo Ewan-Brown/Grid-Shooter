@@ -12,9 +12,10 @@ public class Particle extends Entity{
 	public Color getColor(){
 		return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)(255 *(getHealthPercent())));
 	}
-	public Particle(double x, double y, double dX, double dY,Point[] points,double s, Color c) {
+	public Particle(double x, double y, double dX, double dY,Point[] points,double s, Color c, double health) {
 		super(x, y, dX, dY,points);
-		health = maxHealth;
+		maxHealth = health;
+		this.health = maxHealth;
 		spin = s;
 		this.color = new Color(c.getRGB());
 

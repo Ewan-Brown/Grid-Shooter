@@ -13,7 +13,7 @@ public class Laser extends Projectile{
 		super(x, y, 0, 0, points,damage);
 		this.realAngle = angle;
 		color = Color.RED;
-		maxHealth = 20;
+		maxHealth = 30;
 		health = maxHealth;
 		centerPoint = new Point2D.Double(0, 1);
 		this.xPos = x;
