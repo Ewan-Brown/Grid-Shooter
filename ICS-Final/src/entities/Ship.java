@@ -136,9 +136,9 @@ public class Ship extends Entity{
 				double x = p[i].x;
 				double y = p[i].y;
 				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-//				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
-				Laser b = new Laser(x,y,laser,0,1);
-				b.realAngle = realAngle;
+				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
+//				Laser b = new Laser(x,y,laser,0,1);
+//				b.realAngle = realAngle;
 				b.team = this.team;
 				Game.entityArray.add(b);
 
