@@ -32,8 +32,9 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 	/**
 	 * Custom large font for screen messages
 	 */
-	Font customFont = new Font("myFont",Font.BOLD,30);
-	Font customFont2 = new Font("myFont",Font.BOLD,100);
+	Font customFont1 = new Font("myFont1",Font.BOLD,30);
+	Font customFont2 = new Font("myFont2",Font.BOLD,100);
+	Font customFont3 = new Font("myFont3",Font.BOLD,20);
 	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	static ArrayList<Drawable> effects = new ArrayList<Drawable>();
 	private static final long serialVersionUID = 1L;
@@ -109,7 +110,7 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		String levelNum = Integer.toString(Properties.level);
 		g2.setFont(customFont2);
 		g2.drawString(levelNum, 130, 90);
-		g2.setFont(customFont);
+		g2.setFont(customFont1);
 		g2.drawString(levelString, 20, 70);
 		if(Game.gameOver){
 			String s1 = "Game Over! Press Space to Continue";
@@ -118,7 +119,9 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			g2.drawString(s2, w/2 - (g2.getFontMetrics().stringWidth(s2) / 2), h/2 - 200);
 
 		}
-
+//		g2.setFont(customFont3);
+//		g2.setColor(new Color(10,10,10));
+//		g2.drawString("Made by Ewan Brown for his Comp.Sci final, got 105%",20,h - 110);
 	}
 	/**
 	 * @param p Polygon to transform

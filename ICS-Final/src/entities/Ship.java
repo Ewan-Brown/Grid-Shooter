@@ -14,6 +14,7 @@ import main.Game;
  */
 public class Ship extends Entity{
 
+	public boolean laserOn = false;
 	public double turnSpeed = 4;
 	public double speed = 0.03;
 	public int bulletCooldown = 0;
@@ -49,7 +50,7 @@ public class Ship extends Entity{
 	}
 	static Point[] laser;
 	{
-		
+
 		laser = new Point[4];
 		laser[0] = new Point(0,0);
 		laser[1] = new Point(2000,0);
@@ -136,9 +137,12 @@ public class Ship extends Entity{
 				double x = p[i].x;
 				double y = p[i].y;
 				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-				Bullet b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
-//				Laser b = new Laser(x,y,laser,0,1);
-//				b.realAngle = realAngle;
+				Entity b;
+				b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
+				if(laserOn){
+					b = new Laser(x,y,laser,0,1);
+					b.realAngle = realAngle;
+				}
 				b.team = this.team;
 				Game.entityArray.add(b);
 
@@ -204,15 +208,25 @@ public class Ship extends Entity{
 	 */
 	public void turnToTarget(double targetAngle){
 		double a = targetAngle - realAngle;
-		a = a % 360;
-		if(a < 0){
+		double f=0;
+		//a = a % 360;
+		while(a >180){
+			a -= 360;
+		}
+		while(a < -180){
 			a += 360;
 		}
-		double diff = Math.abs(180 - a);
+		if (a>0)
+			f=Math.min(a,turnSpeed/5.0);
+		else
+			f=Math.max(a,-turnSpeed/5.0);
+		//f /= 50;
+		/*double diff = Math.abs(180 - a);
 		double f = turnSpeed - (turnSpeed / 2) * (diff / 180D);
 		if(a > 180){
 			f = -f;
-		}
+		}*/
+		
 		realAngle += f;
 	}
 }

@@ -93,7 +93,7 @@ public class Game implements Runnable,ActionListener{
 	 * method called to start new game with fresh stats
 	 */
 	public static void startNew(){
-		Properties.level = 1;
+		Properties.level = 9;
 		Properties.score = 0;
 		entityArray.clear();
 		effectsArray.clear();
@@ -105,9 +105,9 @@ public class Game implements Runnable,ActionListener{
 		entityArray.add(player);
 		player.color = Color.GREEN;
 		for(int i = 0; i < Properties.level;i++){
-			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * rand.nextInt(500);
-			double y = Math.sin(angle) * rand.nextInt(500);
+			double angle = rand.nextDouble() * 10;
+			double x = Math.cos(angle) * 1000;
+			double y = Math.sin(angle) * 1000;
 			Entity e = EnemyCache.getEntity("light");
 			e.xPos = x;
 			e.yPos = y;
@@ -166,6 +166,7 @@ public class Game implements Runnable,ActionListener{
 		}
 		if(Properties.level == 10){
 			player.bulletAccuracy = 2;
+			player.laserOn = true;
 		}
 		if(Properties.level == 20){
 			player.maxBulletCooldown = 10;
