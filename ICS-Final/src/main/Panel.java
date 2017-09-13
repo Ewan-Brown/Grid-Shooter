@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -32,6 +33,13 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 	/**
 	 * Custom large font for screen messages
 	 */
+	Point[] arrow = new Point[3];
+	{
+		arrow[0] = new Point(0,4);
+		arrow[1] = new Point(0,0);
+		arrow[2] = new Point(5,2);
+
+	}
 	Font customFont1 = new Font("myFont1",Font.BOLD,30);
 	Font customFont2 = new Font("myFont2",Font.BOLD,100);
 	Font customFont3 = new Font("myFont3",Font.BOLD,20);
@@ -62,22 +70,22 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		int h = getHeight();
 		int w = getWidth();
 		//Draws the background grid, applies zoom to grid.
-		double y = 0;
-		double x = 0;
+		double yP = 0;
+		double xP = 0;
 		//because the game and the panel are on separate threads, there is a possibility Game.player may not be initialized when
 		//this is called, so there is a check first.
 		if(Game.player != null){
-			y = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D + lineSpace*1000) % lineSpace);
-			x = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D + lineSpace*1000) % lineSpace);
+			yP = (int) -((Properties.zoom * Game.player.yPos - getHeight() / 2D + lineSpace*1000) % lineSpace);
+			xP = (int) -((Properties.zoom * Game.player.xPos - getWidth() / 2D + lineSpace*1000) % lineSpace);
 		}
 		do{
-			g2.drawLine(0, (int)y, w, (int)y);
-			y += lineSpace;
-		}while(y < h);
+			g2.drawLine(0, (int)yP, w, (int)yP);
+			yP += lineSpace;
+		}while(yP < h);
 		do{
-			g2.drawLine((int)x, 0, (int)x, h);
-			x += lineSpace;
-		}while(x < w);
+			g2.drawLine((int)xP, 0, (int)xP, h);
+			xP += lineSpace;
+		}while(xP < w);
 		//Draws effects first, and the entities on top. The only reason for separation is aesthetic
 		for(int i = 0; i < effects.size();i++){
 			Drawable d = effects.get(i);
@@ -87,6 +95,7 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		}
 		for(int i = 0; i < drawables.size();i++){
 			Drawable d = drawables.get(i);
+			//TODO static color bank please
 			g2.setColor(d.getColor());
 			Polygon p = null;
 			p = transformPolygon(d.getRotatedPolygon());
@@ -94,16 +103,29 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		}
 		//Draws the player health bar, scaled to screen size
 		if(Game.player != null){
-			double healthPercentage = (double)Game.player.health / (double)Game.player.maxHealth;
-			g2.setColor(Color.RED);
-			int spacing = w - 200;
-			g2.fillRect((w/2) - (spacing / 2),h - 100,spacing,60);
-			if(healthPercentage > 0){
-				int ws2 = (int)((double)spacing * healthPercentage);
-				g2.setColor(Color.GREEN);
-				g2.fillRect((w / 2) - (ws2 / 2),h - 100,ws2,60);
+//			//TODO Cooler health bar - separated small bars or something?
+//			double healthPercentage = (double)Game.player.health / (double)Game.player.maxHealth;
+//			g2.setColor(Color.RED);
+//			int spacing = w - 200;
+//			g2.fillRect((w/2) - (spacing / 2),h - 100,spacing,60);
+//			if(healthPercentage > 0){
+//				int ws2 = (int)((double)spacing * healthPercentage);
+//				g2.setColor(Color.GREEN);
+//				g2.fillRect((w / 2) - (ws2 / 2),h - 100,ws2,60);
+//			}
+			g2.setColor(Color.GREEN);
+			int height = 50;
+			int windowSpacing = 100;
+			int rectSpacing = 50;
+			int rects = 10;
+			int rectSize = (w - ((windowSpacing*2) + rectSpacing * (rects - 1))) / rects;
+			int x = windowSpacing;
+			for(int i = 0; i < rects; i++){
+				g2.fillRect(x, h - 150,rectSize, height);
+				x += rectSpacing + rectSize;
 			}
 		}
+		//TODO Draw miniMap
 		//If the game is over, keep it running but show the 'end screen' with score
 		g2.setColor(Color.BLUE);
 		String levelString = "Wave : ";

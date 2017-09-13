@@ -22,6 +22,7 @@ public class Input implements KeyListener,MouseListener{
 	 */
 	static boolean mouseLMBClicked = false;
 	static boolean mouseRMBClicked = false;
+	static boolean mouseMMBClicked = false;
 	/**
 	 * @param k from KeyEvent.keyCode
 	 * @return corresponding boolean to that k in keycode. true if the key is currently pressed
@@ -101,11 +102,16 @@ public class Input implements KeyListener,MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1){
+		switch(e.getButton()){
+		case MouseEvent.BUTTON1:
 			mouseLMBClicked = true;
-		}
-		if(e.getButton() == MouseEvent.BUTTON3){
+			break;
+		case MouseEvent.BUTTON2:
+			mouseMMBClicked = true;
+			break;
+		case MouseEvent.BUTTON3:
 			mouseRMBClicked = true;
+			break;
 		}
 		if(Game.gameOver){
 			Game.startNew();
@@ -114,24 +120,32 @@ public class Input implements KeyListener,MouseListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1){
+		switch(e.getButton()){
+		case MouseEvent.BUTTON1:
 			mouseLMBClicked = false;
-		}
-		if(e.getButton() == MouseEvent.BUTTON3){
+			break;
+		case MouseEvent.BUTTON2:
+			mouseMMBClicked = false;
+			break;
+		case MouseEvent.BUTTON3:
 			mouseRMBClicked = false;
+			break;
 		}
+
 
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		mouseLMBClicked = false;
 		mouseRMBClicked = false;
+		mouseMMBClicked = false;
 
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
 		mouseLMBClicked = false;
 		mouseRMBClicked = false;
+		mouseMMBClicked = false;
 
 	}
 

@@ -127,7 +127,7 @@ public class Game implements Runnable,ActionListener{
 		boolean areaCleared = true;
 		for(int i = 0; i < entityArray.size();i++){
 			Entity p = entityArray.get(i);
-			if(p.team == ENEMY_TEAM){
+			if(p instanceof Ship && p.team == ENEMY_TEAM){
 				areaCleared = false;
 			}
 			if(p.isDead() && p != player){

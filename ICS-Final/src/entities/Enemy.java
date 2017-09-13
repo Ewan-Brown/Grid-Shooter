@@ -20,11 +20,6 @@ public class Enemy extends Ship{
 	Entity target = null;
 	public static Random rand = new Random();
 	{
-		bullet = new Point[4];
-		bullet[0] = new Point(10,2);
-		bullet[1] = new Point(2,4);
-		bullet[2] = new Point(0,2);
-		bullet[3] = new Point(2,0);
 		maxHealth = 40;
 		health = maxHealth;
 	}
@@ -62,7 +57,7 @@ public class Enemy extends Ship{
 			moveToTarget(targetAngle);
 		}
 	}
-	
+
 	public void moveToTarget(double targetAngle){
 		//If there is no target, quit method
 		if(target == null){
@@ -83,6 +78,7 @@ public class Enemy extends Ship{
 		else if(d < minDist){
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
+				//TODO GUNS DISABLED
 				shootBullet();
 			}
 			thrust(-1);
@@ -92,6 +88,7 @@ public class Enemy extends Ship{
 		else{
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
+				//TODO GUNS DISABLED
 				shootBullet();
 			}
 			strafeCount--;
@@ -125,10 +122,10 @@ public class Enemy extends Ship{
 		}
 	}
 	public Double getTargetAngle(){
-			if(target != null){
-				return Math.toDegrees(getTargetAngle(target));
-			}
-			return null;
+		if(target != null){
+			return Math.toDegrees(getTargetAngle(target));
+		}
+		return null;
 	}
 
 }
