@@ -104,7 +104,6 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		//Draws the player health bar, scaled to screen size
 		if(Game.player != null){
 //			//TODO Cooler health bar - separated small bars or something?
-//			double healthPercentage = (double)Game.player.health / (double)Game.player.maxHealth;
 //			g2.setColor(Color.RED);
 //			int spacing = w - 200;
 //			g2.fillRect((w/2) - (spacing / 2),h - 100,spacing,60);
@@ -113,15 +112,25 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 //				g2.setColor(Color.GREEN);
 //				g2.fillRect((w / 2) - (ws2 / 2),h - 100,ws2,60);
 //			}
-			g2.setColor(Color.GREEN);
+			double healthPercentage = (double)Game.player.health / (double)Game.player.maxHealth;
 			int height = 50;
 			int windowSpacing = 100;
 			int rectSpacing = 50;
 			int rects = 10;
 			int rectSize = (w - ((windowSpacing*2) + rectSpacing * (rects - 1))) / rects;
 			int x = windowSpacing;
-			for(int i = 0; i < rects; i++){
-				g2.fillRect(x, h - 150,rectSize, height);
+			double f = 1D/rects;
+			healthPercentage = (int)(healthPercentage * 100) / 100D;
+			double p = healthPercentage % f;
+			double d = healthPercentage / f;
+			int m = (int)Math.ceil(d);
+			for(int i = 0; i < m; i++){
+				g2.setColor(Color.GREEN);
+				int l = rectSize;
+				if(i == m - 1){
+					l = (int)((double)l * (p)*10);
+				}
+				g2.fillRect(x, h - 150,l, height);
 				x += rectSpacing + rectSize;
 			}
 		}

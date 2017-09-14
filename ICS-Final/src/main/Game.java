@@ -93,7 +93,7 @@ public class Game implements Runnable,ActionListener{
 	 * method called to start new game with fresh stats
 	 */
 	public static void startNew(){
-		Properties.level = 9;
+		Properties.level = 1;
 		Properties.score = 0;
 		entityArray.clear();
 		effectsArray.clear();
