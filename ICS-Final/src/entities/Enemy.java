@@ -11,12 +11,12 @@ public class Enemy extends Ship{
 	//Strafe timer to go left or right instead of just randomly bouncing back and forward vibrating
 	int strafeCount = 100;
 	//Chance to switch strafe direction
-	static final double STRAFE_CHANCE = 50;
+	double strafeChance = 50;
 	//Strafe direction, 1 is right
 	double strafe = 1;
 	//Target must be within these distances to strafe and begin circling, if too far go forward , if too close go back
-	static final int maxDist = 300;
-	static final int minDist = 150;
+	static int maxDist = 300;
+	static int minDist = 150;
 	Entity target = null;
 	public static Random rand = new Random();
 	{
@@ -78,7 +78,6 @@ public class Enemy extends Ship{
 		else if(d < minDist){
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
-				//TODO GUNS DISABLED
 				shootBullet();
 			}
 			thrust(-1);
@@ -88,14 +87,13 @@ public class Enemy extends Ship{
 		else{
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
-				//TODO GUNS DISABLED
 				shootBullet();
 			}
 			strafeCount--;
 			if(strafeCount > 0){
 				strafe(strafe);
 			}
-			else if(rand.nextInt() < STRAFE_CHANCE){
+			else if(rand.nextInt() < strafeChance){
 				strafeCount = rand.nextInt(100);
 				if(rand.nextBoolean()){
 					strafe = -1;

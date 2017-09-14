@@ -78,17 +78,29 @@ public class EnemyCache {
 		lightLaunchers = new Point[1];
 		lightLaunchers[0] = lightStructure[0];
 		Enemy light = new Enemy(0,0,lightStructure,lightTurrets,lightLaunchers){{
-
+			maxHealth = 100;
+			health = 100;
 		}};
 		Enemy medium = new Enemy(0,0,mediumStructure, mediumTurrets, mediumLaunchers){{
-			
+			maxHealth = 400;
+			health = 400;
+			caliber = 300;
+			maxBulletCooldown =  60;
+			bulletAccuracy = 8;
+			speed = 0.02;
+			minDist = 200;
+			maxDist = 400;
+			strafeChance = 20;
+			bullet = new Point[4];
+			bullet[0] = new Point(20,4);
+			bullet[1] = new Point(4,8);
+			bullet[2] = new Point(0,4);
+			bullet[3] = new Point(4,0);
 		}};
 		//		Enemy sniper = new Enemy(0,0,lightStructure,turretPoints1,missilePoints){{
 		//		}};
-		//		Enemy medium = new Enemy(0,0,lightStructure,turretPoints1,missilePoints){{
-		//		}};
 		entityMap.put("light", light);
-				entityMap.put("medium", medium);		
+		entityMap.put("medium", medium);		
 		//		entityMap.put("sniper", sniper);
 
 

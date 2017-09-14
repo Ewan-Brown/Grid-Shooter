@@ -177,10 +177,14 @@ public class Game implements Runnable,ActionListener{
 		player.maxHealth += 10;
 		player.health = player.maxHealth;
 		for(int i = 0; i < Properties.level;i++){
+
 			double angle = rand.nextDouble() * Math.PI * 2;
 			double x = Math.cos(angle) * rand.nextInt(500);
 			double y = Math.sin(angle) * rand.nextInt(500);
 			Entity e = EnemyCache.getEntity("light");
+			if(i % 5 == 4){
+				e = EnemyCache.getEntity("medium");
+			}
 			e.xPos = x;
 			e.yPos = y;
 			entityArray.add(e);

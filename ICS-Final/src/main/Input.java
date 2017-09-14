@@ -23,6 +23,7 @@ public class Input implements KeyListener,MouseListener{
 	static boolean mouseLMBClicked = false;
 	static boolean mouseRMBClicked = false;
 	static boolean mouseMMBClicked = false;
+
 	/**
 	 * @param k from KeyEvent.keyCode
 	 * @return corresponding boolean to that k in keycode. true if the key is currently pressed
@@ -31,12 +32,11 @@ public class Input implements KeyListener,MouseListener{
 		return keySet.get(k);
 	}
 	@Override
-	public void keyTyped(KeyEvent e) {}
-
+	public void keyTyped(KeyEvent e) {
+	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keySet.set(e.getKeyCode(),true);
-
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
