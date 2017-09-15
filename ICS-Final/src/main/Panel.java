@@ -1,12 +1,11 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Font;import java.awt.FontFormatException;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,6 +56,16 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 	 */
 	public static Panel instance;
 	//Use this is a static instance
+	Color[] colorList = new Color[4];
+	{
+		colorList[0] = Color.GREEN;
+		colorList[1] = Color.RED;
+		colorList[2] = Color.ORANGE;
+		colorList[3] = Color.CYAN;
+	}
+	public Color getColor(int c){
+		return colorList[c];
+	}
 	public void paint(Graphics g1){
 		super.paint(g1);
 		Graphics2D g2 = (Graphics2D)g1;
@@ -89,14 +98,15 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		//Draws effects first, and the entities on top. The only reason for separation is aesthetic
 		for(int i = 0; i < effects.size();i++){
 			Drawable d = effects.get(i);
-			g2.setColor(d.getColor());
+			Color c = getColor(d.color);
+			g2.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),d.getAlpha()));
 			Polygon p = transformPolygon(d.getRotatedPolygon());
 			g2.fillPolygon(p);
 		}
 		for(int i = 0; i < drawables.size();i++){
 			Drawable d = drawables.get(i);
-			//TODO static color bank please
-			g2.setColor(d.getColor());
+			Color c = getColor(d.color);
+			g2.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),d.getAlpha()));
 			Polygon p = null;
 			p = transformPolygon(d.getRotatedPolygon());
 			g2.fillPolygon(p);

@@ -18,13 +18,15 @@ public class Entity extends Drawable{
 	//Random object, used for AI,effects and shooting accuracy
 	Random rand = new Random();
 	boolean flag = false;
-
+	{
+		super.transparency = true;
+	}
 	public Entity(double x, double y,double dX,double dY,Point[] points){
 		super(x,y,points);
 		health = maxHealth;
 		this.xSpeed = dX;
 		this.ySpeed = dY;
-		color = Color.RED;
+		color = 1;
 	}
 	public boolean isDead(){
 		boolean b = (health <= 0);
@@ -33,6 +35,15 @@ public class Entity extends Drawable{
 			onDeath();
 		}
 		return b;
+	}
+	public int getAlpha(){
+		if(transparency){
+			int a = (int) (50 + (200 *((double)health / (double)maxHealth)));
+			return (a < 0) ? 0 : a;
+		}
+		else{
+			return 255;
+		}
 	}
 	public void onDeath(){
 	}

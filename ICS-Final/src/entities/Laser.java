@@ -9,10 +9,13 @@ import tools.GameMath;
 
 public class Laser extends Projectile{
 
+	{
+		super.transparency = true;
+	}
 	public Laser(double x, double y,Point[] points,double angle,int damage) {
 		super(x, y, 0, 0, points,damage);
 		this.realAngle = angle;
-		color = Color.RED;
+		color = 1;
 		maxHealth = 30;
 		health = maxHealth;
 		centerPoint = new Point2D.Double(0, 1);
@@ -33,9 +36,6 @@ public class Laser extends Projectile{
 				onCollide(e);
 			}
 		}
-	}
-	public Color getColor(){
-		return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int)Math.abs((255 *((double)health / (double)maxHealth))));
 	}
 	public void onCollide(Entity e){
 		if(e.team != this.team){

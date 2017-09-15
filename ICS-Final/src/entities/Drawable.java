@@ -28,7 +28,9 @@ public abstract class Drawable implements Cloneable{
 	 * The angle in degrees of this drawable relative to the global 2D Plane, 0 degrees would be 'east'
 	 */
 	public double realAngle = 0;
-	public Color color;
+//	public Color color;
+	public int color = 0;
+	public boolean transparency = false;
 	/**
 	 * Precalculated center point of the drawable's non-translated/rotated polygon
 	 */
@@ -41,8 +43,8 @@ public abstract class Drawable implements Cloneable{
 		this.xPos -= centerPoint.getX();
 		this.yPos -= centerPoint.getY();
 	}
-	public Color getColor(){
-		return color;
+	public int getAlpha(){
+		return 255;
 	}
 	public double getX(){
 		return xPos + centerPoint.getX();

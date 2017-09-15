@@ -14,6 +14,7 @@ public class Missile extends Projectile{
 		maxHealth = 1000;
 		health = maxHealth;
 		this.realAngle = angle;
+		transparency = false;
 	}
 
 	public void update(){

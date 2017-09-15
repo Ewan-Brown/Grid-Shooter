@@ -103,7 +103,7 @@ public class Game implements Runnable,ActionListener{
 		player.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
 		player.team = PLAYER_TEAM;
 		entityArray.add(player);
-		player.color = Color.GREEN;
+		player.color = 0;
 		for(int i = 0; i < Properties.level;i++){
 			double angle = rand.nextDouble() * 10;
 			double x = Math.cos(angle) * 1000;
@@ -182,7 +182,7 @@ public class Game implements Runnable,ActionListener{
 			double x = Math.cos(angle) * rand.nextInt(500);
 			double y = Math.sin(angle) * rand.nextInt(500);
 			Entity e = EnemyCache.getEntity("light");
-			if(i % 5 == 4){
+			if(i % 2 == 0){
 				e = EnemyCache.getEntity("medium");
 			}
 			e.xPos = x;

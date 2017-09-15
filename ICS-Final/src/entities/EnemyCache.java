@@ -84,7 +84,7 @@ public class EnemyCache {
 		Enemy medium = new Enemy(0,0,mediumStructure, mediumTurrets, mediumLaunchers){{
 			maxHealth = 400;
 			health = 400;
-			caliber = 300;
+			caliber = 150;
 			maxBulletCooldown =  60;
 			bulletAccuracy = 8;
 			speed = 0.02;

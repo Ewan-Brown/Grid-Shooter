@@ -29,6 +29,9 @@ public class Ship extends Entity{
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public int caliber = 100;
 	public int missiles = 0;
+	{
+		super.transparency = true;
+	}
 	Point[] bullet;
 	{
 		bullet = new Point[4];
@@ -95,7 +98,7 @@ public class Ship extends Entity{
 		double dX2 = (Math.cos(Math.toRadians(angle2)))*speed*t*10;
 		double dY2 = (Math.sin(Math.toRadians(angle2)))*speed*t*10;
 		Point2D p = centerPoint;
-		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,Color.ORANGE,40));
+		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,2,40));
 	}
 	public void update(){
 		super.update();
@@ -105,10 +108,6 @@ public class Ship extends Entity{
 		strafeParticleCooldown--;
 		xSpeed -= xSpeed / 100D;
 		ySpeed -= ySpeed / 100D;
-	}
-	public Color getColor(){
-		Color c = new Color(color.getRed(),color.getGreen(),color.getBlue(),50 + (int)(200*getHealthPercent()));
-		return c;
 	}
 	public void onDeath(){
 		ArrayList<Particle> a = new ArrayList<Particle>();
