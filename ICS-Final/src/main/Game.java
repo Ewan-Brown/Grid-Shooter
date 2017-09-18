@@ -166,13 +166,14 @@ public class Game implements Runnable,ActionListener{
 		}
 		if(Properties.level == 10){
 			player.bulletAccuracy = 2;
+			player.turnSpeed = 8;
 			player.laserOn = true;
 		}
 		if(Properties.level == 20){
+			player.bulletTurrets = turretPoints3;
 			player.maxBulletCooldown = 10;
 		}
 		if(Properties.level == 30){
-			player.bulletTurrets = turretPoints3;
 		}
 		player.maxHealth += 10;
 		player.health = player.maxHealth;

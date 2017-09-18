@@ -13,7 +13,7 @@ public class Projectile extends Entity{
 	double damage;
 	public Projectile(double x, double y, double dX, double dY,Point[] points,int damage) {
 		super(x, y, dX, dY,points);
-		this.damage = damage;
+		this.damage = 1000;
 	}
 	/**
 	 * @param e Entity that has collided with this entity

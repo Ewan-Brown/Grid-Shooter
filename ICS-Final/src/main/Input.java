@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.BitSet;
 
 /**
@@ -17,6 +18,15 @@ public class Input implements KeyListener,MouseListener{
 	 * 256 bits representing all possible keys
 	 */
 	static BitSet keySet = new BitSet(256);
+	static final long DOUBLE_TAP_COOLDOWN = 300000000;
+	static ArrayList<Integer> doubleTaps = new ArrayList<Integer>(10);
+	//Time when key was last pressed down
+	static long[] keyTimes = new long[256];
+	{
+		for(int i = 0; i < keyTimes.length;i++){
+			keyTimes[i] = 0;
+		}
+	}
 	/**
 	 * boolean for if left mouse button is currently held down
 	 */
@@ -32,21 +42,32 @@ public class Input implements KeyListener,MouseListener{
 		return keySet.get(k);
 	}
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		keySet.set(e.getKeyCode(),true);
+		long l = System.nanoTime();
+		int k = e.getKeyCode();
+		if(l - keyTimes[k] < DOUBLE_TAP_COOLDOWN){
+			doubleTaps.add(k);
+		}
+		if(!keySet.get(k)){
+			keyTimes[k] = l;
+		}
+		keySet.set(k,true);
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keySet.set(e.getKeyCode(),false);
-
+		int k = e.getKeyCode();
+		keySet.set(k,false);
 	}
 	/**
 	 * updates all key actions, called from game timer
 	 */
 	public static void updateKeys(){
+		if(doubleTaps.size() > 0){
+			System.out.println(doubleTaps.get(0));
+			doubleTaps.remove(0);
+		}
 		if(Game.gameOver){
 			if(keySet.get(KeyEvent.VK_SPACE)){
 				Game.startNew();
