@@ -9,8 +9,8 @@ import tools.GameMath;
 public class Missile extends Projectile{
 	public double missileSpeed = 0.06;
 	public double missileTurnSpeed = 3;
-	public Missile(double x, double y,double angle,Point[] points, int damage) {
-		super(x, y,0,0,points, damage);
+	public Missile(double x, double y,double angle,int shape, int damage) {
+		super(x, y,0,0,shape, damage);
 		maxHealth = 1000;
 		health = maxHealth;
 		this.realAngle = angle;

@@ -5,6 +5,7 @@ import java.awt.Point;
 import entities.Entity;
 import entities.Projectile;
 import entities.Ship;
+import entities.Structures;
 
 public class Turret extends Entity {
 
@@ -26,7 +27,7 @@ public class Turret extends Entity {
 //	bullet[3] = new Point(2,0);
 	
 	public Turret(double x, double y,Ship owner) {
-		super(x, y, 0,0, points);
+		super(x, y, 0,0, Structures.TURRET);
 		this.owner = owner;
 	}
 	public void update(){

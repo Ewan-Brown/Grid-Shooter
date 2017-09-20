@@ -11,8 +11,8 @@ public class Projectile extends Entity{
 	 * Damage to be inflicted on any victims
 	 */
 	double damage;
-	public Projectile(double x, double y, double dX, double dY,Point[] points,int damage) {
-		super(x, y, dX, dY,points);
+	public Projectile(double x, double y, double dX, double dY,int shape,int damage) {
+		super(x, y, dX, dY,shape);
 		this.damage = damage;
 	}
 	/**

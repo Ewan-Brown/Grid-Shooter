@@ -12,8 +12,8 @@ public class Laser extends Projectile{
 	{
 		super.transparency = true;
 	}
-	public Laser(double x, double y,Point[] points,double angle,int damage) {
-		super(x, y, 0, 0, points,damage);
+	public Laser(double x, double y,int shape,double angle,int damage) {
+		super(x, y, 0, 0, shape,damage);
 		this.realAngle = angle;
 		color = 1;
 		maxHealth = 30;

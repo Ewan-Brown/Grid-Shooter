@@ -65,8 +65,8 @@ public class Ship extends Entity{
 	 */
 	public Point[] bulletTurrets;
 	public Point[] missileTurrets;
-	public Ship(double x, double y,Point[] points,Point[] turrets,Point[] missileTurrets) {
-		super(x, y,0,0,points);
+	public Ship(double x, double y,int shape,Point[] turrets,Point[] missileTurrets) {
+		super(x, y,0,0,shape);
 		this.bulletTurrets = turrets;
 		this.missileTurrets = missileTurrets;
 	}
@@ -98,7 +98,7 @@ public class Ship extends Entity{
 		double dX2 = (Math.cos(Math.toRadians(angle2)))*speed*t*10;
 		double dY2 = (Math.sin(Math.toRadians(angle2)))*speed*t*10;
 		Point2D p = centerPoint;
-		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,particle,(rand.nextDouble() - 0.5) * 30,2,40));
+		Game.effectsArray.add(new Particle(p.getX() + xPos,p.getY() + yPos,-dX2,-dY2,0,2,40));
 	}
 	public void update(){
 		super.update();
@@ -119,7 +119,7 @@ public class Ship extends Entity{
 			deadParticles[1] = new Point(r,0);
 			deadParticles[2] = new Point(r,r);
 			deadParticles[3] = new Point(0,r);
-			Particle p = new Particle(this.getX(),this.getY(),(rand.nextDouble()- 0.5)*2,(rand.nextDouble()- 0.5)*2,deadParticles,(rand.nextDouble()-0.5) * 100,this.color,100);
+			Particle p = new Particle(this.getX(),this.getY(),(rand.nextDouble()- 0.5)*2,(rand.nextDouble()- 0.5)*2,(rand.nextDouble()-0.5) * 100,this.color,100);
 			a.add(p);
 		}
 
@@ -137,9 +137,9 @@ public class Ship extends Entity{
 				double y = p[i].y;
 				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
 				Entity b;
-				b = new Bullet(x,y,realAngle + a,muzzleVelocity,bullet,caliber);
+				b = new Bullet(x,y,realAngle + a,muzzleVelocity,Structures.BULLET,caliber);
 				if(laserOn){
-					b = new Laser(x,y,laser,0,1);
+					b = new Laser(x,y,Structures.LASER,0,1);
 					b.realAngle = realAngle;
 				}
 				b.team = this.team;
@@ -158,7 +158,7 @@ public class Ship extends Entity{
 					double x = p[i].x;
 					double y = p[i].y;
 					double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-					Missile m = new Missile(x,y,realAngle,bullet,1000);
+					Missile m = new Missile(x,y,realAngle,Structures.BULLET,1000);
 					m.team = this.team;
 					Game.entityArray.add(m);
 

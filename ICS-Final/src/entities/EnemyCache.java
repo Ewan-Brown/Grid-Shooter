@@ -77,11 +77,11 @@ public class EnemyCache {
 		lightTurrets[0] = lightStructure[0];
 		lightLaunchers = new Point[1];
 		lightLaunchers[0] = lightStructure[0];
-		Enemy light = new Enemy(0,0,lightStructure,lightTurrets,lightLaunchers){{
+		Enemy light = new Enemy(0,0,1,lightTurrets,lightLaunchers){{
 			maxHealth = 100;
 			health = 100;
 		}};
-		Enemy medium = new Enemy(0,0,mediumStructure, mediumTurrets, mediumLaunchers){{
+		Enemy medium = new Enemy(0,0,2, mediumTurrets, mediumLaunchers){{
 			maxHealth = 400;
 			health = 400;
 			caliber = 150;
