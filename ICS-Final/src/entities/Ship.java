@@ -32,34 +32,9 @@ public class Ship extends Entity{
 	{
 		super.transparency = true;
 	}
-	Point[] bullet;
-	{
-		bullet = new Point[4];
-		bullet[0] = new Point(15,3);
-		bullet[1] = new Point(3,6);
-		bullet[2] = new Point(0,3);
-		bullet[3] = new Point(3,0);
-	}
 	/**
 	 * Aesthetic particle shape points
 	 */
-	Point[] particle;
-	{
-		particle = new Point[4];
-		particle[0] = new Point(0,0);
-		particle[1] = new Point(4,0);
-		particle[2] = new Point(4,4);
-		particle[3] = new Point(0,4);
-	}
-	static Point[] laser;
-	{
-
-		laser = new Point[4];
-		laser[0] = new Point(0,0);
-		laser[1] = new Point(2000,0);
-		laser[2] = new Point(2000,2);
-		laser[3] = new Point(0,2);
-	}
 	/**
 	 * array of points representing the points from which bullets are shot (there may be multiple)
 	 */

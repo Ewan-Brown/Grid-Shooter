@@ -47,7 +47,6 @@ public abstract class Drawable implements Cloneable{
 	public Drawable(double x, double y, int shape){
 		this.xPos = x;
 		this.yPos = y;
-//		this.shape = shape;
 		this.structure = Structures.getStructure(shape);
 		centerPoint = getCenter(structure);
 		this.xPos -= centerPoint.getX();

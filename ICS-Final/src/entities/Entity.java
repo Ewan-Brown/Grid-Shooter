@@ -21,13 +21,6 @@ public class Entity extends Drawable{
 	{
 		super.transparency = true;
 	}
-//	public Entity(double x, double y,double dX,double dY,Point[] points){
-//		super(x,y,points);
-//		health = maxHealth;
-//		this.xSpeed = dX;
-//		this.ySpeed = dY;
-//		color = 1;
-//	}
 	public Entity(double x, double y,double dX,double dY,int shape){
 		super(x,y,shape);
 		health = maxHealth;
