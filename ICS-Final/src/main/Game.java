@@ -14,6 +14,7 @@ import entities.EnemyCache;
 import entities.Entity;
 import entities.Particle;
 import entities.Ship;
+import entities.Structures;
 
 public class Game implements Runnable,ActionListener{
 	/**
@@ -98,7 +99,7 @@ public class Game implements Runnable,ActionListener{
 		entityArray.clear();
 		effectsArray.clear();
 		gameOver = false;
-		player = new Ship(100, 100,shipStructure,turretPoints1,missilePoints);
+		player = new Ship(100, 100,Structures.PLAYER,turretPoints1,missilePoints);
 		player.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
 		player.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
 		player.team = PLAYER_TEAM;

@@ -48,40 +48,16 @@ public class EnemyCache {
 	//	turrets[0] = points[0];
 	//	turrets[1] = points[7];
 	public static void loadCache(){
-		mediumStructure = new Point[12];
-		mediumStructure[0] = new Point(20,4);
-		mediumStructure[1] = new Point(8,6);
-		mediumStructure[2] = new Point(8,10);
-		mediumStructure[3] = new Point(12,12);
-		mediumStructure[4] = new Point(12,20);
-		mediumStructure[5] = new Point(8,22);
-		mediumStructure[6] = new Point(8,26);
-		mediumStructure[7] = new Point(20,28);
-		mediumStructure[8] = new Point(4,32);
-		mediumStructure[9] = new Point(0,28);
-		mediumStructure[10] = new Point(0,4);
-		mediumStructure[11] = new Point(4,0);
-		mediumTurrets = new Point[2];
-		mediumTurrets[0] = mediumStructure[0];
-		mediumTurrets[1] = mediumStructure[7];
-		mediumLaunchers = new Point[0];
-		lightStructure = new Point[7];
-		lightStructure[0] = new Point(24,12);
-		lightStructure[1] = new Point(8,16);
-		lightStructure[2] = new Point(16,24);
-		lightStructure[3] = new Point(0,16);
-		lightStructure[4] = new Point(0,8);
-		lightStructure[5] = new Point(16,0);
-		lightStructure[6] = new Point(8,8);
-		lightTurrets = new Point[1];
-		lightTurrets[0] = lightStructure[0];
-		lightLaunchers = new Point[1];
-		lightLaunchers[0] = lightStructure[0];
-		Enemy light = new Enemy(0,0,lightStructure,lightTurrets,lightLaunchers){{
+		
+		lightTurrets = new Point[0];
+//		lightTurrets[0] = lightStructure[0];
+		lightLaunchers = new Point[0];
+//		lightLaunchers[0] = lightStructure[0];
+		Enemy light = new Enemy(0,0,Structures.LIGHT,lightTurrets,lightLaunchers){{
 			maxHealth = 100;
 			health = 100;
 		}};
-		Enemy medium = new Enemy(0,0,mediumStructure, mediumTurrets, mediumLaunchers){{
+		Enemy medium = new Enemy(0,0,Structures.MEDIUM, mediumTurrets, mediumLaunchers){{
 			maxHealth = 400;
 			health = 400;
 			caliber = 150;
@@ -91,17 +67,9 @@ public class EnemyCache {
 			minDist = 200;
 			maxDist = 400;
 			strafeChance = 20;
-			bullet = new Point[4];
-			bullet[0] = new Point(20,4);
-			bullet[1] = new Point(4,8);
-			bullet[2] = new Point(0,4);
-			bullet[3] = new Point(4,0);
 		}};
-		//		Enemy sniper = new Enemy(0,0,lightStructure,turretPoints1,missilePoints){{
-		//		}};
 		entityMap.put("light", light);
 		entityMap.put("medium", medium);		
-		//		entityMap.put("sniper", sniper);
 
 
 

@@ -23,7 +23,7 @@ public class Enemy extends Ship{
 		maxHealth = 40;
 		health = maxHealth;
 	}
-	public Enemy(double x, double y,Point[] points,Point[] turrets,Point[] missileTurrets) {
+	public Enemy(double x, double y,int points,Point[] turrets,Point[] missileTurrets) {
 		super(x, y,points,turrets,missileTurrets);
 		team = Game.ENEMY_TEAM;
 		caliber = 10;

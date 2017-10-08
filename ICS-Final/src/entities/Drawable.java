@@ -22,24 +22,33 @@ public abstract class Drawable implements Cloneable{
 	/**
 	 * an array of Points that make up the structure of the polygon
 	 */
-	public Point[] polygonPoints;
+//	public Point[] polygonPoints;
+	public Point[] structure;
+//	public int shape = -1;
 	
 	/** 
 	 * The angle in degrees of this drawable relative to the global 2D Plane, 0 degrees would be 'east'
 	 */
 	public double realAngle = 0;
-//	public Color color;
 	public int color = 0;
 	public boolean transparency = false;
 	/**
 	 * Precalculated center point of the drawable's non-translated/rotated polygon
 	 */
 	public Point2D centerPoint;
-	public Drawable(double x, double y, Point[] points){
+//	public Drawable(double x, double y, Point[] points){
+//		this.xPos = x;
+//		this.yPos = y;
+//		this.polygonPoints = points;
+//		centerPoint = getCenter(points);
+//		this.xPos -= centerPoint.getX();
+//		this.yPos -= centerPoint.getY();
+//	}
+	public Drawable(double x, double y, int shape){
 		this.xPos = x;
 		this.yPos = y;
-		this.polygonPoints = points;
-		centerPoint = getCenter(points);
+		this.structure = Structures.getStructure(shape);
+		centerPoint = getCenter(structure);
 		this.xPos -= centerPoint.getX();
 		this.yPos -= centerPoint.getY();
 	}
@@ -92,11 +101,11 @@ public abstract class Drawable implements Cloneable{
 	 * @return this drawable's points as a Polygon object, translated and rotated
 	 */
 	public Polygon getRotatedPolygon(){
-		Point[] tempPoints = new Point[polygonPoints.length];
+		Point[] tempPoints = new Point[structure.length];
 		for(int i = 0; i < tempPoints.length;i++){
 			tempPoints[i] = new Point(0,0);
 		}
-		rotatePoints(polygonPoints,realAngle,tempPoints);
+		rotatePoints(structure,realAngle,tempPoints);
 		return getPolygon(tempPoints);
 
 	}
@@ -147,7 +156,7 @@ public abstract class Drawable implements Cloneable{
 		Point2D p = centerPoint;
 		AffineTransform.getRotateInstance
 		(Math.toRadians(angle), p.getX(), p.getY())
-		.transform(origPoints,0,storeTo,0,polygonPoints.length);
+		.transform(origPoints,0,storeTo,0,structure.length);
 
 	}
 	public static Point2D getCenter(Point[] points){

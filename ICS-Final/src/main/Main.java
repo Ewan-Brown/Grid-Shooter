@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import entities.EnemyCache;
+import entities.Structures;
 
 /**
  * @author Ewan
@@ -18,6 +19,7 @@ import entities.EnemyCache;
 class Main {
 
 	public static void main(String[] args){
+		Structures.init();
 		System.setProperty("sun.java2d.opengl","True");
 		//The game code and panel code are independantly run on separate threads, for maximum performance and to prevent freezing.
 		ExecutorService e = Executors.newCachedThreadPool();
