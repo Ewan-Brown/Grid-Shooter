@@ -1,6 +1,5 @@
 package entities;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -13,7 +12,7 @@ import main.Game;
  * Class for any objects that can move on their own and shoot.
  */
 public class Ship extends Entity{
-
+	//TODO Rewrite weapon code with Turrets - Polymorphous!
 	public boolean laserOn = false;
 	public double turnSpeed = 4;
 	public double speed = 0.03;
@@ -27,6 +26,8 @@ public class Ship extends Entity{
 	public double bulletAccuracy = 10;
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
+	public static final int MAX_AJAY_DRIVE_COOLDOWN = 100;
+	public int ajayDriveCooldown = MAX_AJAY_DRIVE_COOLDOWN;
 	public int caliber = 100;
 	public int missiles = 0;
 	{
