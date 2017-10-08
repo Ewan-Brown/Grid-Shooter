@@ -132,7 +132,6 @@ public class Ship extends Entity{
 				for(int i = 0; i < p.length;i++){
 					double x = p[i].x;
 					double y = p[i].y;
-					double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
 					Missile m = new Missile(x,y,realAngle,Structures.BULLET,1000);
 					m.team = this.team;
 					Game.entityArray.add(m);
