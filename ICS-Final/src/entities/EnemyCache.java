@@ -50,9 +50,9 @@ public class EnemyCache {
 	public static void loadCache(){
 		
 		lightTurrets = new Point[0];
-//		lightTurrets[0] = lightStructure[0];
+		mediumTurrets = new Point[0];
 		lightLaunchers = new Point[0];
-//		lightLaunchers[0] = lightStructure[0];
+		mediumLaunchers = new Point[0];
 		Enemy light = new Enemy(0,0,Structures.LIGHT,lightTurrets,lightLaunchers){{
 			maxHealth = 100;
 			health = 100;

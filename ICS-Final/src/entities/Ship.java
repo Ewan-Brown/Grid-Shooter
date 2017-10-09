@@ -50,10 +50,15 @@ public class Ship extends Entity{
 	 * Accelerates the ship forward or backwards relative to it's angle, depending on the throttle. 
 	 * @param t Throttle + for forward, - for backwards
 	 */
-
+	public void boost(double angle){
+		if(ajayDriveCooldown < 0){
+			move(angle, 200);
+		}
+	}
 	public void move(double angle){
-
-		double t = 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D)));
+		move(angle,0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))));
+	}
+	public void move(double angle, double t){
 		double dX = (Math.cos(Math.toRadians(realAngle + angle)))*speed*t;
 		double dY = (Math.sin(Math.toRadians(realAngle + angle)))*speed*t;
 		this.xSpeed += dX;
@@ -63,7 +68,6 @@ public class Ship extends Entity{
 			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 		}
 	}
-
 	/**
 	 * Ejects particle effects in the opposite angle to simulate engine smoke/fire
 	 * @param t particle speed
@@ -82,6 +86,7 @@ public class Ship extends Entity{
 		missileCooldown--;
 		thrustParticleCooldown--;
 		strafeParticleCooldown--;
+		ajayDriveCooldown--;
 		xSpeed -= xSpeed / 100D;
 		ySpeed -= ySpeed / 100D;
 	}

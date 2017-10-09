@@ -65,8 +65,24 @@ public class Input implements KeyListener,MouseListener{
 	 */
 	public static void updateKeys(){
 		if(doubleTaps.size() > 0){
-			System.out.println(doubleTaps.get(0));
-			doubleTaps.remove(0);
+			int k = doubleTaps.get(doubleTaps.size()-1);
+			int x = 0;
+			int y = 0;
+			if(k == KeyEvent.VK_W){
+				y = 1;
+			}
+			if(k == KeyEvent.VK_A){
+				x = -1;
+			}
+			if(k == KeyEvent.VK_S){
+				y = -1;
+			}
+			if(k == KeyEvent.VK_D){
+				x = 1;
+			}
+			double movementAngle = Math.atan2(y, x);
+			Game.player.boost(Math.toDegrees(movementAngle));
+			doubleTaps.remove(doubleTaps.size()-1);
 		}
 		if(Game.gameOver){
 			if(keySet.get(KeyEvent.VK_SPACE)){
