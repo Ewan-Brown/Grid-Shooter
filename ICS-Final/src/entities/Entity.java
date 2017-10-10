@@ -1,12 +1,7 @@
 package entities;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import java.util.Random;
-
-import main.Game;
 
 public class Entity extends Drawable{
 
@@ -15,9 +10,15 @@ public class Entity extends Drawable{
 	public double maxHealth = 1000;
 	public double health = maxHealth;
 	public double team = 0;
+	DecimalFormat df = new DecimalFormat("0.00");
 	//Random object, used for AI,effects and shooting accuracy
 	Random rand = new Random();
 	boolean flag = false;
+	public String toString(){
+		double d = health/maxHealth;
+		String h = df.format(d);
+		return "HP: ["+h+"]";
+	}
 	{
 		super.transparency = true;
 	}

@@ -1,7 +1,5 @@
 package entities;
 
-import java.awt.Point;
-
 /**
  * @author Ewan
  *	Base class for any entities who's sole purpose is to damage other entities

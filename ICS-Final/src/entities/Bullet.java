@@ -1,7 +1,5 @@
 package entities;
 
-import java.awt.Point;
-
 import main.Game;
 import tools.GameMath;
 

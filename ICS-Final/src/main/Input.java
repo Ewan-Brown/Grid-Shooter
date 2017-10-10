@@ -69,16 +69,16 @@ public class Input implements KeyListener,MouseListener{
 			int x = 0;
 			int y = 0;
 			if(k == KeyEvent.VK_W){
-				y = 1;
+				x = 1;
 			}
 			if(k == KeyEvent.VK_A){
-				x = -1;
-			}
-			if(k == KeyEvent.VK_S){
 				y = -1;
 			}
+			if(k == KeyEvent.VK_S){
+				x = -1;
+			}
 			if(k == KeyEvent.VK_D){
-				x = 1;
+				y = 1;
 			}
 			double movementAngle = Math.atan2(y, x);
 			Game.player.boost(Math.toDegrees(movementAngle));

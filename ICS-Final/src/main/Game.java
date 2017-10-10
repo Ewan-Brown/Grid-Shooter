@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -126,9 +125,11 @@ public class Game implements Runnable,ActionListener{
 			}
 		}
 		boolean areaCleared = true;
+		int DELETE_ME = 0;
 		for(int i = 0; i < entityArray.size();i++){
 			Entity p = entityArray.get(i);
-			if(p instanceof Ship && p.team == ENEMY_TEAM){
+			if(p instanceof Enemy){
+				DELETE_ME++;
 				areaCleared = false;
 			}
 			if(p.isDead() && p != player){
@@ -143,6 +144,7 @@ public class Game implements Runnable,ActionListener{
 			}
 			p.update();
 		}
+		System.out.println(DELETE_ME);
 		for(int i = 0; i < effectsArray.size();i++){
 			Entity p = effectsArray.get(i);
 			if(p.isDead()){

@@ -14,7 +14,7 @@ import main.Game;
 public class Ship extends Entity{
 	//TODO Rewrite weapon code with Turrets - Polymorphous!
 	public boolean laserOn = false;
-	public double turnSpeed = 4;
+	public double turnSpeed = 8;
 	public double speed = 0.03;
 	public int bulletCooldown = 0;
 	public int missileCooldown = 0;
@@ -52,7 +52,7 @@ public class Ship extends Entity{
 	 */
 	public void boost(double angle){
 		if(ajayDriveCooldown < 0){
-			move(angle, 200);
+			move(angle, 100);
 		}
 	}
 	public void move(double angle){
