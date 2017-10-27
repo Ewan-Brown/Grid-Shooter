@@ -9,16 +9,16 @@ public class Entity extends Drawable{
 	double ySpeed = 0;
 	public double maxHealth = 1000;
 	public double health = maxHealth;
-	public double team = 0;
-	DecimalFormat df = new DecimalFormat("0.00");
+	public int team = 0;
+	static DecimalFormat df = new DecimalFormat("0.00");
 	//Random object, used for AI,effects and shooting accuracy
 	Random rand = new Random();
 	boolean flag = false;
-	public String toString(){
-		double d = health/maxHealth;
-		String h = df.format(d);
-		return "HP: ["+h+"]";
-	}
+//	public String toString(){
+//		double d = health/maxHealth;
+//		String h = df.format(d);
+//		return "HP: ["+h+"]";
+//	}
 	{
 		super.transparency = true;
 	}

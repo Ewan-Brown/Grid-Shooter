@@ -73,7 +73,6 @@ public class Structures {
 		try{
 			return structures[s];
 		}catch(NullPointerException e){
-			System.out.println(s);
 			return null;
 		}
 	}

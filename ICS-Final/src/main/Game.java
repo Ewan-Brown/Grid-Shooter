@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import entities.Bullet;
 import entities.Enemy;
 import entities.EnemyCache;
 import entities.Entity;
@@ -44,7 +45,6 @@ public class Game implements Runnable,ActionListener{
 	 */
 	static Point[] shipStructure;
 	//Arrays of points representing where bullets should be shot from/ how many. 3 levels upgrade sequentially
-
 	/**
 	 * first set of turrets, only 1
 	 */
@@ -118,20 +118,17 @@ public class Game implements Runnable,ActionListener{
 	 * game update method, called 100 times per second to update all entities
 	 */
 	public static void loop(){
+		//TODOD I got a bad feeling about this...
 		if(effectsArray.size() > 5000){
 			int f = effectsArray.size() - 5000;
 			for(int i = 0; i < f;i++){
 				effectsArray.remove(0);
 			}
 		}
-		boolean areaCleared = true;
-		int DELETE_ME = 0;
+		ArrayList<Entity> lastArray = new ArrayList<Entity>();
 		for(int i = 0; i < entityArray.size();i++){
 			Entity p = entityArray.get(i);
-			if(p instanceof Enemy){
-				DELETE_ME++;
-				areaCleared = false;
-			}
+			lastArray.add(p);
 			if(p.isDead() && p != player){
 				entityArray.remove(i);
 				if(p instanceof Enemy){
@@ -144,7 +141,14 @@ public class Game implements Runnable,ActionListener{
 			}
 			p.update();
 		}
-		System.out.println(DELETE_ME);
+		
+		boolean areaCleared = true;
+		for(int i = 0; i < entityArray.size();i++){
+			Entity p = entityArray.get(i);
+			if(p.team == ENEMY_TEAM){
+				areaCleared = false;
+			}
+		}
 		for(int i = 0; i < effectsArray.size();i++){
 			Entity p = effectsArray.get(i);
 			if(p.isDead()){
