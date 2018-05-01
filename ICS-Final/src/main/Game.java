@@ -8,13 +8,13 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
-import entities.Bullet;
 import entities.Enemy;
 import entities.EnemyCache;
 import entities.Entity;
-import entities.Particle;
+import entities.ParticleEffects;
 import entities.Ship;
 import entities.Structures;
+import entities.VoxelParticle;
 
 public class Game implements Runnable,ActionListener{
 	/**
@@ -24,7 +24,11 @@ public class Game implements Runnable,ActionListener{
 	/**
 	 * An arraylist containing all aesthetic particles
 	 */
-	public static ArrayList<Particle> effectsArray = new ArrayList<Particle>();
+	private static ArrayList<VoxelParticle> effectsArray = new ArrayList<VoxelParticle>();
+	/**
+	 * Flag for low performance mode
+	 */
+	public static boolean lowPerformanceMode = false;
 	/**
 	 * Pointer to the ship that is the player
 	 */
@@ -48,7 +52,7 @@ public class Game implements Runnable,ActionListener{
 	/**
 	 * first set of turrets, only 1
 	 */
-	static Point[] turretPoints1;
+	public static Point[] turretPoints1;
 	/**
 	 * second set of turrets, 2 turrets
 	 */
@@ -62,6 +66,7 @@ public class Game implements Runnable,ActionListener{
 	 */
 	static Point[] missilePoints;
 	//Initialized the ships' points and turret locations
+	public static void init()
 	{
 		shipStructure = new Point[7];
 		shipStructure[0] = new Point(24,12);
@@ -84,8 +89,8 @@ public class Game implements Runnable,ActionListener{
 		turretPoints3[4] = shipStructure[2];
 		missilePoints = new Point[1];
 		missilePoints[0] = shipStructure[0];
-
 	}
+	
 
 	static Random rand = new Random();
 
@@ -105,7 +110,7 @@ public class Game implements Runnable,ActionListener{
 		entityArray.add(player);
 		player.color = 0;
 		for(int i = 0; i < Properties.level;i++){
-			double angle = rand.nextDouble() * 10;
+			double angle = rand.nextDouble() * 100;
 			double x = Math.cos(angle) * 1000;
 			double y = Math.sin(angle) * 1000;
 			Entity e = EnemyCache.getEntity("light");
@@ -114,11 +119,19 @@ public class Game implements Runnable,ActionListener{
 			entityArray.add(e);
 		}
 	}
-	/**
-	 * game update method, called 100 times per second to update all entities
-	 */
+	public static void addParticles(ArrayList<VoxelParticle> p){
+		if(!lowPerformanceMode){
+			effectsArray.addAll(p);
+		}
+	}
+	public static void addParticle(VoxelParticle p){
+		if(!lowPerformanceMode){
+			effectsArray.add(p);
+		}
+	}
 	public static void loop(){
-		//TODOD I got a bad feeling about this...
+		//XXX I got a bad feeling about this...
+		//too much looping instead of just removing a chunk at a time? also removing new instead of old particles
 		if(effectsArray.size() > 5000){
 			int f = effectsArray.size() - 5000;
 			for(int i = 0; i < f;i++){
@@ -145,7 +158,7 @@ public class Game implements Runnable,ActionListener{
 		boolean areaCleared = true;
 		for(int i = 0; i < entityArray.size();i++){
 			Entity p = entityArray.get(i);
-			if(p.team == ENEMY_TEAM){
+			if(p.team == ENEMY_TEAM && p instanceof Enemy){
 				areaCleared = false;
 			}
 		}
@@ -167,6 +180,7 @@ public class Game implements Runnable,ActionListener{
 	 */
 	public static void nextLevel(){
 		Properties.level++;
+		addParticles(ParticleEffects.explode(player.xPos, player.yPos, 3, 40, 80));
 		player.missiles = (Properties.level / 2) + 1;
 		if(Properties.level == 5){
 			player.bulletTurrets = turretPoints2;
@@ -185,7 +199,6 @@ public class Game implements Runnable,ActionListener{
 		player.maxHealth += 10;
 		player.health = player.maxHealth;
 		for(int i = 0; i < Properties.level;i++){
-
 			double angle = rand.nextDouble() * Math.PI * 2;
 			double x = Math.cos(angle) * rand.nextInt(500);
 			double y = Math.sin(angle) * rand.nextInt(500);

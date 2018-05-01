@@ -37,7 +37,6 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 		arrow[0] = new Point(0,4);
 		arrow[1] = new Point(0,0);
 		arrow[2] = new Point(5,2);
-
 	}
 	Font customFont1 = new Font("myFont1",Font.BOLD,30);
 	Font customFont2 = new Font("myFont2",Font.BOLD,100);
@@ -96,12 +95,14 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			xP += lineSpace;
 		}while(xP < w);
 		//Draws effects first, and the entities on top. The only reason for separation is aesthetic
-		for(int i = 0; i < effects.size();i++){
-			Drawable d = effects.get(i);
-			Color c = getColor(d.color);
-			g2.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),d.getAlpha()));
-			Polygon p = transformPolygon(d.getRotatedPolygon());
-			g2.fillPolygon(p);
+		if(!Game.lowPerformanceMode){
+			for(int i = 0; i < effects.size();i++){
+				Drawable d = effects.get(i);
+				Color c = getColor(d.color);
+				g2.setColor(new Color(c.getRed(),c.getGreen(),c.getBlue(),d.getAlpha()));
+				Polygon p = transformPolygon(d.getRotatedPolygon());
+				g2.fillPolygon(p);
+			}
 		}
 		for(int i = 0; i < drawables.size();i++){
 			Drawable d = drawables.get(i);
@@ -151,9 +152,9 @@ public class Panel extends JPanel implements Runnable,ActionListener{
 			g2.drawString(s2, w/2 - (g2.getFontMetrics().stringWidth(s2) / 2), h/2 - 200);
 
 		}
-//		g2.setFont(customFont3);
-//		g2.setColor(new Color(10,10,10));
-//		g2.drawString("Made by Ewan Brown for his Comp.Sci final, got 105%",20,h - 110);
+		//		g2.setFont(customFont3);
+		//		g2.setColor(new Color(10,10,10));
+		//		g2.drawString("Made by Ewan Brown for his Comp.Sci final, got 105%",20,h - 110);
 	}
 	/**
 	 * @param p Polygon to transform

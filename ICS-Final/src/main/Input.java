@@ -9,6 +9,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+import entities.Entity;
+import entities.ParticleEffects;
+import entities.Ship;
+import entities.VoxelParticle;
+
 /**
  * @author Ewan
  *	Input class that deals with keyboard and mouse actions
@@ -64,7 +69,8 @@ public class Input implements KeyListener,MouseListener{
 	 * updates all key actions, called from game timer
 	 */
 	public static void updateKeys(){
-		if(doubleTaps.size() > 0){
+		if(doubleTaps.size() > 0 && Game.player.ajayDriveCooldown < 0){
+			Game.player.ajayDriveCooldown = Game.player.MAX_AJAY_DRIVE_COOLDOWN;
 			int k = doubleTaps.get(doubleTaps.size()-1);
 			int x = 0;
 			int y = 0;
@@ -81,8 +87,14 @@ public class Input implements KeyListener,MouseListener{
 				y = 1;
 			}
 			double movementAngle = Math.atan2(y, x);
-			Game.player.boost(Math.toDegrees(movementAngle));
-			doubleTaps.remove(doubleTaps.size()-1);
+			Game.player.move(Math.toDegrees(movementAngle),40, 1);
+			Ship p = Game.player;
+			ArrayList<VoxelParticle> aP = (ParticleEffects.fishtail(
+					(float)(p.centerPoint.getY() + p.xPos), 
+					(float)(p.centerPoint.getY() + p.yPos), 
+					2, 3,80));
+			Game.addParticles(aP);
+			doubleTaps.clear();
 		}
 		if(Game.gameOver){
 			if(keySet.get(KeyEvent.VK_SPACE)){
@@ -92,6 +104,13 @@ public class Input implements KeyListener,MouseListener{
 		}
 		int x = 0;
 		int y = 0;
+		if(keySet.get(KeyEvent.VK_TAB)){
+			double d = Double.MAX_VALUE;
+			Entity target = null;
+			for(Entity e : Game.entityArray){
+				
+			}
+		}
 		if(keySet.get(KeyEvent.VK_W)){
 			x += 1;
 		}
@@ -116,9 +135,10 @@ public class Input implements KeyListener,MouseListener{
 				Properties.zoom = 10;
 			}
 		}
-		Point2D p1 = MouseInfo.getPointerInfo().getLocation();
-		Point2D p2 = Panel.instance.getLocationOnScreen();
-		Point2D p = new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+//		Point2D p1 = MouseInfo.getPointerInfo().getLocation();
+//		Point2D p2 = Panel.instance.getLocationOnScreen();
+//		Point2D p = new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+		Point2D p = getPlayerTarget();
 		double mouseAngle = Math.atan2(p.getY() - ((Panel.instance.getHeight() / 2D)),p.getX() - ((Panel.instance.getWidth() / 2D)));
 		Game.player.turnToTarget(Math.toDegrees(mouseAngle));
 		if(mouseLMBClicked){
@@ -132,6 +152,17 @@ public class Input implements KeyListener,MouseListener{
 		}
 		double movementAngle = Math.atan2(y, x);
 		Game.player.move(Math.toDegrees(movementAngle));
+	}
+	public static Entity targeted = null;
+	public static Point2D getPlayerTarget(){
+		if(targeted == null){
+			Point2D p1 = MouseInfo.getPointerInfo().getLocation();
+			Point2D p2 = Panel.instance.getLocationOnScreen();
+			return new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+		}
+		else{
+			return new Point2D.Double(targeted.getX(), targeted.getY());
+		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

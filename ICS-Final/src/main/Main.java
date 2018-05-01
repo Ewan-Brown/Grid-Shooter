@@ -20,6 +20,7 @@ class Main {
 
 	public static void main(String[] args){
 		Structures.init();
+		Game.init();
 		System.setProperty("sun.java2d.opengl","True");
 		//The game code and panel code are independantly run on separate threads, for maximum performance and to prevent freezing.
 		ExecutorService e = Executors.newCachedThreadPool();
@@ -41,6 +42,7 @@ class Main {
 		if(optionPane.getValue() == "CANCEL" || optionPane.getValue() == null){
 			System.exit(0);
 		}
+		System.out.println(Game.turretPoints1);
 		EnemyCache.loadCache();
 		JFrame frame = new JFrame("Grid Shooter");
 		Panel.instance = new Panel();

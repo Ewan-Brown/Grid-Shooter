@@ -24,7 +24,7 @@ public class Enemy extends Ship{
 		health = maxHealth;
 	}
 	public Enemy(double x, double y,int points,Point[] turrets,Point[] missileTurrets) {
-		super(x, y,points,turrets,missileTurrets);
+		super(x, y,points,Game.turretPoints1, new Point[0]);
 		team = Game.ENEMY_TEAM;
 		caliber = 10;
 	}
@@ -78,7 +78,7 @@ public class Enemy extends Ship{
 		else if(d < minDist){
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
-				shootBullet();
+//				shootBullet(); //XXX Temporarily Removed 
 			}
 			thrust(-1);
 			strafe(tempStrafe * 2);

@@ -13,7 +13,7 @@ public class EnemyCache {
 	static Point[] mediumTurrets;
 	static Point[] mediumLaunchers;
 	public static void loadCache(){
-		lightTurrets = new Point[0];
+		lightTurrets = new Point[1];
 		mediumTurrets = new Point[0];
 		lightLaunchers = new Point[0];
 		mediumLaunchers = new Point[0];

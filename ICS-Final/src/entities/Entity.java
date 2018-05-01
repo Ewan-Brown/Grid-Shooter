@@ -11,9 +11,8 @@ public class Entity extends Drawable{
 	public double health = maxHealth;
 	public int team = 0;
 	static DecimalFormat df = new DecimalFormat("0.00");
-	//Random object, used for AI,effects and shooting accuracy
 	Random rand = new Random();
-	boolean flag = false;
+	boolean deadFlag = false;
 //	public String toString(){
 //		double d = health/maxHealth;
 //		String h = df.format(d);
@@ -21,6 +20,9 @@ public class Entity extends Drawable{
 //	}
 	{
 		super.transparency = true;
+	}
+	public double getLife(){
+		return health/maxHealth;
 	}
 	public Entity(double x, double y,double dX,double dY,int shape){
 		super(x,y,shape);
@@ -31,8 +33,8 @@ public class Entity extends Drawable{
 	}
 	public boolean isDead(){
 		boolean b = (health <= 0);
-		if(b && !flag){
-			flag = true;
+		if(b && !deadFlag){
+			deadFlag = true;
 			onDeath();
 		}
 		return b;
@@ -62,9 +64,15 @@ public class Entity extends Drawable{
 	 * Updates entity physics, AI, and anything else that needs to be changed every game tick
 	 */
 	public void update(){
-		xPos += xSpeed;
-		yPos += ySpeed;
+		xPos += getXSpeed();
+		yPos += getYSpeed();
 
+	}
+	public double getXSpeed(){
+		return xSpeed;
+	}
+	public double getYSpeed(){
+		return ySpeed;
 	}
 
 }
