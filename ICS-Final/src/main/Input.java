@@ -1,5 +1,7 @@
 package main;
 
+import static main.Game.player;
+
 import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,13 +10,11 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.BitSet;
-import static main.Game.player;
 
 import entities.Enemy;
 import entities.Entity;
-import entities.ParticleEffects;
 import entities.Ship;
-import entities.VoxelParticle;
+import net.java.games.input.Controller;
 import tools.GameMath;
 
 /**
@@ -25,7 +25,7 @@ public class Input implements KeyListener, MouseListener {
 	 * 256 bits representing all possible keys
 	 */
 	static BitSet keySet = new BitSet(256);
-	static final long DOUBLE_TAP_COOLDOWN = 300000000;
+	static final long DOUBLE_TAP_COOLDOWN = 300000000; //magic Number?
 	static boolean arcade = false;
 	static ArrayList<Integer> doubleTaps = new ArrayList<Integer>(10);
 	// Time when key was last pressed down
@@ -92,6 +92,10 @@ public class Input implements KeyListener, MouseListener {
 		cooldowns[keyCode] = cooldownMaxes[keyCode];
 	}
 	public static int[] cooldownMaxes = new int[256];
+	ArrayList<Controller> controllers = new ArrayList<Controller>();
+	public static void checkForControllers(){
+		
+	}
 	public static void updateKeys() {
 		for(int i = 0; i < cooldowns.length;i++){
 			cooldowns[i]--;

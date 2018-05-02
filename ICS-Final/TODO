@@ -1,4 +1,5 @@
--Arcade Controls
+-Delete Game.player
+Fix everything with GeneralInput and remove Input
 -Minimap
 -Buffs/Debuffs (mechanism failures?)
 -Make ship/enemy code cleaner

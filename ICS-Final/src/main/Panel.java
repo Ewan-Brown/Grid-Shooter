@@ -86,6 +86,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// because the game and the panel are on separate threads, there is a
 		// possibility Game.player may not be initialized when
 		// this is called, so there is a check first.
+		g2.setColor(Color.GRAY);
 		if (Game.player != null) {
 			yP = (int) -((zoom * Game.player.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
 			xP = (int) -((zoom * Game.player.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);

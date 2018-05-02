@@ -17,53 +17,19 @@ import entities.Structures;
 import entities.VoxelParticle;
 
 public class Game implements Runnable,ActionListener{
-	/**
-	 * An arraylist containing all interactable entities
-	 */
 	public static ArrayList<Entity> entityArray = new ArrayList<Entity>();
-	/**
-	 * An arraylist containing all aesthetic particles
-	 */
 	private static ArrayList<VoxelParticle> effectsArray = new ArrayList<VoxelParticle>();
-	/**
-	 * Flag for low performance mode
-	 */
 	public static boolean lowPerformanceMode = false;
-	/**
-	 * Pointer to the ship that is the player
-	 */
 	static Ship player;
 	//Constants for team numbers, used in hit collision
 	public static final int PLAYER_TEAM = 0;
 	public static final int ENEMY_TEAM = 1;
-	/**
-	 * Flag for if the player has died yet
-	 */
 	static boolean gameOver = false;
-	/**
-	 * 	Game update timer, runs at 100hz
-	 */
 	static Timer timer;
-	/**
-	 * Array of points representing the polygon shape of the ship design. very easy to change and add new ships
-	 */
 	static Point[] shipStructure;
-	//Arrays of points representing where bullets should be shot from/ how many. 3 levels upgrade sequentially
-	/**
-	 * first set of turrets, only 1
-	 */
 	public static Point[] turretPoints1;
-	/**
-	 * second set of turrets, 2 turrets
-	 */
 	static Point[] turretPoints2;
-	/**
-	 * third, final set of turrets, 5 turrets
-	 */
 	static Point[] turretPoints3;
-	/**
-	 * set of points for missile launchers
-	 */
 	static Point[] missilePoints;
 	//Initialized the ships' points and turret locations
 	public static void init()
