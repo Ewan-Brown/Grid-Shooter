@@ -6,11 +6,11 @@ package entities;
  */
 public class VoxelParticle extends Entity{
 	double spin;
-	public VoxelParticle(double x, double y, double dX, double dY,double s, int c, double health) {
+	public VoxelParticle(double x, double y, double dX, double dY,double spin, int c, double health) {
 		super(x, y, dX, dY,Structures.PARTICLE1);
 		maxHealth = health;
 		this.health = maxHealth;
-		spin = s;
+		this.spin = spin;
 		this.color = c;
 
 	}

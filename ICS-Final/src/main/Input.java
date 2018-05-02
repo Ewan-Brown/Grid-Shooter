@@ -26,6 +26,7 @@ public class Input implements KeyListener, MouseListener {
 	 */
 	static BitSet keySet = new BitSet(256);
 	static final long DOUBLE_TAP_COOLDOWN = 300000000;
+	static boolean arcade = false;
 	static ArrayList<Integer> doubleTaps = new ArrayList<Integer>(10);
 	// Time when key was last pressed down
 	static long[] keyTimes = new long[256];
@@ -81,8 +82,8 @@ public class Input implements KeyListener, MouseListener {
 	{
 		for(int i = 0; i < cooldowns.length;i++){
 			cooldowns[i] = 0;
+			cooldownMaxes[i] = 50;
 		}
-		cooldownMaxes[KeyEvent.VK_Q] = 50;
 	}
 	public static boolean keyIsFresh(int keyCode){
 		return keySet.get(keyCode) && cooldowns[keyCode] < 0; 
@@ -129,6 +130,10 @@ public class Input implements KeyListener, MouseListener {
 			useKey(KeyEvent.VK_Q);
 			targetting = !targetting;
 		}
+		if(keyIsFresh(KeyEvent.VK_E)){
+			useKey(KeyEvent.VK_E);
+			arcade = !arcade;
+		}
 		if (targetting) {
 			updateTarget();
 		}
@@ -169,15 +174,20 @@ public class Input implements KeyListener, MouseListener {
 		if (x == 0 && y == 0) {
 			return;
 		}
+		if(arcade){
+			int temp = y;
+			y = -x;
+			x = temp;
+		}
 		double movementAngle = Math.atan2(y, x);
-		player.move(movementAngle);
+		player.move(movementAngle,arcade);
 	}
 
 	public static Ship targeted = null;
 	public static boolean targetting = false;
 
 	public static void updateTarget() {
-		if (targeted == null || targeted.isDead()) {
+		if (targetting && targeted == null || targeted.isDead()) {
 			double d = Double.MAX_VALUE;
 			Ship target = null;
 			for (Entity e : Game.entityArray) {
@@ -190,7 +200,8 @@ public class Input implements KeyListener, MouseListener {
 				}
 			}
 			targeted = target;
-		} else {
+		} else if(!targetting){
+			targeted = null;
 		}
 	}
 

@@ -47,15 +47,22 @@ public class Ship extends Entity {
 			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 			Game.addParticles(ParticleEffects.explode2(this.getX(), this.getY(), 1, 30, 100));
 	}
+	
+	public void move(double angle, boolean arcade) {
 
+		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))), 1,arcade);
+	}
 	public void move(double angle) {
 
-		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))), 1);
+		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))), 1,false);
 	}
-
-	public void move(double angle, double t, double particleT) {
-		double dX = (Math.cos(Math.toRadians(realAngle)+angle)) * speed * t;
-		double dY = (Math.sin(Math.toRadians(realAngle)+angle)) * speed * t;
+	public void move(double angle, double t, double particleT,boolean arcade) {
+		double ang = angle;
+		if (!arcade) {
+			ang += Math.toRadians(realAngle);
+		}
+		double dX = (Math.cos(ang)) * speed * t;
+		double dY = (Math.sin(ang)) * speed * t;
 		this.xSpeed += dX;
 		this.ySpeed += dY;
 		if (thrustParticleCooldown < 0) {
@@ -102,10 +109,10 @@ public class Ship extends Entity {
 		xSpeed -= xSpeed / 100D;
 		ySpeed -= ySpeed / 100D;
 	}
-
+	static int deathParticles = 20;
 	public void onDeath() {
 		ArrayList<VoxelParticle> a = new ArrayList<VoxelParticle>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < deathParticles; i++) {
 			int r = rand.nextInt(10);
 			Point[] deadParticles;
 			deadParticles = new Point[4];

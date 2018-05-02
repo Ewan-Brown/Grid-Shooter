@@ -35,7 +35,8 @@ class Main {
 						+ "D - strafe right\n"
 						+ "Mouse - turn ship\n"
 						+ "Left click - shoot\n"
-						+ "Q - toggle auto-aiming");
+						+ "Q - toggle auto-aiming\n"
+						+ "E - Toggle control mode");
 		optionPane.setMessageType(JOptionPane.OK_CANCEL_OPTION);
 		final JDialog dialog = optionPane.createDialog(new JFrame(), "ICS");
 		dialog.setVisible(true);

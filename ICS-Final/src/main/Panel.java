@@ -142,7 +142,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			}
 		}
 		// Draw a circle around target
-		if (Input.targeted != null) {
+		if (Input.targetting  && Input.targeted != null) {
 			g2.setColor(Color.MAGENTA);// Why magenta?
 			int x = (int) (((targeted.getX() - player.getX() - targeted.radius/2) * (zoom)) + getWidth()/2)-targetCirclePadding/2;
 			int y = (int) (((targeted.getY() - player.getY() - targeted.radius/2) * (zoom)) + getHeight()/2)-targetCirclePadding/2;
