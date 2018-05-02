@@ -34,7 +34,8 @@ class Main {
 						+ "A - strafe left\n"
 						+ "D - strafe right\n"
 						+ "Mouse - turn ship\n"
-						+ "Left click - shoot");
+						+ "Left click - shoot\n"
+						+ "Q - toggle auto-aiming");
 		optionPane.setMessageType(JOptionPane.OK_CANCEL_OPTION);
 		final JDialog dialog = optionPane.createDialog(new JFrame(), "ICS");
 		dialog.setVisible(true);
@@ -42,7 +43,6 @@ class Main {
 		if(optionPane.getValue() == "CANCEL" || optionPane.getValue() == null){
 			System.exit(0);
 		}
-		System.out.println(Game.turretPoints1);
 		EnemyCache.loadCache();
 		JFrame frame = new JFrame("Grid Shooter");
 		Panel.instance = new Panel();

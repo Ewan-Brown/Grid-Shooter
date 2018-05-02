@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 import main.Game;
 
-/**
- * @author Ewan Class for any objects that can move on their own and shoot.
- */
 public class Ship extends Entity {
 	// TODO Rewrite weapon code with Turrets - Polymorphous!
 	public boolean laserOn = false;
@@ -25,20 +22,14 @@ public class Ship extends Entity {
 	public double bulletAccuracy = 10;
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
-	public static final int MAX_AJAY_DRIVE_COOLDOWN = 100;
-	public int ajayDriveCooldown = MAX_AJAY_DRIVE_COOLDOWN;
+	public int MAX_BOOST_DRIVE_COOLDOWN = 100;
+	public int boostDriveCooldown = MAX_BOOST_DRIVE_COOLDOWN;
 	public int caliber = 100;
 	public int missiles = 0;
+	public int radius = 0;
 	{
 		super.transparency = true;
 	}
-	/**
-	 * Aesthetic particle shape points
-	 */
-	/**
-	 * array of points representing the points from which bullets are shot
-	 * (there may be multiple)
-	 */
 	public Point[] bulletTurrets;
 	public Point[] missileTurrets;
 
@@ -48,15 +39,8 @@ public class Ship extends Entity {
 		this.missileTurrets = missileTurrets;
 	}
 
-	/**
-	 * Accelerates the ship forward or backwards relative to it's angle,
-	 * depending on the throttle.
-	 * 
-	 * @param t
-	 *            Throttle + for forward, - for backwards
-	 */
 	public void boost(double angle) {
-		if (ajayDriveCooldown < 0) {
+		if (boostDriveCooldown < 0) {
 			move(angle, 10, 20);
 		}
 	}
@@ -111,7 +95,7 @@ public class Ship extends Entity {
 		missileCooldown--;
 		thrustParticleCooldown--;
 		strafeParticleCooldown--;
-		ajayDriveCooldown--;
+		boostDriveCooldown--;
 		xSpeed -= xSpeed / 100D;
 		ySpeed -= ySpeed / 100D;
 	}
