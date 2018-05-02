@@ -17,38 +17,38 @@ Everthing is drawn as polygons as i don't want to use images(to keep opportunity
 
 Polygon collisions are handled through a custom class that splits them into triangles using an ear split process, 
 
-Multithreading is ready to happen and i'm excited but it's going to be disgusting. probably.
+<b>Multithreading</b> is ready to happen and i'm excited but it's going to be disgusting. probably.
 
 
-Current features:
--a player controlled ship
--2 kinds of enemies (2 more half made but i've been waiting to finish the framework to add those in)
--flexible ship/enemy design
--Particle effects (A handful implemented, many more unused as of yet)
--An intro screen with controls
--Zooming! (L/R arrows)
--Infinite procedural levels
--A score
--Procedural Upgrades as rewards 
--Reset everything on death
--Bullets and missiles
-
-WIP:
--Better(more varied) upgrades
--Porting from Graphics2D to OpenGL 3/4 with JOGL Wrapper. <------ THIS IS THE BIG ONE (Testing for this is located in my OpenGlShips repo)
--Some more particle effects
--Multithreaded
-
-Planned:
--More ships + a player ship selection
--An intro screen with settings (And with ship selection)
--A pointshop? (cosmetic? it is supposed to be a hardmode game)
--Many more enemies
--Way too many effects
-
-Terrible ideas:
-Format and tag this readme so it's legible and looks nice
-An in game menu???? WITH OPENGL???
-MULTIPLAYER? What is a socket please help me
-Client ship-designing
-SHIP ANIMATIONS BUT WITH POLYGONS? COULD MAYBE LOOK VAGUELY COOL (OR JUST SHIT)?
+Current features: \n
+-a player controlled ship \n
+-2 kinds of enemies (2 more half made but i've been waiting to finish the framework to add those in) \n
+-flexible ship/enemy design \n
+-Particle effects (A handful implemented, many more unused as of yet) \n
+-An intro screen with controls \n
+-Zooming! (L/R arrows) \n
+-Infinite procedural levels \n
+-A score \n 
+-Procedural Upgrades as rewards \n 
+-Reset everything on death\n 
+-Bullets and missiles\n
+\n
+WIP:\n
+-Better(more varied) upgrades\n
+-Porting from Graphics2D to OpenGL 3/4 with JOGL Wrapper. <------ THIS IS THE BIG ONE (Testing for this is located in my OpenGlShips repo)\n
+-Some more particle effects\n
+-Multithreaded\n
+\n
+Planned:\n
+-More ships + a player ship selection\n
+-An intro screen with settings (And with ship selection)\n
+-A pointshop? (cosmetic? it is supposed to be a hardmode game)\n
+-Many more enemies\n
+-Way too many effects\n
+\n
+Terrible ideas:\n
+Format and tag this readme so it's legible and looks nice\n
+An in game menu???? WITH OPENGL???\n
+MULTIPLAYER? What is a socket please help me\n
+Client ship-designing\n
+SHIP ANIMATIONS BUT WITH POLYGONS? COULD MAYBE LOOK VAGUELY COOL (OR JUST SHIT)?\n
