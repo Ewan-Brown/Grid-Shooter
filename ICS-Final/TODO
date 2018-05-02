@@ -1,3 +1,11 @@
 -Arcade Controls
 -Minimap
+-Buffs/Debuffs (mechanism failures?)
+-Make ship/enemy code cleaner
+-More particles!
+-Joystick support
 -Read ships from xml/json(?)
+-More ships? new AI type?
+
+-Ship designer
+-Multiplayer (SPLIT SCREEN)
