@@ -40,9 +40,12 @@ public class Ship extends Entity {
 	}
 
 	public void boost(double angle) {
-		if (boostDriveCooldown < 0) {
-			move(angle, 10, 20);
-		}
+			double dX = (Math.cos(Math.toRadians(realAngle) + angle)) * speed * 60;
+			double dY = (Math.sin(Math.toRadians(realAngle) + angle)) * speed * 60;
+			this.xSpeed += dX;
+			this.ySpeed += dY;
+			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
+			Game.addParticles(ParticleEffects.explode2(this.getX(), this.getY(), 1, 30, 100));
 	}
 
 	public void move(double angle) {
@@ -51,12 +54,12 @@ public class Ship extends Entity {
 	}
 
 	public void move(double angle, double t, double particleT) {
-		double dX = (Math.cos(Math.toRadians(realAngle + angle))) * speed * t;
-		double dY = (Math.sin(Math.toRadians(realAngle + angle))) * speed * t;
+		double dX = (Math.cos(Math.toRadians(realAngle)+angle)) * speed * t;
+		double dY = (Math.sin(Math.toRadians(realAngle)+angle)) * speed * t;
 		this.xSpeed += dX;
 		this.ySpeed += dY;
 		if (thrustParticleCooldown < 0) {
-			fumes(particleT, realAngle);
+			fumes(particleT, angle+Math.toRadians(realAngle));
 			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 		}
 	}
@@ -73,8 +76,8 @@ public class Ship extends Entity {
 	public void fumes(double t, double angle) {
 		Point2D p = centerPoint;
 //		 double angle2 = angle + ((Math.random() - 0.5) * 50);
-		double dX2 = (Math.cos(Math.toRadians(angle))) * speed * t;
-		double dY2 = (Math.sin(Math.toRadians(angle))) * speed * t;
+//		double dX2 = (Math.cos(Math.toRadians(angle))) * speed * t;
+//		double dY2 = (Math.sin(Math.toRadians(angle))) * speed * t;
 		if (this.team == Game.PLAYER_TEAM) {
 			// Game.addEffects((new VoxelParticle(p.getX() + xPos,p.getY() +
 			// yPos,-dX2,-dY2,0,2,40)));

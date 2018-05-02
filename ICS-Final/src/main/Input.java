@@ -113,11 +113,8 @@ public class Input implements KeyListener, MouseListener {
 				y = 1;
 			}
 			double movementAngle = Math.atan2(y, x);
-			player.move(Math.toDegrees(movementAngle), 40, 1);
 			Ship p = player;
-			ArrayList<VoxelParticle> aP = (ParticleEffects.fishtail((float) (p.centerPoint.getY() + p.xPos),
-					(float) (p.centerPoint.getY() + p.yPos), 2, 3, 80));
-			Game.addParticles(aP);
+			p.boost(movementAngle);
 			doubleTaps.clear();
 		}
 		if (Game.gameOver) {
@@ -173,7 +170,7 @@ public class Input implements KeyListener, MouseListener {
 			return;
 		}
 		double movementAngle = Math.atan2(y, x);
-		player.move(Math.toDegrees(movementAngle));
+		player.move(movementAngle);
 	}
 
 	public static Ship targeted = null;

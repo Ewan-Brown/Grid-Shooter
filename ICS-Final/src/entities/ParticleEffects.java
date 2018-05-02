@@ -102,7 +102,7 @@ public class ParticleEffects {
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
 			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
-				double startingAngle = Math.toRadians(angle);
+				double startingAngle = angle;
 				double flipped = s;
 				public double getYSpeed() {
 					return flipped * Math.cos(startingAngle) * Math.cos(getLife() * Math.PI*4) * 2;
