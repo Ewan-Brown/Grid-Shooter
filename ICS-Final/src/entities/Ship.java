@@ -206,13 +206,10 @@ public class Ship extends Entity {
 		return tempPoints;
 	}
 
-	/**
-	 * Turns this entity a portion of the way towards the target angle. The
-	 * further this ship is from point at the angle, the faster it turns
-	 * 
-	 * @param targetAngle
-	 *            angle in degrees of target angle
-	 */
+	public void turn(double throttle) {
+		System.out.println(throttle);
+		realAngle += turnSpeed*throttle/5f;
+	}
 	public void turnToTarget(double targetAngle) {
 		double a = targetAngle - realAngle;
 		double f = 0;
@@ -224,14 +221,9 @@ public class Ship extends Entity {
 			a += 360;
 		}
 		if (a > 0)
-			f = Math.min(a, turnSpeed / 5.0);
+			f = Math.min(a, turnSpeed / 5.0); //TODO MAGIC NUMBERS HERE
 		else
 			f = Math.max(a, -turnSpeed / 5.0);
-		// f /= 50;
-		/*
-		 * double diff = Math.abs(180 - a); double f = turnSpeed - (turnSpeed /
-		 * 2) * (diff / 180D); if(a > 180){ f = -f; }
-		 */
 
 		realAngle += f;
 	}

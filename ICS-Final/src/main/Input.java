@@ -1,7 +1,5 @@
 package main;
 
-import static main.Game.player;
-
 import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -97,128 +95,128 @@ public class Input implements KeyListener, MouseListener {
 		
 	}
 	public static void updateKeys() {
-		for(int i = 0; i < cooldowns.length;i++){
-			cooldowns[i]--;
-		}
-		if (doubleTaps.size() > 0 && player.boostDriveCooldown < 0) {
-			player.boostDriveCooldown = player.MAX_BOOST_DRIVE_COOLDOWN;
-			int k = doubleTaps.get(doubleTaps.size() - 1);
-			int x = 0;
-			int y = 0;
-			if (k == KeyEvent.VK_W) {
-				x = 1;
-			}
-			if (k == KeyEvent.VK_A) {
-				y = -1;
-			}
-			if (k == KeyEvent.VK_S) {
-				x = -1;
-			}
-			if (k == KeyEvent.VK_D) {
-				y = 1;
-			}
-			double movementAngle = Math.atan2(y, x);
-			Ship p = player;
-			p.boost(movementAngle);
-			doubleTaps.clear();
-		}
-		if (Game.gameOver) {
-			if (keySet.get(KeyEvent.VK_SPACE)) {
-				Game.startNew();
-			}
-			return;
-		}
-		int x = 0;
-		int y = 0;
-		if (keyIsFresh(KeyEvent.VK_Q)) {
-			useKey(KeyEvent.VK_Q);
-			targetting = !targetting;
-		}
-		if(keyIsFresh(KeyEvent.VK_E)){
-			useKey(KeyEvent.VK_E);
-			arcade = !arcade;
-		}
-		if (targetting) {
-			updateTarget();
-		}
-		if (keySet.get(KeyEvent.VK_W)) {
-			x += 1;
-		}
-		if (keySet.get(KeyEvent.VK_A)) {
-			y -= 1;
-		}
-		if (keySet.get(KeyEvent.VK_S)) {
-			x -= 1;
-		}
-		if (keySet.get(KeyEvent.VK_D)) {
-			y += 1;
-		}
-		if (keySet.get(KeyEvent.VK_LEFT)) {
-			Properties.zoom -= 0.01;
-			if (Properties.zoom < 0.4) {
-				Properties.zoom = 0.4;
-			}
-		}
-		if (keySet.get(KeyEvent.VK_RIGHT)) {
-			Properties.zoom += 0.01;
-			if (Properties.zoom > 10) {
-				Properties.zoom = 10;
-			}
-		}
-		// TODO Add arcade controls!
-		Point2D p = getPlayerTarget();
-		double mouseAngle = Math.atan2(p.getY(), p.getX());
-		player.turnToTarget(Math.toDegrees(mouseAngle));
-		if (mouseLMBClicked) {
-			player.shootBullet();
-		}
-		if (mouseRMBClicked) {
-			player.shootMissile();
-		}
-		if (x == 0 && y == 0) {
-			return;
-		}
-		if(arcade){
-			int temp = y;
-			y = -x;
-			x = temp;
-		}
-		double movementAngle = Math.atan2(y, x);
-		player.move(movementAngle,arcade);
+//		for(int i = 0; i < cooldowns.length;i++){
+//			cooldowns[i]--;
+//		}
+//		if (doubleTaps.size() > 0 && player.boostDriveCooldown < 0) {
+//			player.boostDriveCooldown = player.MAX_BOOST_DRIVE_COOLDOWN;
+//			int k = doubleTaps.get(doubleTaps.size() - 1);
+//			int x = 0;
+//			int y = 0;
+//			if (k == KeyEvent.VK_W) {
+//				x = 1;
+//			}
+//			if (k == KeyEvent.VK_A) {
+//				y = -1;
+//			}
+//			if (k == KeyEvent.VK_S) {
+//				x = -1;
+//			}
+//			if (k == KeyEvent.VK_D) {
+//				y = 1;
+//			}
+//			double movementAngle = Math.atan2(y, x);
+//			Ship p = player;
+//			p.boost(movementAngle);
+//			doubleTaps.clear();
+//		}
+//		if (Game.gameOver) {
+//			if (keySet.get(KeyEvent.VK_SPACE)) {
+//				Game.startNew();
+//			}
+//			return;
+//		}
+//		int x = 0;
+//		int y = 0;
+//		if (keyIsFresh(KeyEvent.VK_Q)) {
+//			useKey(KeyEvent.VK_Q);
+//			targetting = !targetting;
+//		}
+//		if(keyIsFresh(KeyEvent.VK_E)){
+//			useKey(KeyEvent.VK_E);
+//			arcade = !arcade;
+//		}
+//		if (targetting) {
+//			updateTarget();
+//		}
+//		if (keySet.get(KeyEvent.VK_W)) {
+//			x += 1;
+//		}
+//		if (keySet.get(KeyEvent.VK_A)) {
+//			y -= 1;
+//		}
+//		if (keySet.get(KeyEvent.VK_S)) {
+//			x -= 1;
+//		}
+//		if (keySet.get(KeyEvent.VK_D)) {
+//			y += 1;
+//		}
+//		if (keySet.get(KeyEvent.VK_LEFT)) {
+//			Properties.zoom -= 0.01;
+//			if (Properties.zoom < 0.4) {
+//				Properties.zoom = 0.4;
+//			}
+//		}
+//		if (keySet.get(KeyEvent.VK_RIGHT)) {
+//			Properties.zoom += 0.01;
+//			if (Properties.zoom > 10) {
+//				Properties.zoom = 10;
+//			}
+//		}
+//		// TODO Add arcade controls!
+//		Point2D p = getPlayerTarget();
+//		double mouseAngle = Math.atan2(p.getY(), p.getX());
+//		player.turnToTarget(Math.toDegrees(mouseAngle));
+//		if (mouseLMBClicked) {
+//			player.shootBullet();
+//		}
+//		if (mouseRMBClicked) {
+//			player.shootMissile();
+//		}
+//		if (x == 0 && y == 0) {
+//			return;
+//		}
+//		if(arcade){
+//			int temp = y;
+//			y = -x;
+//			x = temp;
+//		}
+//		double movementAngle = Math.atan2(y, x);
+//		player.move(movementAngle,arcade);
 	}
 
 	public static Ship targeted = null;
 	public static boolean targetting = false;
 
 	public static void updateTarget() {
-		if (targetting && targeted == null || targeted.isDead()) {
-			double d = Double.MAX_VALUE;
-			Ship target = null;
-			for (Entity e : Game.entityArray) {
-				if (e instanceof Enemy && !e.isDead()) {
-					double d2 = GameMath.getDistance(player, e);
-					if (d2 < d) {
-						d = d2;
-						target = (Ship) e;
-					}
-				}
-			}
-			targeted = target;
-		} else if(!targetting){
-			targeted = null;
-		}
+//		if (targetting && targeted == null || targeted.isDead()) {
+//			double d = Double.MAX_VALUE;
+//			Ship target = null;
+//			for (Entity e : Game.entityArray) {
+//				if (e instanceof Enemy && !e.isDead()) {
+//					double d2 = GameMath.getDistance(player, e);
+//					if (d2 < d) {
+//						d = d2;
+//						target = (Ship) e;
+//					}
+//				}
+//			}
+//			targeted = target;
+//		} else if(!targetting){
+//			targeted = null;
+//		}
 	}
 
-	public static Point2D getPlayerTarget() {
-		if (!targetting || targeted == null) {
-			Point2D p1 = MouseInfo.getPointerInfo().getLocation();
-			Point2D p2 = Panel.instance.getLocationOnScreen();
-			return new Point2D.Double(p1.getX() - p2.getX() - (Panel.instance.getHeight() / 2D),
-					p1.getY() - p2.getY() - (Panel.instance.getWidth() / 2D));
-		} else {
-			return new Point2D.Double(targeted.getX() - player.xPos, targeted.getY() - player.yPos);
-		}
-	}
+//	public static Point2D getPlayerTarget() {
+//		if (!targetting || targeted == null) {
+//			Point2D p1 = MouseInfo.getPointerInfo().getLocation();
+//			Point2D p2 = Panel.instance.getLocationOnScreen();
+//			return new Point2D.Double(p1.getX() - p2.getX() - (Panel.instance.getHeight() / 2D),
+//					p1.getY() - p2.getY() - (Panel.instance.getWidth() / 2D));
+//		} else {
+//			return new Point2D.Double(targeted.getX() - player.xPos, targeted.getY() - player.yPos);
+//		}
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

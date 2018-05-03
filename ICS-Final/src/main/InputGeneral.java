@@ -22,6 +22,10 @@ public class InputGeneral {
 				players.add(new Player(c));
 			}
 		}
-		System.out.println(players.get(0).controller);
+	}
+	public static void updatePlayers(){
+		for(Player p : players){
+			p.update();
+		}
 	}
 }

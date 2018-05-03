@@ -16,7 +16,6 @@ import static main.Input.targeted;
 import static main.Properties.zoom;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import static main.Game.player;
 import entities.Drawable;
 import entities.Enemy;
 import entities.Ship;
@@ -87,9 +86,11 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// possibility Game.player may not be initialized when
 		// this is called, so there is a check first.
 		g2.setColor(Color.GRAY);
-		if (Game.player != null) {
-			yP = (int) -((zoom * Game.player.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
-			xP = (int) -((zoom * Game.player.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);
+		for (Player p : InputGeneral.players) {
+			if (p.target != null) {
+				yP = (int) -((zoom * p.target.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
+				xP = (int) -((zoom * p.target.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);
+			}
 		}
 		do {
 			g2.drawLine(0, (int) yP, w, (int) yP);
@@ -106,7 +107,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 				Drawable d = effects.get(i);
 				Color c = getColor(d.color);
 				g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
-				Polygon p = transformPolygon(d.getRotatedPolygon());
+				Polygon p = transformPolygon(d.getRotatedPolygon(),InputGeneral.players.get(0));
 				g2.fillPolygon(p);
 			}
 		}
@@ -115,41 +116,43 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			Color c = getColor(d.color);
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
-			p = transformPolygon(d.getRotatedPolygon());
+			p = transformPolygon(d.getRotatedPolygon(),InputGeneral.players.get(0));
 			g2.fillPolygon(p);
 		}
 		// Draws the player health bar, scaled to screen size
-		if (Game.player != null) {
-			double healthPercentage = (double) Game.player.health / (double) Game.player.maxHealth;
-			int height = 50;
-			int windowSpacing = 100;
-			int rectSpacing = 50;
-			int rects = 10;
-			int rectSize = (w - ((windowSpacing * 2) + rectSpacing * (rects - 1))) / rects;
-			int x = windowSpacing;
-			double f = 1D / rects;
-			healthPercentage = (int) (healthPercentage * 100) / 100D;
-			double p = healthPercentage % f;
-			double d = healthPercentage / f;
-			int m = (int) Math.ceil(d);
-			for (int i = 0; i < m; i++) {
-				g2.setColor(Color.GREEN);
-				int l = rectSize;
-				if (i == m - 1) {
-					l = (int) ((double) l * (p) * 10);
-				}
-				g2.fillRect(x, h - 150, l, height);
-				x += rectSpacing + rectSize;
-			}
-		}
+//		if (Game.player != null) {
+//			double healthPercentage = (double) Game.player.health / (double) Game.player.maxHealth;
+//			int height = 50;
+//			int windowSpacing = 100;
+//			int rectSpacing = 50;
+//			int rects = 10;
+//			int rectSize = (w - ((windowSpacing * 2) + rectSpacing * (rects - 1))) / rects;
+//			int x = windowSpacing;
+//			double f = 1D / rects;
+//			healthPercentage = (int) (healthPercentage * 100) / 100D;
+//			double p = healthPercentage % f;
+//			double d = healthPercentage / f;
+//			int m = (int) Math.ceil(d);
+//			for (int i = 0; i < m; i++) {
+//				g2.setColor(Color.GREEN);
+//				int l = rectSize;
+//				if (i == m - 1) {
+//					l = (int) ((double) l * (p) * 10);
+//				}
+//				g2.fillRect(x, h - 150, l, height);
+//				x += rectSpacing + rectSize;
+//			}
+//		}
 		// Draw a circle around target
-		if (Input.targetting  && Input.targeted != null) {
-			g2.setColor(Color.MAGENTA);// Why magenta?
-			int x = (int) (((targeted.getX() - player.getX() - targeted.radius/2) * (zoom)) + getWidth()/2)-targetCirclePadding/2;
-			int y = (int) (((targeted.getY() - player.getY() - targeted.radius/2) * (zoom)) + getHeight()/2)-targetCirclePadding/2;
-			int size = (int)((float)(targeted.radius)*zoom)+targetCirclePadding;
-			g2.drawOval(x,y,size,size);
-		}
+//		if (Input.targetting && Input.targeted != null) {
+//			g2.setColor(Color.MAGENTA);// Why magenta?
+//			int x = (int) (((targeted.getX() - player.getX() - targeted.radius / 2) * (zoom)) + getWidth() / 2)
+//					- targetCirclePadding / 2;
+//			int y = (int) (((targeted.getY() - player.getY() - targeted.radius / 2) * (zoom)) + getHeight() / 2)
+//					- targetCirclePadding / 2;
+//			int size = (int) ((float) (targeted.radius) * zoom) + targetCirclePadding;
+//			g2.drawOval(x, y, size, size);
+//		}
 		// If the game is over, keep it running but show the 'end screen' with
 		// score
 		g2.setColor(Color.BLUE);
@@ -177,10 +180,10 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	 *            Polygon to transform
 	 * @return Polygon translated and zoom applied
 	 */
-	public Polygon transformPolygon(Polygon p) {
-		Point2D center = Game.player.centerPoint;
-		double pX = Game.player.xPos + center.getX();
-		double pY = Game.player.yPos + center.getY();
+	public Polygon transformPolygon(Polygon p,Player pl) {
+		Point2D center = pl.target.centerPoint;
+		double pX = pl.target.xPos + center.getX();
+		double pY = pl.target.yPos + center.getY();
 		for (int ix = 0; ix < p.xpoints.length; ix++) {
 			p.xpoints[ix] = (int) ((double) (p.xpoints[ix] - pX) * zoom);
 			p.ypoints[ix] = (int) ((double) (p.ypoints[ix] - pY) * zoom);
