@@ -86,9 +86,9 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// this is called, so there is a check first.
 		g2.setColor(Color.GRAY);
 		for (Player p : InputGeneral.players) {
-			if (p.target != null) {
-				yP = (int) -((zoom * p.target.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
-				xP = (int) -((zoom * p.target.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);
+			if (p.playerShip != null) {
+				yP = (int) -((zoom * p.playerShip.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
+				xP = (int) -((zoom * p.playerShip.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);
 			}
 		}
 		do {
@@ -180,9 +180,9 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	 * @return Polygon translated and zoom applied
 	 */
 	public Polygon transformPolygon(Polygon p,Player pl) {
-		Point2D center = pl.target.centerPoint;
-		double pX = pl.target.xPos + center.getX();
-		double pY = pl.target.yPos + center.getY();
+		Point2D center = pl.playerShip.centerPoint;
+		double pX = pl.playerShip.xPos + center.getX();
+		double pY = pl.playerShip.yPos + center.getY();
 		for (int ix = 0; ix < p.xpoints.length; ix++) {
 			p.xpoints[ix] = (int) ((double) (p.xpoints[ix] - pX) * zoom);
 			p.ypoints[ix] = (int) ((double) (p.ypoints[ix] - pY) * zoom);

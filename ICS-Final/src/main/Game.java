@@ -75,7 +75,7 @@ public class Game implements Runnable, ActionListener {
 			playerShip.team = PLAYER_TEAM;
 			entityArray.add(playerShip);
 			playerShip.color = 0;
-			p.target = playerShip;
+			p.playerShip = playerShip;
 		}
 
 		for (int i = 0; i < Properties.level; i++) {
@@ -123,7 +123,7 @@ public class Game implements Runnable, ActionListener {
 				}
 				continue;
 			}
-			if (InputGeneral.players.get(0).target.isDead() && !gameOver) {
+			if (InputGeneral.players.get(0).playerShip.isDead() && !gameOver) {
 				gameOver = true;
 			}
 			p.update();
@@ -157,7 +157,7 @@ public class Game implements Runnable, ActionListener {
 	public static void nextLevel() {
 		Properties.level++;
 		for (Player p : InputGeneral.players) {
-		addParticles(ParticleEffects.explode(p.target.xPos, p.target.yPos, 3, 40, 80));
+		addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
 		// player.missiles = (Properties.level / 2) + 1;
 		// if(Properties.level == 5){
 		// player.bulletTurrets = turretPoints2;

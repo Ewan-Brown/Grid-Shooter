@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.ivan.xinput.XInputDevice14;
 import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
-public class InputGeneral extends com.ivan.xinput.listener.SimpleXInputDeviceListener {
+public class InputGeneral{
 
 	static ArrayList<XInputDevice14> XInputDevices = new ArrayList<>();
 	static ArrayList<Player> players = new ArrayList<>();
@@ -32,14 +32,4 @@ public class InputGeneral extends com.ivan.xinput.listener.SimpleXInputDeviceLis
 		}
 	}
 
-	public void connected() {
-	}
-
-	@Override
-	public void disconnected() {
-	}
-
-//	@Override
-//	public void buttonChanged(final XInputDevice14 button, final boolean pressed) {
-//	}
 }
