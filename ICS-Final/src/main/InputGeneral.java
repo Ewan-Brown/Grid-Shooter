@@ -2,30 +2,44 @@ package main;
 
 import java.util.ArrayList;
 
-import net.java.games.input.Controller;
-import net.java.games.input.Controller.Type;
-import net.java.games.input.ControllerEnvironment;
+import com.ivan.xinput.XInputDevice14;
+import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
+public class InputGeneral extends com.ivan.xinput.listener.SimpleXInputDeviceListener {
 
-public class InputGeneral {
-	
-	static ArrayList<Controller> controllers = new ArrayList<>();
+	static ArrayList<XInputDevice14> XInputDevices = new ArrayList<>();
 	static ArrayList<Player> players = new ArrayList<>();
-	public static void checkControllers(){
-		controllers.clear(); //TODO Maybe dont have this hard reset?
+
+	public static void checkXInputDevices() {
+		XInputDevices.clear(); // TODO Maybe dont have this hard reset?
 		players.clear();
-		Controller[] ca = ControllerEnvironment.getDefaultEnvironment().getControllers();
-		for(int i = 0; i < ca.length;i++){
-			Controller c = ca[i];
-			if(c.getType() == Type.GAMEPAD){
-				controllers.add(c);
+		for (int i = 0; i < 1; i++) {
+			XInputDevice14 c;
+			try {
+				c = XInputDevice14.getDeviceFor(0);
+				XInputDevices.add(c);
 				players.add(new Player(c));
+			} catch (XInputNotLoadedException e) {
+				e.printStackTrace();
 			}
+			
 		}
 	}
-	public static void updatePlayers(){
-		for(Player p : players){
+
+	public static void updatePlayers() {
+		for (Player p : players) {
 			p.update();
 		}
 	}
+
+	public void connected() {
+	}
+
+	@Override
+	public void disconnected() {
+	}
+
+//	@Override
+//	public void buttonChanged(final XInputDevice14 button, final boolean pressed) {
+//	}
 }

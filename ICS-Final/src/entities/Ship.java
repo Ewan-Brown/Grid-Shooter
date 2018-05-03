@@ -207,7 +207,6 @@ public class Ship extends Entity {
 	}
 
 	public void turn(double throttle) {
-		System.out.println(throttle);
 		realAngle += turnSpeed*throttle/5f;
 	}
 	public void turnToTarget(double targetAngle) {

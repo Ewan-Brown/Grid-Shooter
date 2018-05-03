@@ -12,7 +12,6 @@ import java.util.BitSet;
 import entities.Enemy;
 import entities.Entity;
 import entities.Ship;
-import net.java.games.input.Controller;
 import tools.GameMath;
 
 /**
@@ -90,7 +89,6 @@ public class Input implements KeyListener, MouseListener {
 		cooldowns[keyCode] = cooldownMaxes[keyCode];
 	}
 	public static int[] cooldownMaxes = new int[256];
-	ArrayList<Controller> controllers = new ArrayList<Controller>();
 	public static void checkForControllers(){
 		
 	}

@@ -19,7 +19,7 @@ import entities.Structures;
 class Main {
 
 	public static void main(String[] args){
-		InputGeneral.checkControllers();
+		InputGeneral.checkXInputDevices();
 		Structures.init();
 		Game.init();
 		System.setProperty("sun.java2d.opengl","True");
@@ -53,8 +53,6 @@ class Main {
 		//Setup methods for frame, action listeners, size, settings
 		frame.setSize(1000, 1000);
 		frame.add(Panel.instance);
-		frame.addKeyListener(new Input());
-		frame.addMouseListener(new Input());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.toFront();

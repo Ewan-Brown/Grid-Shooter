@@ -1,31 +1,33 @@
 package main;
 
+import com.ivan.xinput.XInputDevice;
+import com.ivan.xinput.enums.XInputAxis;
+
 import entities.Ship;
-import net.java.games.input.Component.Identifier;
-import net.java.games.input.Controller;
 
 public class Player {
 
-	public Player(Controller controller) {
-		this.controller = controller;
+	public Player(XInputDevice XInputDevice) {
+		this.XInputDevice = XInputDevice;
 	}
 
 	@Deprecated
-	public Player(Controller joy1, Controller joy2) {
+	public Player(XInputDevice joy1, XInputDevice joy2) {
 
 	}
 
 	Ship target;
-	Controller controller;
+	XInputDevice XInputDevice;
 	int playerNum;
 	String playerName;
 
 	public void update() {
-		controller.poll();
-		if (controller.getType() == Controller.Type.GAMEPAD) {
+		XInputDevice.poll();
+		
+			//Moving
 			float deadZone = 0.2f;
-			float x = controller.getComponent(Identifier.Axis.X).getPollData();
-			float y = -controller.getComponent(Identifier.Axis.Y).getPollData();
+			float x = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X);
+			float y = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y);
 			x = (deadZone > Math.abs(x)) ? 0 : x;
 			y = (deadZone > Math.abs(y)) ? 0 : y;
 			if (!(x == 0 && y == 0)) {
@@ -33,15 +35,21 @@ public class Player {
 				//TODO Fix Arcade mode
 				target.move(movementAngle, false);
 			}
-			float x2 = controller.getComponent(Identifier.Axis.RX).getPollData();
-//			float y2 = -controller.getComponent(Identifier.Axis.RY).getPollData();
+			
+			//Turning
+			float x2 = XInputDevice.getComponents().getAxes().get(XInputAxis.RIGHT_THUMBSTICK_X);
 			x2 = (deadZone > Math.abs(x2)) ? 0 : x2;
-//			y2 = (deadZone > Math.abs(y2)) ? 0 : y2;
 			if (x2 != 0) {
 				double throttle = x2;
 				target.turn(throttle);
 			}
-		}
+			
+			//Boosting
+			
+			//Shooting
+//			float rt = XInputDevice.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
+//			XInputDevice.setVibration((int)(rt * 65535f/2f), (int)(rt * 65535f/2f));
+//			System.out.println(rt);
 	}
 
 }
