@@ -123,12 +123,16 @@ public class Game implements Runnable, ActionListener {
 				}
 				continue;
 			}
-			if (InputGeneral.players.get(0).playerShip.isDead() && !gameOver) {
-				gameOver = true;
-			}
 			p.update();
 		}
-
+		if (!gameOver) {
+			gameOver = true;
+			for (Player pl : InputGeneral.players) {
+				if (!pl.playerShip.isDead()) {
+					gameOver = false;
+				}
+			}
+		}
 		boolean areaCleared = true;
 		for (int i = 0; i < entityArray.size(); i++) {
 			Entity p = entityArray.get(i);
@@ -157,24 +161,24 @@ public class Game implements Runnable, ActionListener {
 	public static void nextLevel() {
 		Properties.level++;
 		for (Player p : InputGeneral.players) {
-		addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
-		// player.missiles = (Properties.level / 2) + 1;
-		// if(Properties.level == 5){
-		// player.bulletTurrets = turretPoints2;
-		// }
-		// if(Properties.level == 10){
-		// player.bulletAccuracy = 2;
-		// player.turnSpeed = 8;
-		// player.laserOn = true;
-		// }
-		// if(Properties.level == 20){
-		// player.bulletTurrets = turretPoints3;
-		// player.maxBulletCooldown = 10;
-		// }
-		// if(Properties.level == 30){
-		// }
-		// player.maxHealth += 10;
-		// player.health = player.maxHealth;
+			addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
+			p.playerShip.missiles = (Properties.level / 2) + 1;
+			if (Properties.level == 5) {
+				p.playerShip.bulletTurrets = turretPoints2;
+			}
+			if (Properties.level == 10) {
+				p.playerShip.bulletAccuracy = 2;
+				p.playerShip.turnSpeed = 8;
+				p.playerShip.laserOn = true;
+			}
+			if (Properties.level == 20) {
+				p.playerShip.bulletTurrets = turretPoints3;
+				p.playerShip.maxBulletCooldown = 10;
+			}
+			if (Properties.level == 30) {
+			}
+			p.playerShip.maxHealth += 10;
+			p.playerShip.health = p.playerShip.maxHealth;
 		}
 		for (int i = 0; i < Properties.level; i++) {
 			double angle = rand.nextDouble() * Math.PI * 2;

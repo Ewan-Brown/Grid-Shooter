@@ -162,7 +162,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		g2.setFont(customFont1);
 		g2.drawString(levelString, 20, 70);
 		if (Game.gameOver) {
-			String s1 = "Game Over! Press Space to Continue";
+			String s1 = "Game Over! Press any button to Continue";
 			String s2 = "Your score was " + Properties.score;
 			g2.drawString(s1, w / 2 - (g2.getFontMetrics().stringWidth(s1) / 2), h / 2 - 100);
 			g2.drawString(s2, w / 2 - (g2.getFontMetrics().stringWidth(s2) / 2), h / 2 - 200);

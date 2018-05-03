@@ -128,10 +128,6 @@ public class Ship extends Entity {
 		Game.addParticles(a);
 	}
 
-	/**
-	 * Shoot bullets from all turrets towards the direction the ship is facing
-	 * in
-	 */
 	public void shootBullet() {
 		if (bulletCooldown < 0) {
 			bulletCooldown = maxBulletCooldown;

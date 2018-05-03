@@ -25,8 +25,23 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	XInputDevice XInputDevice;
 	int playerNum;
 	String playerName;
+	boolean readyForNextRound = false;
 
 	public void update() {
+		//TODO If dead skip the controls but make the control alternate vibrations!
+		//++This is messy move to player class please
+
+		if (playerShip.isDead()) {
+			double z = System.currentTimeMillis() % 1000; 
+//			int zInt = (int)((z/500) * 65535d);
+			if(z > 500){
+				XInputDevice.setVibration(65535, 0);
+			}
+			else{
+				XInputDevice.setVibration(0, 65535);
+			}
+			return;
+		}
 		XInputDevice.poll();
 		// Moving
 		float deadZone = 0.2f;
@@ -52,12 +67,15 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 
 		// Shooting
 		float rt = XInputDevice.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
-		XInputDevice.setVibration((int) (rt * 65535f / 2f), (int) (rt * 65535f / 2f));
+		float lt = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_TRIGGER);
+		 XInputDevice.setVibration((int) (lt * 65535f / 2f), (int) (rt *65535f / 2f));
 		if (rt > 0) {
 			playerShip.shootBullet();
 		}
+
+		// Targetting
 		updateTarget();
-		if(isTargetting && target != null){
+		if (isTargetting && target != null) {
 			double xT = target.xPos - playerShip.xPos;
 			double yT = target.yPos - playerShip.yPos;
 			playerShip.turnToTarget(Math.toDegrees(Math.atan2(yT, xT)));
@@ -72,14 +90,19 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	public void disconnected() {
 		System.err.println("Player.jar - A Controller has been disconnected?");
 	}
-	
+
 	Ship target = null;
 	boolean isTargetting = false;
+
 	public void buttonChanged(final XInputButton button, final boolean pressed) {
-		if(button == XInputButton.LEFT_SHOULDER && pressed){
+		if (button == XInputButton.LEFT_SHOULDER && pressed) {
 			isTargetting = !isTargetting;
 		}
+		if (playerShip.isDead()) {
+			readyForNextRound = true;
+		}
 	}
+
 	public void updateTarget() {
 		if (isTargetting && (target == null || target.isDead())) {
 			double d = Double.MAX_VALUE;
@@ -94,7 +117,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 				}
 			}
 			target = c;
-		} else if(!isTargetting){
+		} else if (!isTargetting) {
 			target = null;
 		}
 	}
