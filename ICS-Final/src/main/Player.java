@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.geom.Point2D;
+
 import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.enums.XInputAxis;
 import com.ivan.xinput.enums.XInputButton;
@@ -26,14 +28,16 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	int playerNum;
 	String playerName;
 	boolean readyForNextRound = false;
-
+	public void reset(Ship ship){
+		playerShip = ship;
+		target = null;
+	}
 	public void update() {
 		//TODO If dead skip the controls but make the control alternate vibrations!
 		//++This is messy move to player class please
-
+		XInputDevice.poll();
 		if (playerShip.isDead()) {
 			double z = System.currentTimeMillis() % 1000; 
-//			int zInt = (int)((z/500) * 65535d);
 			if(z > 500){
 				XInputDevice.setVibration(65535, 0);
 			}
@@ -42,7 +46,6 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 			}
 			return;
 		}
-		XInputDevice.poll();
 		// Moving
 		float deadZone = 0.2f;
 		float x = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X);
@@ -93,6 +96,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 
 	Ship target = null;
 	boolean isTargetting = false;
+	Point2D lastBoost = null;
 
 	public void buttonChanged(final XInputButton button, final boolean pressed) {
 		if (button == XInputButton.LEFT_SHOULDER && pressed) {

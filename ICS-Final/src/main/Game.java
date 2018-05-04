@@ -75,7 +75,7 @@ public class Game implements Runnable, ActionListener {
 			playerShip.team = PLAYER_TEAM;
 			entityArray.add(playerShip);
 			playerShip.color = 0;
-			p.playerShip = playerShip;
+			p.reset(playerShip);
 		}
 
 		for (int i = 0; i < Properties.level; i++) {
@@ -131,6 +131,18 @@ public class Game implements Runnable, ActionListener {
 				if (!pl.playerShip.isDead()) {
 					gameOver = false;
 				}
+			}
+		}
+		else{
+			boolean allPlayersReady = true;
+			for (Player pl : InputGeneral.players) {
+				if(!pl.readyForNextRound){
+					allPlayersReady = false;
+				}
+			}
+			if(allPlayersReady){
+//				nextLevel();
+				startNew();
 			}
 		}
 		boolean areaCleared = true;
