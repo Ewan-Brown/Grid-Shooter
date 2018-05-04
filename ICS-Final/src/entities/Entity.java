@@ -10,6 +10,7 @@ public class Entity extends Drawable{
 	public double maxHealth = 1000;
 	public double health = maxHealth;
 	public int team = 0;
+	public boolean isPlayerControlled = false;
 	static DecimalFormat df = new DecimalFormat("0.00");
 	Random rand = new Random();
 	boolean deadFlag = false;
@@ -66,7 +67,6 @@ public class Entity extends Drawable{
 	public void update(){
 		xPos += getXSpeed();
 		yPos += getYSpeed();
-
 	}
 	public double getXSpeed(){
 		return xSpeed;

@@ -31,6 +31,7 @@ public class EnemyCache {
 			radius = z;
 			maxHealth = 100;
 			health = 100;
+			caliber = 10;
 		}};
 		Enemy medium = new Enemy(0,0,Structures.MEDIUM, mediumTurrets, mediumLaunchers){{
 			int z = 0;
@@ -44,7 +45,7 @@ public class EnemyCache {
 			radius = z;
 			maxHealth = 400;
 			health = 400;
-			caliber = 150;
+			caliber = 60;
 			maxBulletCooldown =  60;
 			bulletAccuracy = 8;
 			speed = 0.02;

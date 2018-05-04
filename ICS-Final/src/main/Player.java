@@ -23,26 +23,39 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 
 	}
 
+	boolean enableVibration = false;
 	Ship playerShip;
 	XInputDevice controller;
 	int playerNum;
 	String playerName;
-	boolean playerReady = false; //TODO Maybe move this into game logic?
-	public void reset(Ship ship){
+	boolean playerReady = false; // TODO Maybe move this into game logic?
+
+	public void reset(Ship ship) {
 		playerShip = ship;
+		playerShip.isPlayerControlled = true;
+		playerShip.color = 0;
+		playerShip.maxHealth = Properties.PLAYER_BASE_HEALTH;
+		playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
+		playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
+		playerShip.caliber = Properties.PLAYER_BASE_CALIBER;
+		playerShip.health = playerShip.maxHealth;
+		playerShip.team = Game.PLAYER_TEAM;
 		target = null;
 	}
+
 	public void update() {
-		//TODO If dead skip the controls but make the control alternate vibrations!
-		//++This is messy move to player class please
+		// TODO If dead skip the controls but make the control alternate
+		// vibrations!
+		// ++This is messy move to player class please
 		controller.poll();
 		if (playerShip.isDead()) {
-			double z = System.currentTimeMillis() % 1000; 
-			if(z > 500){
-				controller.setVibration(65535, 0);
-			}
-			else{
-				controller.setVibration(0, 65535);
+			if (enableVibration) {
+				double z = System.currentTimeMillis() % 1000;
+				if (z > 500) {
+					controller.setVibration(65535, 0);
+				} else {
+					controller.setVibration(0, 65535);
+				}
 			}
 			return;
 		}
@@ -67,11 +80,17 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 		}
 
 		// Boosting
+		if (lastBoost != null) {
+			playerShip.boost(Math.atan2(lastBoost.getX(), lastBoost.getY()));
+			lastBoost = null;
+		}
 
 		// Shooting
 		float rt = controller.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
 		float lt = controller.getComponents().getAxes().get(XInputAxis.LEFT_TRIGGER);
-		 controller.setVibration((int) (lt * 65535f / 2f), (int) (rt *65535f / 2f));
+		if(enableVibration){
+		controller.setVibration(0, (int) (rt * 65535f / 2f));
+		}
 		if (rt > 0) {
 			playerShip.shootBullet();
 		}
@@ -101,6 +120,10 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	public void buttonChanged(final XInputButton button, final boolean pressed) {
 		if (button == XInputButton.LEFT_SHOULDER && pressed) {
 			isTargetting = !isTargetting;
+		}
+		if (button == XInputButton.RIGHT_SHOULDER && pressed) {
+			lastBoost = new Point2D.Double(controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X),
+					controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y));
 		}
 		if (playerShip.isDead()) {
 			playerReady = true;

@@ -47,18 +47,18 @@ class Main {
 		}
 		EnemyCache.loadCache();
 		JFrame frame = new JFrame("Grid Shooter");
-		Panel.instance = new Panel();
-		Panel.instance.setBackground(Color.BLACK);
+		Panel.panelInstance = new Panel();
+		Panel.panelInstance.setBackground(Color.BLACK);
 
 		//Setup methods for frame, action listeners, size, settings
 		frame.setSize(1000, 1000);
-		frame.add(Panel.instance);
+		frame.add(Panel.panelInstance);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.toFront();
 
 		e.submit(new Game());
-		e.submit(Panel.instance);
+		e.submit(Panel.panelInstance);
 
 	}
 

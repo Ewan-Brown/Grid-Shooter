@@ -1,5 +1,7 @@
 package main;
 
+import static main.Properties.zoom;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,11 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import static main.Properties.zoom;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 import entities.Drawable;
-import entities.Enemy;
 import entities.Ship;
 
 /**
@@ -24,38 +26,19 @@ import entities.Ship;
  */
 public class Panel extends JPanel implements Runnable, ActionListener {
 
-	/**
-	 * 
-	 */
-	long t1 = 0;
-	/**
-	 * Custom large font for screen messages
-	 */
-	Point[] arrow = new Point[3];
-	{
-		arrow[0] = new Point(0, 4);
-		arrow[1] = new Point(0, 0);
-		arrow[2] = new Point(5, 2);
-	}
-	Font customFont1 = new Font("myFont1", Font.BOLD, 30);
-	Font customFont2 = new Font("myFont2", Font.BOLD, 100);
-	Font customFont3 = new Font("myFont3", Font.BOLD, 20);
+	static Font customFont1 = new Font("myFont1", Font.BOLD, 30);
+	static Font customFont2 = new Font("myFont2", Font.BOLD, 100);
+	static Font customFont3 = new Font("myFont3", Font.BOLD, 20);
 	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	static ArrayList<Drawable> effects = new ArrayList<Drawable>();
 	static int targetCirclePadding = 4;
 	private static final long serialVersionUID = 1L;
 	public static final int GRID_SIZE = 80;
-	/**
-	 * panel update timer, runs at 60hz
-	 */
 	static Timer timer;
 	DecimalFormat df = new DecimalFormat("0.00");
-	/**
-	 * Static pointer for the panel, used for mouse input code
-	 */
-	public static Panel instance;
+	public static Panel panelInstance;
 	// Use this is a static instance
-	Color[] colorList = new Color[4];
+	static Color[] colorList = new Color[4];
 	{
 		colorList[0] = Color.GREEN;
 		colorList[1] = Color.RED;
@@ -63,34 +46,19 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		colorList[3] = Color.CYAN;
 	}
 
-	public Color getColor(int c) {
+	public static Color getColor(int c) {
 		return colorList[c];
 	}
 
-	public void paint(Graphics g1) {
-		super.paint(g1);
-		Graphics2D g2 = (Graphics2D) g1;
-		// Antialiasing makes the game look much much better.
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		// spacing between grid lines
+	public void paintGrid(Graphics g2, double xC, double yC, double zoom) {
 		double lineSpace = (double) GRID_SIZE * zoom;
-
-		// Variables to keep things less cluttered,also less method calls
 		int h = getHeight();
 		int w = getWidth();
-		// Draws the background grid, applies zoom to grid.
 		double yP = 0;
 		double xP = 0;
-		// because the game and the panel are on separate threads, there is a
-		// possibility Game.player may not be initialized when
-		// this is called, so there is a check first.
 		g2.setColor(Color.GRAY);
-		for (Player p : InputGeneral.players) {
-			if (p.playerShip != null) {
-				yP = (int) -((zoom * p.playerShip.yPos - getHeight() / 2D + lineSpace * 1000) % lineSpace);
-				xP = (int) -((zoom * p.playerShip.xPos - getWidth() / 2D + lineSpace * 1000) % lineSpace);
-			}
-		}
+		yP = (int) -((zoom * yC - getHeight() / 2D + lineSpace * 1000) % lineSpace);
+		xP = (int) -((zoom * xC - getWidth() / 2D + lineSpace * 1000) % lineSpace);
 		do {
 			g2.drawLine(0, (int) yP, w, (int) yP);
 			yP += lineSpace;
@@ -99,14 +67,35 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			g2.drawLine((int) xP, 0, (int) xP, h);
 			xP += lineSpace;
 		} while (xP < w);
+	}
+
+	public void paint(Graphics g1) {
+		super.paint(g1);
+		Graphics2D g2 = (Graphics2D) g1;
+		// Antialiasing makes the game look much much better.
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		// spacing between grid lines
+//		Player pl = InputGeneral.players.get(0);
+
+		double centerX = InputGeneral.getCenterOfPlayers().getX();
+		double centerY = InputGeneral.getCenterOfPlayers().getY();
+		double range = InputGeneral.getMaxPlayerSeparationDist();
+		double zoom = Properties.zoom;
+		double baseDist = getWidth()/3D;
+		double mult = (range/2 > baseDist) ? (range/2) / baseDist : 1;
+		zoom /= mult;
+//		if(getWidth() < range){
+//			zoom /= 2;
+//		}
 		// Draws effects first, and the entities on top. The only reason for
 		// separation is aesthetic
+		paintGrid(g2, centerX, centerY,zoom);
 		if (!Game.lowPerformanceMode) {
 			for (int i = 0; i < effects.size(); i++) {
 				Drawable d = effects.get(i);
 				Color c = getColor(d.color);
 				g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
-				Polygon p = transformPolygon(d.getRotatedPolygon(),InputGeneral.players.get(0));
+				Polygon p = transformPolygon(d.getRotatedPolygon(), centerX, centerY,zoom);
 				g2.fillPolygon(p);
 			}
 		}
@@ -115,43 +104,48 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			Color c = getColor(d.color);
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
-			p = transformPolygon(d.getRotatedPolygon(),InputGeneral.players.get(0));
+			p = transformPolygon(d.getRotatedPolygon(), centerX, centerY,zoom);
 			g2.fillPolygon(p);
 		}
 		// Draws the player health bar, scaled to screen size
-//		if (Game.player != null) {
-//			double healthPercentage = (double) Game.player.health / (double) Game.player.maxHealth;
-//			int height = 50;
-//			int windowSpacing = 100;
-//			int rectSpacing = 50;
-//			int rects = 10;
-//			int rectSize = (w - ((windowSpacing * 2) + rectSpacing * (rects - 1))) / rects;
-//			int x = windowSpacing;
-//			double f = 1D / rects;
-//			healthPercentage = (int) (healthPercentage * 100) / 100D;
-//			double p = healthPercentage % f;
-//			double d = healthPercentage / f;
-//			int m = (int) Math.ceil(d);
-//			for (int i = 0; i < m; i++) {
-//				g2.setColor(Color.GREEN);
-//				int l = rectSize;
-//				if (i == m - 1) {
-//					l = (int) ((double) l * (p) * 10);
-//				}
-//				g2.fillRect(x, h - 150, l, height);
-//				x += rectSpacing + rectSize;
-//			}
-//		}
+		// if (Game.player != null) {
+		// double healthPercentage = (double) Game.player.health / (double)
+		// Game.player.maxHealth;
+		// int height = 50;
+		// int windowSpacing = 100;
+		// int rectSpacing = 50;
+		// int rects = 10;
+		// int rectSize = (w - ((windowSpacing * 2) + rectSpacing * (rects -
+		// 1))) / rects;
+		// int x = windowSpacing;
+		// double f = 1D / rects;
+		// healthPercentage = (int) (healthPercentage * 100) / 100D;
+		// double p = healthPercentage % f;
+		// double d = healthPercentage / f;
+		// int m = (int) Math.ceil(d);
+		// for (int i = 0; i < m; i++) {
+		// g2.setColor(Color.GREEN);
+		// int l = rectSize;
+		// if (i == m - 1) {
+		// l = (int) ((double) l * (p) * 10);
+		// }
+		// g2.fillRect(x, h - 150, l, height);
+		// x += rectSpacing + rectSize;
+		// }
+		// }
 		// Draw a circle around target
-//		if (Input.targetting && Input.targeted != null) {
-//			g2.setColor(Color.MAGENTA);// Why magenta?
-//			int x = (int) (((targeted.getX() - player.getX() - targeted.radius / 2) * (zoom)) + getWidth() / 2)
-//					- targetCirclePadding / 2;
-//			int y = (int) (((targeted.getY() - player.getY() - targeted.radius / 2) * (zoom)) + getHeight() / 2)
-//					- targetCirclePadding / 2;
-//			int size = (int) ((float) (targeted.radius) * zoom) + targetCirclePadding;
-//			g2.drawOval(x, y, size, size);
-//		}
+		// if (Input.targetting && Input.targeted != null) {
+		// g2.setColor(Color.MAGENTA);// Why magenta?
+		// int x = (int) (((targeted.getX() - player.getX() - targeted.radius /
+		// 2) * (zoom)) + getWidth() / 2)
+		// - targetCirclePadding / 2;
+		// int y = (int) (((targeted.getY() - player.getY() - targeted.radius /
+		// 2) * (zoom)) + getHeight() / 2)
+		// - targetCirclePadding / 2;
+		// int size = (int) ((float) (targeted.radius) * zoom) +
+		// targetCirclePadding;
+		// g2.drawOval(x, y, size, size);
+		// }
 		// If the game is over, keep it running but show the 'end screen' with
 		// score
 		g2.setColor(Color.BLUE);
@@ -161,6 +155,8 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		g2.drawString(levelNum, 130, 90);
 		g2.setFont(customFont1);
 		g2.drawString(levelString, 20, 70);
+		int h = getHeight();
+		int w = getWidth();
 		if (Game.gameOver) {
 			String s1 = "Game Over! Press any button to Continue";
 			String s2 = "Your score was " + Properties.score;
@@ -174,27 +170,16 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// 110);
 	}
 
-	/**
-	 * @param p
-	 *            Polygon to transform
-	 * @return Polygon translated and zoom applied
-	 */
-	public Polygon transformPolygon(Polygon p,Player pl) {
-		Point2D center = pl.playerShip.centerPoint;
-		double pX = pl.playerShip.xPos + center.getX();
-		double pY = pl.playerShip.yPos + center.getY();
+	public Polygon transformPolygon(Polygon p, double xC, double yC, double zoom) {
 		for (int ix = 0; ix < p.xpoints.length; ix++) {
-			p.xpoints[ix] = (int) ((double) (p.xpoints[ix] - pX) * zoom);
-			p.ypoints[ix] = (int) ((double) (p.ypoints[ix] - pY) * zoom);
+			p.xpoints[ix] = (int) ((double) (p.xpoints[ix] - xC) * zoom);
+			p.ypoints[ix] = (int) ((double) (p.ypoints[ix] - yC) * zoom);
 			p.xpoints[ix] += this.getWidth() / 2;
 			p.ypoints[ix] += this.getHeight() / 2;
 		}
 		return p;
 	}
 
-	/**
-	 * panel update method, called at 60hz
-	 */
 	public void loop() {
 		repaint();
 	}
@@ -227,7 +212,6 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	@Override
 	public void run() {
 		timer = new Timer(10, this);
-		t1 = System.nanoTime();
 		timer.start();
 	}
 

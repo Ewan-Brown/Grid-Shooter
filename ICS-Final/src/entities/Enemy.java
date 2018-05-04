@@ -26,7 +26,6 @@ public class Enemy extends Ship{
 	public Enemy(double x, double y,int points,Point[] turrets,Point[] missileTurrets) {
 		super(x, y,points,Game.turretPoints1, new Point[0]);
 		team = Game.ENEMY_TEAM;
-		caliber = 10;
 	}
 	public void strafe(double t){
 		double dX = (Math.cos(Math.toRadians(realAngle + 90)))*speed*t;
@@ -110,7 +109,7 @@ public class Enemy extends Ship{
 		double prevDist = Double.MAX_VALUE;
 		for(int i = 0; i < array.size();i++){
 			Entity e = array.get(i);
-			if(e != this && e.team != this.team && e instanceof Ship){
+			if(e != this && e.team != this.team && e instanceof Ship && !e.isDead()){
 				dist = GameMath.getDistance(this, e);
 				if(dist < prevDist){
 					target = array.get(i);

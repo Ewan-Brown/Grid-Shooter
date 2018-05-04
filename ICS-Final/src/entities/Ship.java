@@ -27,7 +27,7 @@ public class Ship extends Entity {
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public int MAX_BOOST_DRIVE_COOLDOWN = 100;
 	public int boostDriveCooldown = MAX_BOOST_DRIVE_COOLDOWN;
-	public int caliber = 100;
+	public int caliber = 10;
 	public int missiles = 0;
 	public int radius = 0;
 	{
