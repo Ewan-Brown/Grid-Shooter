@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import entities.Drawable;
-import entities.Ship;
 
 /**
  * @author Ewan Game panel class
@@ -32,6 +31,14 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	static ArrayList<Drawable> effects = new ArrayList<Drawable>();
 	static int targetCirclePadding = 4;
+
+	static int currentCenterX = 0;
+	static int currentCenterY = 0;
+	static final double KP_PAN = 0.02;
+	
+	static double currentZoom = Properties.zoom;
+	static final double KP_ZOOM = 0.02;
+
 	private static final long serialVersionUID = 1L;
 	public static final int GRID_SIZE = 80;
 	static Timer timer;
@@ -75,27 +82,38 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// Antialiasing makes the game look much much better.
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// spacing between grid lines
-//		Player pl = InputGeneral.players.get(0);
-
-		double centerX = InputGeneral.getCenterOfPlayers().getX();
-		double centerY = InputGeneral.getCenterOfPlayers().getY();
-		double range = InputGeneral.getMaxPlayerSeparationDist();
+		// Player pl = InputGeneral.players.get(0);
+		double centerX = 0;
+		double centerY = 0;
+		double range = 0;
+		try {
+			centerX = InputGeneral.getCenterOfPlayers().getX();
+			centerY = InputGeneral.getCenterOfPlayers().getY();
+			range = InputGeneral.getMaxPlayerSeparationDist();
+		} catch (NullPointerException npe) {
+			centerX = currentCenterX;
+			centerY = currentCenterY;
+			range = currentZoom;
+		}
 		double zoom = Properties.zoom;
-		double baseDist = getWidth()/3D;
-		double mult = (range/2 > baseDist) ? (range/2) / baseDist : 1;
+		double baseDist = getWidth() / 3D;
+		double mult = (range / 2 > baseDist) ? (range / 2) / baseDist : 1;
 		zoom /= mult;
-//		if(getWidth() < range){
-//			zoom /= 2;
-//		}
+		currentCenterX += (centerX - currentCenterX) * KP_PAN;
+		currentCenterY += (centerY - currentCenterY) * KP_PAN;
+		currentZoom += (zoom - currentZoom) * KP_ZOOM;
+		// if(getWidth() < range){
+		// zoom /= 2;
+		// }
 		// Draws effects first, and the entities on top. The only reason for
 		// separation is aesthetic
-		paintGrid(g2, centerX, centerY,zoom);
+		paintGrid(g2, currentCenterX, currentCenterY, currentZoom);
 		if (!Game.lowPerformanceMode) {
 			for (int i = 0; i < effects.size(); i++) {
 				Drawable d = effects.get(i);
 				Color c = getColor(d.color);
 				g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
-				Polygon p = transformPolygon(d.getRotatedPolygon(), centerX, centerY,zoom);
+				Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
 				g2.fillPolygon(p);
 			}
 		}
@@ -104,7 +122,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			Color c = getColor(d.color);
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
-			p = transformPolygon(d.getRotatedPolygon(), centerX, centerY,zoom);
+			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
 			g2.fillPolygon(p);
 		}
 		// Draws the player health bar, scaled to screen size

@@ -4,7 +4,9 @@ Enemies also appear to start dying for NO REASON
 FIND AND ELIMINATE ROGUE POINTERS
 
 
--Add Boost to XBOCK
+Fix up HUD!
+>Add health bars!? + retro style (broforce-style less intrusive possibly)
+>Bring back target circles
 
 -Minimap
 -Switch to Turrets implementation
