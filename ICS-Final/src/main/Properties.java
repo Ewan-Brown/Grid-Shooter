@@ -7,7 +7,7 @@ package main;
 public class Properties {
 
 	//Base stats to restart new game for player
-	static final int PLAYER_BASE_HEALTH = 100;
+	static final int PLAYER_BASE_HEALTH = 200;
 	static final int PLAYER_BASE_ACCURACY = 5; 
 	static final int PLAYER_BASE_COOLDOWN = 20;
 	/**

@@ -1,7 +1,8 @@
-package entities;
+package entities.projectiles;
 
 import java.awt.geom.Point2D;
 
+import entities.Entity;
 import main.Game;
 import tools.GameMath;
 

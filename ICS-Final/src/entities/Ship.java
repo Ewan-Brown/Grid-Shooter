@@ -5,6 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import entities.projectiles.Bullet;
+import entities.projectiles.Laser;
+import entities.projectiles.Missile;
 import main.Game;
 
 public class Ship extends Entity {

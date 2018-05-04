@@ -1,6 +1,16 @@
+TODO:
+Massive lag spikes after rond 10, even when nearly all enemies are dead. 
+Enemies also appear to start dying for NO REASON
+FIND AND ELIMINATE ROGUE POINTERS
+
+
+-Add Boost to XBOCK
+
 -Minimap
--Buffs/Debuffs (mechanism failures?)
+-Switch to Turrets implementation
 -Make ship/enemy code cleaner
+
+-Buffs/Debuffs (mechanism failures?)
 -More particles!
 -Joystick support
 -Read ships from xml/json(?)

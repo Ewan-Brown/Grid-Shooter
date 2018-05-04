@@ -1,5 +1,6 @@
-package entities;
+package entities.projectiles;
 
+import entities.Entity;
 import main.Game;
 import tools.GameMath;
 

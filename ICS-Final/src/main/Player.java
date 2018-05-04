@@ -14,7 +14,7 @@ import tools.GameMath;
 public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener {
 
 	public Player(XInputDevice XInputDevice) {
-		this.XInputDevice = XInputDevice;
+		this.controller = XInputDevice;
 		XInputDevice.addListener(this);
 	}
 
@@ -24,10 +24,10 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	}
 
 	Ship playerShip;
-	XInputDevice XInputDevice;
+	XInputDevice controller;
 	int playerNum;
 	String playerName;
-	boolean readyForNextRound = false;
+	boolean playerReady = false; //TODO Maybe move this into game logic?
 	public void reset(Ship ship){
 		playerShip = ship;
 		target = null;
@@ -35,21 +35,21 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	public void update() {
 		//TODO If dead skip the controls but make the control alternate vibrations!
 		//++This is messy move to player class please
-		XInputDevice.poll();
+		controller.poll();
 		if (playerShip.isDead()) {
 			double z = System.currentTimeMillis() % 1000; 
 			if(z > 500){
-				XInputDevice.setVibration(65535, 0);
+				controller.setVibration(65535, 0);
 			}
 			else{
-				XInputDevice.setVibration(0, 65535);
+				controller.setVibration(0, 65535);
 			}
 			return;
 		}
 		// Moving
 		float deadZone = 0.2f;
-		float x = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X);
-		float y = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y);
+		float x = controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X);
+		float y = controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y);
 		x = (deadZone > Math.abs(x)) ? 0 : x;
 		y = (deadZone > Math.abs(y)) ? 0 : y;
 		if (!(x == 0 && y == 0)) {
@@ -59,7 +59,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 		}
 
 		// Turning
-		float x2 = XInputDevice.getComponents().getAxes().get(XInputAxis.RIGHT_THUMBSTICK_X);
+		float x2 = controller.getComponents().getAxes().get(XInputAxis.RIGHT_THUMBSTICK_X);
 		x2 = (deadZone > Math.abs(x2)) ? 0 : x2;
 		if (x2 != 0) {
 			double throttle = x2;
@@ -69,9 +69,9 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 		// Boosting
 
 		// Shooting
-		float rt = XInputDevice.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
-		float lt = XInputDevice.getComponents().getAxes().get(XInputAxis.LEFT_TRIGGER);
-		 XInputDevice.setVibration((int) (lt * 65535f / 2f), (int) (rt *65535f / 2f));
+		float rt = controller.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
+		float lt = controller.getComponents().getAxes().get(XInputAxis.LEFT_TRIGGER);
+		 controller.setVibration((int) (lt * 65535f / 2f), (int) (rt *65535f / 2f));
 		if (rt > 0) {
 			playerShip.shootBullet();
 		}
@@ -103,7 +103,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 			isTargetting = !isTargetting;
 		}
 		if (playerShip.isDead()) {
-			readyForNextRound = true;
+			playerReady = true;
 		}
 	}
 

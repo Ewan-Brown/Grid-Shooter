@@ -1,7 +1,8 @@
-package entities;
+package entities.projectiles;
 
 import java.util.ArrayList;
 
+import entities.Entity;
 import main.Game;
 import tools.GameMath;
 

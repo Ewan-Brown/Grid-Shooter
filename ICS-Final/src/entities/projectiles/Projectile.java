@@ -1,4 +1,6 @@
-package entities;
+package entities.projectiles;
+
+import entities.Entity;
 
 /**
  * @author Ewan

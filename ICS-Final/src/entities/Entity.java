@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Entity extends Drawable{
 
-	double xSpeed = 0;
-	double ySpeed = 0;
+	protected double xSpeed = 0;
+	protected double ySpeed = 0;
 	public double maxHealth = 1000;
 	public double health = maxHealth;
 	public int team = 0;

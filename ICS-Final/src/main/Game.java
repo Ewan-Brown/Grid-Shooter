@@ -70,8 +70,10 @@ public class Game implements Runnable, ActionListener {
 		gameOver = false;
 		for (Player p : InputGeneral.players) {
 			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints);
+			playerShip.maxHealth = Properties.PLAYER_BASE_HEALTH;
 			playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
 			playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
+			playerShip.health = playerShip.maxHealth;
 			playerShip.team = PLAYER_TEAM;
 			entityArray.add(playerShip);
 			playerShip.color = 0;
@@ -136,7 +138,7 @@ public class Game implements Runnable, ActionListener {
 		else{
 			boolean allPlayersReady = true;
 			for (Player pl : InputGeneral.players) {
-				if(!pl.readyForNextRound){
+				if(!pl.playerReady){
 					allPlayersReady = false;
 				}
 			}
@@ -172,6 +174,14 @@ public class Game implements Runnable, ActionListener {
 	 */
 	public static void nextLevel() {
 		Properties.level++;
+		//Clear the dead!
+		for(int i = 0; i < entityArray.size();i++){
+			Entity e = entityArray.get(i);
+			if(e.isDead())entityArray.remove(i);
+			if(e instanceof Enemy){
+				System.out.println("EMENY");
+			}
+		}
 		for (Player p : InputGeneral.players) {
 			addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
 			p.playerShip.missiles = (Properties.level / 2) + 1;
