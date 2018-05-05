@@ -21,7 +21,7 @@ public class Turret extends Entity {
 	}
 	
 	public Turret(double x, double y,Ship owner) {
-		super(x, y, 0,0, Structures.TURRET);
+		super(x, y, 0,0, Structures.TURRET,owner.color);
 		this.owner = owner;
 	}
 	public void update(){

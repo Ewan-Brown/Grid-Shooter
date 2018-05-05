@@ -1,17 +1,13 @@
 package main;
 
-import static main.Properties.zoom;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -45,16 +41,17 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	DecimalFormat df = new DecimalFormat("0.00");
 	public static Panel panelInstance;
 	// Use this is a static instance
-	static Color[] colorList = new Color[4];
-	{
-		colorList[0] = Color.GREEN;
-		colorList[1] = Color.RED;
-		colorList[2] = Color.ORANGE;
-		colorList[3] = Color.CYAN;
-	}
-
-	public static Color getColor(int c) {
-		return colorList[c];
+	public enum CustColor{
+		
+		PLAYER1(Color.GREEN),PLAYER2(Color.YELLOW),PLAYER3(Color.CYAN),
+		PLAYER4(Color.PINK),ENEMY(Color.RED),PROJECTILE(Color.RED),PARTICLE(Color.ORANGE);
+		CustColor(Color col){
+			c = col;
+		}
+		Color c;
+		public Color getColor(){
+			return c;
+		}
 	}
 
 	public void paintGrid(Graphics g2, double xC, double yC, double zoom) {
@@ -111,7 +108,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		if (!Game.lowPerformanceMode) {
 			for (int i = 0; i < effects.size(); i++) {
 				Drawable d = effects.get(i);
-				Color c = getColor(d.color);
+				Color c = d.color.getColor();
 				g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 				Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
 				g2.fillPolygon(p);
@@ -119,7 +116,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		}
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable d = drawables.get(i);
-			Color c = getColor(d.color);
+			Color c = d.color.getColor();
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
 			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);

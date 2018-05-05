@@ -70,7 +70,7 @@ public class Game implements Runnable, ActionListener {
 		effectsArray.clear();
 		gameOver = false;
 		for (Player p : InputGeneral.players) {
-			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints);
+			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints,p.playerColor);
 			
 			entityArray.add(playerShip);
 			

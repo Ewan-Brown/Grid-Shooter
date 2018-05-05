@@ -1,17 +1,18 @@
 package entities;
 
+import main.Panel.CustColor;
+
 /**
  * @author Ewan
  *	Class for Aesthetic Particles
  */
 public class VoxelParticle extends Entity{
 	double spin;
-	public VoxelParticle(double x, double y, double dX, double dY,double spin, int c, double health) {
-		super(x, y, dX, dY,Structures.PARTICLE1);
+	public VoxelParticle(double x, double y, double dX, double dY,double spin, CustColor c, double health) {
+		super(x, y, dX, dY,Structures.PARTICLE1,c);
 		maxHealth = health;
 		this.health = maxHealth;
 		this.spin = spin;
-		this.color = c;
 
 	}
 	public void update(){

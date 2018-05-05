@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import main.Panel.CustColor;
+
 
 
 /**
@@ -18,38 +20,19 @@ public abstract class Drawable implements Cloneable{
 	
 	public double xPos;
 	public double yPos;
-	/**
-	 * an array of Points that make up the structure of the polygon
-	 */
-//	public Point[] polygonPoints;
 	public Point[] structure;
-//	public int shape = -1;
-	
-	/** 
-	 * The angle in degrees of this drawable relative to the global 2D Plane, 0 degrees would be 'east'
-	 */
 	public double realAngle = 0;
-	public int color = 0;
 	public boolean transparency = false;
-	/**
-	 * Precalculated center point of the drawable's non-translated/rotated polygon
-	 */
 	public Point2D centerPoint;
-//	public Drawable(double x, double y, Point[] points){
-//		this.xPos = x;
-//		this.yPos = y;
-//		this.polygonPoints = points;
-//		centerPoint = getCenter(points);
-//		this.xPos -= centerPoint.getX();
-//		this.yPos -= centerPoint.getY();
-//	}
-	public Drawable(double x, double y, int shape){
+	public CustColor color;
+	public Drawable(double x, double y, int shape,CustColor c){
 		this.xPos = x;
 		this.yPos = y;
 		this.structure = Structures.getStructure(shape);
 		centerPoint = getCenter(structure);
 		this.xPos -= centerPoint.getX();
 		this.yPos -= centerPoint.getY();
+		this.color = c;
 	}
 	public int getAlpha(){
 		return 255;

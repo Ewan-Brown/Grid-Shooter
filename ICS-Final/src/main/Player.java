@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import com.ivan.xinput.XInputDevice;
@@ -9,15 +10,17 @@ import com.ivan.xinput.enums.XInputButton;
 import entities.Enemy;
 import entities.Entity;
 import entities.Ship;
+import main.Panel.CustColor;
 import tools.GameMath;
 
 public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener {
 
-	public Player(XInputDevice XInputDevice) {
+	public Player(XInputDevice XInputDevice, CustColor c) {
 		this.controller = XInputDevice;
 		XInputDevice.addListener(this);
+		playerColor = c;
 	}
-
+	CustColor playerColor;
 	@Deprecated
 	public Player(XInputDevice joy1, XInputDevice joy2) {
 
@@ -33,7 +36,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	public void reset(Ship ship) {
 		playerShip = ship;
 		playerShip.isPlayerControlled = true;
-		playerShip.color = 0;
+//		playerShip.color = ;
 		playerShip.maxHealth = Properties.PLAYER_BASE_HEALTH;
 		playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
 		playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;

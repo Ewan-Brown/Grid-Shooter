@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import main.Game;
+import main.Panel.CustColor;
 import tools.GameMath;
 
 public class Enemy extends Ship{
@@ -24,7 +25,7 @@ public class Enemy extends Ship{
 		health = maxHealth;
 	}
 	public Enemy(double x, double y,int points,Point[] turrets,Point[] missileTurrets) {
-		super(x, y,points,Game.turretPoints1, new Point[0]);
+		super(x, y,points,Game.turretPoints1, new Point[0],CustColor.ENEMY);
 		team = Game.ENEMY_TEAM;
 	}
 	public void strafe(double t){

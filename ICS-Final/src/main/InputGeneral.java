@@ -1,17 +1,24 @@
 package main;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.ivan.xinput.XInputDevice14;
 import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
+import main.Panel.CustColor;
 import tools.GameMath;
 
 public class InputGeneral {
 
 	static ArrayList<XInputDevice14> XInputDevices = new ArrayList<>();
 	static ArrayList<Player> players = new ArrayList<>();
+
+	public static void init() {
+		checkXInputDevices();
+
+	}
 
 	public static void checkXInputDevices() {
 		XInputDevices.clear(); // TODO Maybe dont have this hard reset?
@@ -21,7 +28,7 @@ public class InputGeneral {
 			try {
 				c = XInputDevice14.getDeviceFor(i);
 				XInputDevices.add(c);
-				players.add(new Player(c));
+				players.add(new Player(c, CustColor.values()[CustColor.PLAYER1.ordinal() + i]));
 			} catch (XInputNotLoadedException e) {
 				e.printStackTrace();
 			}
@@ -45,13 +52,19 @@ public class InputGeneral {
 
 	public static double getMaxPlayerSeparationDist() {
 		double d = 0;
-		for(int i = 0; i < players.size();i++){
-			for(int j = 0; j < players.size();j++){
-				double dC = GameMath.getDistance(players.get(i).playerShip, players.get(j).playerShip);
-				if(dC > d){
-					d = dC;
-				}
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).playerShip.isDead()) {
+				continue;
 			}
+				for (int j = i + 1; j < players.size(); j++) {
+					if (players.get(j).playerShip.isDead()) {
+						continue;
+					}
+					double dC = GameMath.getDistance(players.get(i).playerShip, players.get(j).playerShip);
+					if (dC > d) {
+						d = dC;
+					}
+				}
 		}
 		return d;
 	}

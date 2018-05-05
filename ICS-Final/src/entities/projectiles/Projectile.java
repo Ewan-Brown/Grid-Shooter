@@ -1,6 +1,7 @@
 package entities.projectiles;
 
 import entities.Entity;
+import main.Panel.CustColor;
 
 /**
  * @author Ewan
@@ -12,7 +13,7 @@ public class Projectile extends Entity{
 	 */
 	double damage;
 	public Projectile(double x, double y, double dX, double dY,int shape,int damage) {
-		super(x, y, dX, dY,shape);
+		super(x, y, dX, dY,shape,CustColor.PROJECTILE);
 		this.damage = damage;
 	}
 	/**

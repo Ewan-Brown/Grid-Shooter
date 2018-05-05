@@ -3,6 +3,8 @@ package entities;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import main.Panel.CustColor;
+
 public class Entity extends Drawable{
 
 	protected double xSpeed = 0;
@@ -14,23 +16,17 @@ public class Entity extends Drawable{
 	static DecimalFormat df = new DecimalFormat("0.00");
 	Random rand = new Random();
 	boolean deadFlag = false;
-//	public String toString(){
-//		double d = health/maxHealth;
-//		String h = df.format(d);
-//		return "HP: ["+h+"]";
-//	}
 	{
 		super.transparency = true;
 	}
 	public double getLife(){
 		return health/maxHealth;
 	}
-	public Entity(double x, double y,double dX,double dY,int shape){
-		super(x,y,shape);
+	public Entity(double x, double y,double dX,double dY,int shape,CustColor c){
+		super(x,y,shape,c);
 		health = maxHealth;
 		this.xSpeed = dX;
 		this.ySpeed = dY;
-		color = 1;
 	}
 	public boolean isDead(){
 		boolean b = (health <= 0);

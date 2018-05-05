@@ -9,6 +9,7 @@ import entities.projectiles.Bullet;
 import entities.projectiles.Laser;
 import entities.projectiles.Missile;
 import main.Game;
+import main.Panel.CustColor;
 
 public class Ship extends Entity {
 	// TODO Rewrite weapon code with Turrets - Polymorphous!
@@ -36,8 +37,8 @@ public class Ship extends Entity {
 	public Point[] bulletTurrets;
 	public Point[] missileTurrets;
 
-	public Ship(double x, double y, int shape, Point[] turrets, Point[] missileTurrets) {
-		super(x, y, 0, 0, shape);
+	public Ship(double x, double y, int shape, Point[] turrets, Point[] missileTurrets,CustColor c) {
+		super(x, y, 0, 0, shape,c);
 		this.bulletTurrets = turrets;
 		this.missileTurrets = missileTurrets;
 	}

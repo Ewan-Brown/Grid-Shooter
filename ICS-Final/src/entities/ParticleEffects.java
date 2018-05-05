@@ -3,6 +3,8 @@ package entities;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Panel.CustColor;
+
 public class ParticleEffects {
 
 	ArrayList<VoxelParticle> particles;
@@ -14,7 +16,7 @@ public class ParticleEffects {
 		for (int i = 0; i < amount; i++) {
 			double vX = (double) (force * Math.cos(theta * i));
 			double vY = (double) (force * Math.sin(theta * i));
-			VoxelParticle p = new VoxelParticle(x, y, vX, vY, Math.random() * 5, 0, life);
+			VoxelParticle p = new VoxelParticle(x, y, vX, vY, Math.random() * 5, CustColor.PARTICLE, life);
 			particles.add(p);
 		}
 		return particles;
@@ -25,7 +27,7 @@ public class ParticleEffects {
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
 			double i2 = i;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double z = i2;
 				public double getYSpeed() {
 					return force * (getLife()) * Math.cos(theta * z);
@@ -44,7 +46,7 @@ public class ParticleEffects {
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
 			double i2 = i;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double z = i2;
 				public double getYSpeed() {
 					return force * (1-getLife()) * Math.cos(theta * z);
@@ -63,7 +65,7 @@ public class ParticleEffects {
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
 			double i2 = i;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double z = i2;
 				public double getYSpeed() {
 					return force * (0.5-getLife()) * amplitude * Math.cos(theta * z);
@@ -81,7 +83,7 @@ public class ParticleEffects {
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double startingAngle = Math.toRadians(angle);
 				double flipped = s;
 
@@ -101,7 +103,7 @@ public class ParticleEffects {
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double startingAngle = angle;
 				double flipped = s;
 				public double getYSpeed() {
@@ -120,7 +122,7 @@ public class ParticleEffects {
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double startingAngle = Math.toRadians(angle);
 				double flipped = s;
 
@@ -140,7 +142,7 @@ public class ParticleEffects {
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
-			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, 0, life) {
+			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
 				double startingAngle = Math.toRadians(angle);
 				double flipped = s;
 
