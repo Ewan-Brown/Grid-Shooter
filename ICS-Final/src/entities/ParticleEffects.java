@@ -104,14 +104,14 @@ public class ParticleEffects {
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
 			VoxelParticle p = new VoxelParticle(x, y, 0, 0, Math.random() * 5, CustColor.PARTICLE, life) {
-				double startingAngle = angle;
+				double startingAngle = angle + (Math.random()-0.5)*2;
 				double flipped = s;
 				public double getYSpeed() {
-					return flipped * Math.cos(startingAngle) * Math.cos(getLife() * Math.PI*4) * 2;
+					return flipped * Math.cos(startingAngle) * Math.cos(getLife() * Math.PI*3)*1.5;
 				}
 
 				public double getXSpeed() {
-					return flipped * Math.sin(startingAngle) * Math.cos(getLife() * Math.PI*4 + Math.PI) * 2;
+					return flipped * Math.sin(startingAngle) * Math.cos(getLife() * Math.PI*3 + Math.PI)*1.5;
 				}
 			};
 			particles.add(p);

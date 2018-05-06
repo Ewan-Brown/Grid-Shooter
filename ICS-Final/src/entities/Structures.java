@@ -56,7 +56,7 @@ public class Structures {
 		structures[0] = lightStructure;
 		structures[1] = lightStructure;
 		structures[2] = mediumStructure;
-		structures[4] = bullet_big;
+		structures[4] = bullet_medium;
 		structures[5] = bullet_big;
 		structures[6] = laser;
 		Point[][] particles = new Point[4][4];

@@ -128,6 +128,9 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 			lastBoost = new Point2D.Double(controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X),
 					controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y));
 		}
+		if(button == XInputButton.START && pressed){
+			Game.lowPerformanceMode = !Game.lowPerformanceMode;
+		}
 		if (playerShip.isDead()) {
 			playerReady = true;
 		}

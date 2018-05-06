@@ -15,14 +15,17 @@ import entities.ParticleEffects;
 import entities.Ship;
 import entities.Structures;
 import entities.VoxelParticle;
-import entities.projectiles.Projectile;
 
 public class Game implements Runnable, ActionListener {
 	public static ArrayList<Entity> entityArray = new ArrayList<Entity>();
 	private static ArrayList<VoxelParticle> effectsArray = new ArrayList<VoxelParticle>();
 	public static boolean lowPerformanceMode = false;
-	// static Ship player;
-	// Constants for team numbers, used in hit collision
+
+	enum PerformanceMode {
+		// mmmmmmmmmmmmmmmmmm?
+		Ultra, High, Medium, Low, Potato;
+	}
+
 	public static final int PLAYER_TEAM = 0;
 	public static final int ENEMY_TEAM = 1;
 	static boolean gameOver = false;
@@ -70,10 +73,10 @@ public class Game implements Runnable, ActionListener {
 		effectsArray.clear();
 		gameOver = false;
 		for (Player p : InputGeneral.players) {
-			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints,p.playerColor);
-			
+			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints, p.playerColor);
+
 			entityArray.add(playerShip);
-			
+
 			p.reset(playerShip);
 		}
 
@@ -131,15 +134,14 @@ public class Game implements Runnable, ActionListener {
 					gameOver = false;
 				}
 			}
-		}
-		else{
+		} else {
 			boolean allPlayersReady = true;
 			for (Player pl : InputGeneral.players) {
-				if(!pl.playerReady){
+				if (!pl.playerReady) {
 					allPlayersReady = false;
 				}
 			}
-			if(allPlayersReady){
+			if (allPlayersReady) {
 				startNew();
 			}
 		}
@@ -170,30 +172,33 @@ public class Game implements Runnable, ActionListener {
 	 */
 	public static void nextLevel() {
 		Properties.level++;
-		//Clear the dead!
-		for(int i = 0; i < entityArray.size();i++){
+		// Clear the dead!
+		for (int i = 0; i < entityArray.size(); i++) {
 			Entity e = entityArray.get(i);
-			if(e.isDead())entityArray.remove(i);
+			if (e.isDead() && !e.isPlayerControlled)
+				entityArray.remove(i);
 		}
 		for (Player p : InputGeneral.players) {
-			addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
-			p.playerShip.missiles = (Properties.level / 2) + 1;
-			if (Properties.level == 5) {
-				p.playerShip.bulletTurrets = turretPoints2;
+			if (!p.playerShip.isDead()) {
+				addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
+				p.playerShip.missiles = (Properties.level / 2) + 1;
+				if (Properties.level == 5) {
+					p.playerShip.bulletTurrets = turretPoints2;
+				}
+				if (Properties.level == 10) {
+					p.playerShip.bulletAccuracy = 2;
+					p.playerShip.turnSpeed = 8;
+					p.playerShip.laserOn = true;
+				}
+				if (Properties.level == 20) {
+					p.playerShip.bulletTurrets = turretPoints3;
+					p.playerShip.maxBulletCooldown = 10;
+				}
+				if (Properties.level == 30) {
+				}
+				p.playerShip.maxHealth += 10;
+				p.playerShip.health = p.playerShip.maxHealth;
 			}
-			if (Properties.level == 10) {
-				p.playerShip.bulletAccuracy = 2;
-				p.playerShip.turnSpeed = 8;
-				p.playerShip.laserOn = true;
-			}
-			if (Properties.level == 20) {
-				p.playerShip.bulletTurrets = turretPoints3;
-				p.playerShip.maxBulletCooldown = 10;
-			}
-			if (Properties.level == 30) {
-			}
-			p.playerShip.maxHealth += 10;
-			p.playerShip.health = p.playerShip.maxHealth;
 		}
 		for (int i = 0; i < Properties.level; i++) {
 			double angle = rand.nextDouble() * Math.PI * 2;

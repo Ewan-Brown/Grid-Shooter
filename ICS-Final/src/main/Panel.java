@@ -31,7 +31,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	static int currentCenterX = 0;
 	static int currentCenterY = 0;
 	static final double KP_PAN = 0.02;
-	
+
 	static double currentZoom = Properties.zoom;
 	static final double KP_ZOOM = 0.02;
 
@@ -40,16 +40,18 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	static Timer timer;
 	DecimalFormat df = new DecimalFormat("0.00");
 	public static Panel panelInstance;
-	// Use this is a static instance
-	public enum CustColor{
-		
-		PLAYER1(Color.GREEN),PLAYER2(Color.YELLOW),PLAYER3(Color.CYAN),
-		PLAYER4(Color.PINK),ENEMY(Color.RED),PROJECTILE(Color.RED),PARTICLE(Color.ORANGE);
-		CustColor(Color col){
+
+	public enum CustColor {
+
+		PLAYER1(Color.GREEN), PLAYER2(Color.YELLOW), PLAYER3(Color.CYAN), PLAYER4(Color.PINK), ENEMY(
+				Color.RED), PROJECTILE(Color.RED), PARTICLE(Color.ORANGE);
+		CustColor(Color col) {
 			c = col;
 		}
+
 		Color c;
-		public Color getColor(){
+
+		public Color getColor() {
 			return c;
 		}
 	}
@@ -71,6 +73,27 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			g2.drawLine((int) xP, 0, (int) xP, h);
 			xP += lineSpace;
 		} while (xP < w);
+	}
+
+	public void drawEffects(Graphics g2) {
+		for (int i = 0; i < effects.size(); i++) {
+			Drawable d = effects.get(i);
+			Color c = d.color.getColor();
+			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
+			Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
+			g2.fillPolygon(p);
+		}
+	}
+
+	public void drawDrawables(Graphics g2) {
+		for (int i = 0; i < drawables.size(); i++) {
+			Drawable d = drawables.get(i);
+			Color c = d.color.getColor();
+			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
+			Polygon p = null;
+			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
+			g2.fillPolygon(p);
+		}
 	}
 
 	public void paint(Graphics g1) {
@@ -102,26 +125,9 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// if(getWidth() < range){
 		// zoom /= 2;
 		// }
-		// Draws effects first, and the entities on top. The only reason for
-		// separation is aesthetic
 		paintGrid(g2, currentCenterX, currentCenterY, currentZoom);
-		if (!Game.lowPerformanceMode) {
-			for (int i = 0; i < effects.size(); i++) {
-				Drawable d = effects.get(i);
-				Color c = d.color.getColor();
-				g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
-				Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
-				g2.fillPolygon(p);
-			}
-		}
-		for (int i = 0; i < drawables.size(); i++) {
-			Drawable d = drawables.get(i);
-			Color c = d.color.getColor();
-			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
-			Polygon p = null;
-			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
-			g2.fillPolygon(p);
-		}
+		drawEffects(g2);
+		drawDrawables(g2);
 		// Draws the player health bar, scaled to screen size
 		// if (Game.player != null) {
 		// double healthPercentage = (double) Game.player.health / (double)

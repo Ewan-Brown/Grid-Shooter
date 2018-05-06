@@ -86,6 +86,7 @@ public class Ship extends Entity {
 	 */
 	public void fumes(double t, double angle) {
 		Point2D p = centerPoint;
+		//FIXME
 //		 double angle2 = angle + ((Math.random() - 0.5) * 50);
 //		double dX2 = (Math.cos(Math.toRadians(angle))) * speed * t;
 //		double dY2 = (Math.sin(Math.toRadians(angle))) * speed * t;

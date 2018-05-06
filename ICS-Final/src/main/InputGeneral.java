@@ -23,16 +23,20 @@ public class InputGeneral {
 	public static void checkXInputDevices() {
 		XInputDevices.clear(); // TODO Maybe dont have this hard reset?
 		players.clear();
-		for (int i = 0; i < 2; i++) {
+		int i = 0;
+		while(true){
 			XInputDevice14 c;
 			try {
 				c = XInputDevice14.getDeviceFor(i);
+ 				if(!c.isConnected()){
+					return;
+				}
 				XInputDevices.add(c);
 				players.add(new Player(c, CustColor.values()[CustColor.PLAYER1.ordinal() + i]));
 			} catch (XInputNotLoadedException e) {
 				e.printStackTrace();
 			}
-
+			i++;
 		}
 	}
 
