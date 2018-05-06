@@ -19,12 +19,6 @@ import entities.VoxelParticle;
 public class Game implements Runnable, ActionListener {
 	public static ArrayList<Entity> entityArray = new ArrayList<Entity>();
 	private static ArrayList<VoxelParticle> effectsArray = new ArrayList<VoxelParticle>();
-	public static boolean lowPerformanceMode = false;
-
-	enum PerformanceMode {
-		// mmmmmmmmmmmmmmmmmm?
-		Ultra, High, Medium, Low, Potato;
-	}
 
 	public static final int PLAYER_TEAM = 0;
 	public static final int ENEMY_TEAM = 1;
@@ -92,28 +86,15 @@ public class Game implements Runnable, ActionListener {
 	}
 
 	public static void addParticles(ArrayList<VoxelParticle> p) {
-		if (!lowPerformanceMode) {
-			effectsArray.addAll(p);
-		}
+		effectsArray.addAll(p);
 	}
 
 	public static void addParticle(VoxelParticle p) {
-		if (!lowPerformanceMode) {
-			effectsArray.add(p);
-		}
+		effectsArray.add(p);
 	}
 
 	public static void loop() {
 		InputGeneral.updatePlayers();
-		// XXX I got a bad feeling about this...
-		// too much looping instead of just removing a chunk at a time? also
-		// removing new instead of old particles
-		if (effectsArray.size() > 5000) {
-			int f = effectsArray.size() - 5000;
-			for (int i = 0; i < f; i++) {
-				effectsArray.remove(0);
-			}
-		}
 		ArrayList<Entity> lastArray = new ArrayList<Entity>();
 		for (int i = 0; i < entityArray.size(); i++) {
 			Entity p = entityArray.get(i);

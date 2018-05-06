@@ -27,6 +27,7 @@ public class Ship extends Entity {
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public int MAX_BOOST_DRIVE_COOLDOWN = 100;
+	public static int ALPHACUTOFF = 100;
 	public int boostDriveCooldown = MAX_BOOST_DRIVE_COOLDOWN;
 	public int caliber = 10;
 	public int missiles = 0;
@@ -42,7 +43,15 @@ public class Ship extends Entity {
 		this.bulletTurrets = turrets;
 		this.missileTurrets = missileTurrets;
 	}
-
+	public int getAlpha(){
+		if(transparency){
+			int a = (int) (ALPHACUTOFF + ((255-ALPHACUTOFF) *((double)health / (double)maxHealth)));
+			return (a < 0) ? 0 : a;
+		}
+		else{
+			return 255;
+		}
+	}
 	public void boost(double angle) {
 			double dX = (Math.cos(Math.toRadians(realAngle) + angle)) * speed * 60;
 			double dY = (Math.sin(Math.toRadians(realAngle) + angle)) * speed * 60;

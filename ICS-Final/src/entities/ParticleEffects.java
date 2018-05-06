@@ -7,10 +7,20 @@ import main.Panel.CustColor;
 
 public class ParticleEffects {
 
-	ArrayList<VoxelParticle> particles;
+	public enum PerformanceMode {
+		// mmmmmmmmmmmmmmmmmm?
+		HIGH(Integer.MAX_VALUE,1),LOW(500,0.6),POTATO(100,0.3),NADA(0,0);
+		int maxParticles;
+		double particlePercent;
+		PerformanceMode(int m,double p){
+			maxParticles = m;
+			particlePercent = p;
+		}
+	}
+	public static PerformanceMode pm = PerformanceMode.NADA;
 	static Random rand = new Random();
-
 	public static ArrayList<VoxelParticle> explode(double x, double y, double force, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
@@ -23,6 +33,7 @@ public class ParticleEffects {
 	}
 	//Like explode but particles slow down as they near death
 	public static ArrayList<VoxelParticle> explode2(double x, double y, double force, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
@@ -42,6 +53,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> stretchedExplode(double x, double y, double force, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
@@ -61,6 +73,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> implode(double x, double y, double force, int amount, int life,double amplitude) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		double theta = (double) Math.PI * 2 / (double) amount;
 		for (int i = 0; i < amount; i++) {
@@ -80,6 +93,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> fishtail(double x, double y, double angle, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
@@ -100,6 +114,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> helix(double x, double y, double angle, int amount,double life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
@@ -119,6 +134,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> helixInverted(double x, double y, double angle, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;
@@ -139,6 +155,7 @@ public class ParticleEffects {
 		return particles;
 	}
 	public static ArrayList<VoxelParticle> current(double x, double y, double angle, int amount, int life) {
+		amount = (int) Math.floor(amount * pm.particlePercent);
 		ArrayList<VoxelParticle> particles = new ArrayList<VoxelParticle>(amount);
 		for (int i = 0; i < amount; i++) {
 			double s = (i % 2 == 0) ? 1 : -1;

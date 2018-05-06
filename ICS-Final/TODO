@@ -1,5 +1,6 @@
 TODO:
-after one layer dies, next round half-revives him and game-over never happens.
+
+WORKING ON Low performance mode : Decrease number of particles per effects? (for example low mode has half)
 
 Massive lag spikes after rond 10, even when nearly all enemies are dead. 
 Enemies also appear to start dying for NO REASON

@@ -9,6 +9,8 @@ import com.ivan.xinput.enums.XInputButton;
 
 import entities.Enemy;
 import entities.Entity;
+import entities.ParticleEffects;
+import entities.ParticleEffects.PerformanceMode;
 import entities.Ship;
 import main.Panel.CustColor;
 import tools.GameMath;
@@ -129,7 +131,7 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 					controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y));
 		}
 		if(button == XInputButton.START && pressed){
-			Game.lowPerformanceMode = !Game.lowPerformanceMode;
+			ParticleEffects.pm = ParticleEffects.PerformanceMode.values()[(ParticleEffects.pm.ordinal() + 1) % ParticleEffects.PerformanceMode.values().length];
 		}
 		if (playerShip.isDead()) {
 			playerReady = true;
