@@ -95,22 +95,7 @@ public class Ship extends Entity {
 	 */
 	public void fumes(double t, double angle) {
 		Point2D p = centerPoint;
-		//FIXME
-//		 double angle2 = angle + ((Math.random() - 0.5) * 50);
-//		double dX2 = (Math.cos(Math.toRadians(angle))) * speed * t;
-//		double dY2 = (Math.sin(Math.toRadians(angle))) * speed * t;
-		if (this.team == Game.PLAYER_TEAM) {
-			// Game.addEffects((new VoxelParticle(p.getX() + xPos,p.getY() +
-			// yPos,-dX2,-dY2,0,2,40)));
-
-			// Game.addParticles(ParticleEffects.explode((float)(p.getX() +
-			// xPos),(float)(p.getY() + yPos), 2, 20,80));
-
-			// Game.addParticles(
-			// ParticleEffects.helixInverted((float) (p.getX() + xPos), (float)
-			// (p.getY() + yPos), angle, 2, 120));
 			Game.addParticles(ParticleEffects.helix((float) (p.getX() + xPos), (float) (p.getY() + yPos), angle, 20, getLife()*80));
-		}
 	}
 
 	public void update() {
