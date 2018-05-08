@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.ivan.xinput.XInputDevice14;
+import com.ivan.xinput.XInputDevice;
 import com.ivan.xinput.exceptions.XInputNotLoadedException;
 
 import main.Panel.CustColor;
@@ -12,7 +12,7 @@ import tools.GameMath;
 
 public class InputGeneral {
 
-	static ArrayList<XInputDevice14> XInputDevices = new ArrayList<>();
+	static ArrayList<XInputDevice> XInputDevices = new ArrayList<>();
 	static ArrayList<Player> players = new ArrayList<>();
 
 	public static void init() {
@@ -25,9 +25,9 @@ public class InputGeneral {
 		players.clear();
 		int i = 0;
 		while(true){
-			XInputDevice14 c;
+			XInputDevice c;
 			try {
-				c = XInputDevice14.getDeviceFor(i);
+				c = XInputDevice.getDeviceFor(i);
  				if(!c.isConnected()){
 					return;
 				}
