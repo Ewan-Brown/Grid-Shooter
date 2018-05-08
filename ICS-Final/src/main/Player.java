@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import com.ivan.xinput.XInputDevice;
@@ -10,7 +9,6 @@ import com.ivan.xinput.enums.XInputButton;
 import entities.Enemy;
 import entities.Entity;
 import entities.ParticleEffects;
-import entities.ParticleEffects.PerformanceMode;
 import entities.Ship;
 import main.Panel.CustColor;
 import tools.GameMath;
@@ -22,7 +20,9 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 		XInputDevice.addListener(this);
 		playerColor = c;
 	}
+
 	CustColor playerColor;
+
 	@Deprecated
 	public Player(XInputDevice joy1, XInputDevice joy2) {
 
@@ -38,13 +38,14 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 	public void reset(Ship ship) {
 		playerShip = ship;
 		playerShip.isPlayerControlled = true;
-//		playerShip.color = ;
+		// playerShip.color = ;
 		playerShip.maxHealth = Properties.PLAYER_BASE_HEALTH;
 		playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
 		playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
 		playerShip.caliber = Properties.PLAYER_BASE_CALIBER;
 		playerShip.health = playerShip.maxHealth;
 		playerShip.team = Game.PLAYER_TEAM;
+		playerReady = false;
 		target = null;
 	}
 
@@ -93,8 +94,8 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 		// Shooting
 		float rt = controller.getComponents().getAxes().get(XInputAxis.RIGHT_TRIGGER);
 		float lt = controller.getComponents().getAxes().get(XInputAxis.LEFT_TRIGGER);
-		if(enableVibration){
-		controller.setVibration(0, (int) (rt * 65535f / 2f));
+		if (enableVibration) {
+			controller.setVibration((int)(lt * 65535f / 2f), (int) (rt * 65535f / 2f));
 		}
 		if (rt > 0) {
 			playerShip.shootBullet();
@@ -130,8 +131,17 @@ public class Player extends com.ivan.xinput.listener.SimpleXInputDeviceListener 
 			lastBoost = new Point2D.Double(controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_X),
 					controller.getComponents().getAxes().get(XInputAxis.LEFT_THUMBSTICK_Y));
 		}
-		if(button == XInputButton.START && pressed){
-			ParticleEffects.pm = ParticleEffects.PerformanceMode.values()[(ParticleEffects.pm.ordinal() + 1) % ParticleEffects.PerformanceMode.values().length];
+		if (button == XInputButton.DPAD_DOWN && pressed) {
+			ParticleEffects.pm = ParticleEffects.PerformanceMode.values()[(ParticleEffects.pm.ordinal() + 1)
+					% ParticleEffects.PerformanceMode.values().length];
+		}
+		if (button == XInputButton.DPAD_LEFT && pressed) {
+			Panel.antialiasing = !Panel.antialiasing;
+		}
+		if (button == XInputButton.DPAD_RIGHT && pressed) {
+			Game.debugPause = !Game.debugPause;
+		}if(button == XInputButton.BACK && pressed){
+			enableVibration = !enableVibration;
 		}
 		if (playerShip.isDead()) {
 			playerReady = true;

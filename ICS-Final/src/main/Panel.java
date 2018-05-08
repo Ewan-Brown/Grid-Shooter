@@ -27,7 +27,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	static ArrayList<Drawable> effects = new ArrayList<Drawable>();
 	static int targetCirclePadding = 4;
-
+	static boolean antialiasing = false;
 	static int currentCenterX = 0;
 	static int currentCenterY = 0;
 	static final double KP_PAN = 0.02;
@@ -99,8 +99,12 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	public void paint(Graphics g1) {
 		super.paint(g1);
 		Graphics2D g2 = (Graphics2D) g1;
-		// Antialiasing makes the game look much much better.
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		// Antialiasing makes the game look much much better.\
+		if (antialiasing) {
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		} else {
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		}
 		// spacing between grid lines
 		// Player pl = InputGeneral.players.get(0);
 		double centerX = 0;

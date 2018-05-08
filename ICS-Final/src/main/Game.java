@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
+import com.ivan.xinput.enums.XInputButton;
+
 import entities.Enemy;
 import entities.EnemyCache;
 import entities.Entity;
@@ -23,6 +25,7 @@ public class Game implements Runnable, ActionListener {
 	public static final int PLAYER_TEAM = 0;
 	public static final int ENEMY_TEAM = 1;
 	static boolean gameOver = false;
+	static boolean debugPause = false;
 	static Timer timer;
 	static Point[] shipStructure;
 	public static Point[] turretPoints1;
@@ -61,7 +64,7 @@ public class Game implements Runnable, ActionListener {
 	 * method called to start new game with fresh stats
 	 */
 	public static void startNew() {
-		Properties.level = 1;
+		Properties.level = 5;
 		Properties.score = 0;
 		entityArray.clear();
 		effectsArray.clear();
@@ -75,10 +78,13 @@ public class Game implements Runnable, ActionListener {
 		}
 
 		for (int i = 0; i < Properties.level; i++) {
-			double angle = rand.nextDouble() * 100;
-			double x = Math.cos(angle) * 1000;
-			double y = Math.sin(angle) * 1000;
+			double angle = rand.nextDouble() * Math.PI * 2;
+			double x = Math.cos(angle) * (rand.nextInt(1000)+300);
+			double y = Math.sin(angle) * (rand.nextInt(1000)+300);
 			Entity e = EnemyCache.getEntity("light");
+			if (i % 2 == 0) {
+				e = EnemyCache.getEntity("medium");
+			}
 			e.xPos = x;
 			e.yPos = y;
 			entityArray.add(e);
@@ -106,7 +112,12 @@ public class Game implements Runnable, ActionListener {
 				}
 				continue;
 			}
-			p.update();
+			if(!debugPause){
+				p.update();
+			}
+			else if(p.isPlayerControlled){
+				p.update();
+			}
 		}
 		if (!gameOver) {
 			gameOver = true;
@@ -183,8 +194,8 @@ public class Game implements Runnable, ActionListener {
 		}
 		for (int i = 0; i < Properties.level; i++) {
 			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * rand.nextInt(500);
-			double y = Math.sin(angle) * rand.nextInt(500);
+			double x = Math.cos(angle) * (rand.nextInt(1000)+300);
+			double y = Math.sin(angle) * (rand.nextInt(1000)+300);
 			Entity e = EnemyCache.getEntity("light");
 			if (i % 2 == 0) {
 				e = EnemyCache.getEntity("medium");
