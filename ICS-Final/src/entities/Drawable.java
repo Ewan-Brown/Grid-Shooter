@@ -20,7 +20,8 @@ public abstract class Drawable implements Cloneable{
 	
 	public double xPos;
 	public double yPos;
-	public Point[] structure;
+//	public Point[] structure;
+	public int structType;
 	public double realAngle = 0;
 	public boolean transparency = false;
 	public Point2D centerPoint;
@@ -28,8 +29,8 @@ public abstract class Drawable implements Cloneable{
 	public Drawable(double x, double y, int shape,CustColor c){
 		this.xPos = x;
 		this.yPos = y;
-		this.structure = Structures.getStructure(shape);
-		centerPoint = getCenter(structure);
+		this.structType = shape;;
+		centerPoint = getCenter(Structures.getStructure(shape));
 		this.xPos -= centerPoint.getX();
 		this.yPos -= centerPoint.getY();
 		this.color = c;
@@ -83,11 +84,11 @@ public abstract class Drawable implements Cloneable{
 	 * @return this drawable's points as a Polygon object, translated and rotated
 	 */
 	public Polygon getRotatedPolygon(){
-		Point[] tempPoints = new Point[structure.length];
+		Point[] tempPoints = new Point[Structures.getStructure(structType).length];
 		for(int i = 0; i < tempPoints.length;i++){
 			tempPoints[i] = new Point(0,0);
 		}
-		rotatePoints(structure,realAngle,tempPoints);
+		rotatePoints(Structures.getStructure(structType),realAngle,tempPoints);
 		return getPolygon(tempPoints);
 
 	}
@@ -138,7 +139,7 @@ public abstract class Drawable implements Cloneable{
 		Point2D p = centerPoint;
 		AffineTransform.getRotateInstance
 		(Math.toRadians(angle), p.getX(), p.getY())
-		.transform(origPoints,0,storeTo,0,structure.length);
+		.transform(origPoints,0,storeTo,0,Structures.getStructure(structType).length);
 
 	}
 	public static Point2D getCenter(Point[] points){

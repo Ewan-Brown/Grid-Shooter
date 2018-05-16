@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class Structures {
 
-	static Point[][] structures = new Point[11][];
+	static Point[][] structures = new Point[12][];
 	public static int PLAYER = 0;
 	public static int LIGHT = 1;
 	public static int MEDIUM = 2;
@@ -16,6 +16,7 @@ public class Structures {
 	public static int PARTICLE2 = 8; //5-5
 	public static int PARTICLE3 = 9; //6-6
 	public static int PARTICLE4 = 10;//8-8
+	public static int STAR = 11;
 	public static void init(){
 		Point[] bullet_medium = new Point[4];
 		bullet_medium[0] = new Point(15,3);
@@ -40,6 +41,15 @@ public class Structures {
 		lightStructure[4] = new Point(0,8);
 		lightStructure[5] = new Point(16,0);
 		lightStructure[6] = new Point(8,8);
+		Point[] starStructure = new Point[8];
+		starStructure[0] = new Point(12,24);
+		starStructure[1] = new Point(16,16);
+		starStructure[2] = new Point(24,12);
+		starStructure[3] = new Point(16,8);
+		starStructure[4] = new Point(12,0);
+		starStructure[5] = new Point(8,8);
+		starStructure[6] = new Point(0,12);
+		starStructure[7] = new Point(8,16);
 		Point[] mediumStructure = new Point[12];
 		mediumStructure[0] = new Point(20,4);
 		mediumStructure[1] = new Point(8,6);
@@ -53,12 +63,13 @@ public class Structures {
 		mediumStructure[9] = new Point(0,28);
 		mediumStructure[10] = new Point(0,4);
 		mediumStructure[11] = new Point(4,0);
-		structures[0] = lightStructure;
-		structures[1] = lightStructure;
-		structures[2] = mediumStructure;
-		structures[4] = bullet_medium;
-		structures[5] = bullet_big;
-		structures[6] = laser;
+		structures[PLAYER] = lightStructure;
+		structures[LIGHT] = lightStructure;
+		structures[MEDIUM] = mediumStructure;
+		structures[BULLET] = bullet_medium;
+		structures[BIG_BULLET] = bullet_big;
+		structures[LASER] = laser;
+		structures[STAR] = starStructure;
 		Point[][] particles = new Point[4][4];
 		for(int i = 0; i < particles.length;i++){
 			int s = 3 + i;

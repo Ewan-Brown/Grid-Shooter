@@ -11,14 +11,18 @@ import javax.swing.WindowConstants;
 
 import entities.EnemyCache;
 import entities.Structures;
+import tools.Debugger;
 
 /**
  * @author Ewan
  *	Main class where threads are started
  */
 class Main {
-
+	public static boolean DEBUGGING = false;
 	public static void main(String[] args){
+		if(DEBUGGING){
+			new Debugger();
+		}
 		InputGeneral.checkXInputDevices();
 		Structures.init();
 		Game.init();

@@ -12,6 +12,9 @@ public class Turret extends Entity {
 	Ship owner;
 	int cooldown;
 	int maxCooldown;
+	enum TurretAttachmentType{
+		FIXED,FREE,SEMI,LIMIT
+	}
 	static Point[] points = new Point[4];
 	{
 		points[0] = new Point(0,0);

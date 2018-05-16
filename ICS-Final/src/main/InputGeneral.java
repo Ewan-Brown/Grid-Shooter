@@ -32,7 +32,7 @@ public class InputGeneral {
 					return;
 				}
 				XInputDevices.add(c);
-				players.add(new Player(c, CustColor.values()[CustColor.PLAYER1.ordinal() + i]));
+				players.add(new PlayerXbox(c, CustColor.values()[CustColor.PLAYER1.ordinal() + i]));
 			} catch (XInputNotLoadedException e) {
 				e.printStackTrace();
 			}

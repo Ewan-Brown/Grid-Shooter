@@ -17,6 +17,7 @@ import entities.ParticleEffects;
 import entities.Ship;
 import entities.Structures;
 import entities.VoxelParticle;
+import tools.Debugger;
 
 public class Game implements Runnable, ActionListener {
 	public static ArrayList<Entity> entityArray = new ArrayList<Entity>();
@@ -98,8 +99,8 @@ public class Game implements Runnable, ActionListener {
 	public static void addParticle(VoxelParticle p) {
 		effectsArray.add(p);
 	}
-
 	public static void loop() {
+		long t0 = System.nanoTime();
 		InputGeneral.updatePlayers();
 		ArrayList<Entity> lastArray = new ArrayList<Entity>();
 		for (int i = 0; i < entityArray.size(); i++) {
@@ -156,6 +157,7 @@ public class Game implements Runnable, ActionListener {
 		if (areaCleared) {
 			nextLevel();
 		}
+		Debugger.lastGameDelay = System.nanoTime() - t0;
 	}
 
 	/**
@@ -207,7 +209,7 @@ public class Game implements Runnable, ActionListener {
 	}
 
 	public void run() {
-		timer = new Timer(10, this);
+		timer = new Timer(13 , this);
 		timer.start();
 		timer.addActionListener(this);
 		startNew();

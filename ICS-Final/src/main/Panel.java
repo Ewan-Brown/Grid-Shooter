@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import entities.Drawable;
+import tools.Debugger;
 
 /**
  * @author Ewan Game panel class
@@ -75,29 +76,34 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		} while (xP < w);
 	}
 
-	public void drawEffects(Graphics g2) {
+	public void drawEffects(Graphics2D g2) {
 		for (int i = 0; i < effects.size(); i++) {
 			Drawable d = effects.get(i);
-			Color c = d.color.getColor();
+			Color c = getColor(d);
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
-			g2.fillPolygon(p);
+			fillThePolygon(g2, p);
 		}
 	}
-
-	public void drawDrawables(Graphics g2) {
+	public static Color getColor(Drawable d){
+		return d.color.getColor();
+	}
+	public static void fillThePolygon(Graphics2D g2, Polygon p){
+		g2.fillPolygon(p);
+	}
+	public void drawDrawables(Graphics2D g2) {
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable d = drawables.get(i);
-			Color c = d.color.getColor();
+			Color c = getColor(d);
 			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
 			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
-			g2.fillPolygon(p);
+			fillThePolygon(g2, p);
 		}
 	}
-
 	public void paint(Graphics g1) {
 		super.paint(g1);
+		long t0 = System.nanoTime();
 		Graphics2D g2 = (Graphics2D) g1;
 		// Antialiasing makes the game look much much better.\
 		if (antialiasing) {
@@ -126,38 +132,9 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		currentCenterX += (centerX - currentCenterX) * KP_PAN;
 		currentCenterY += (centerY - currentCenterY) * KP_PAN;
 		currentZoom += (zoom - currentZoom) * KP_ZOOM;
-		// if(getWidth() < range){
-		// zoom /= 2;
-		// }
 		paintGrid(g2, currentCenterX, currentCenterY, currentZoom);
 		drawEffects(g2);
 		drawDrawables(g2);
-		// Draws the player health bar, scaled to screen size
-		// if (Game.player != null) {
-		// double healthPercentage = (double) Game.player.health / (double)
-		// Game.player.maxHealth;
-		// int height = 50;
-		// int windowSpacing = 100;
-		// int rectSpacing = 50;
-		// int rects = 10;
-		// int rectSize = (w - ((windowSpacing * 2) + rectSpacing * (rects -
-		// 1))) / rects;
-		// int x = windowSpacing;
-		// double f = 1D / rects;
-		// healthPercentage = (int) (healthPercentage * 100) / 100D;
-		// double p = healthPercentage % f;
-		// double d = healthPercentage / f;
-		// int m = (int) Math.ceil(d);
-		// for (int i = 0; i < m; i++) {
-		// g2.setColor(Color.GREEN);
-		// int l = rectSize;
-		// if (i == m - 1) {
-		// l = (int) ((double) l * (p) * 10);
-		// }
-		// g2.fillRect(x, h - 150, l, height);
-		// x += rectSpacing + rectSize;
-		// }
-		// }
 		// Draw a circle around target
 		// if (Input.targetting && Input.targeted != null) {
 		// g2.setColor(Color.MAGENTA);// Why magenta?
@@ -193,6 +170,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		// g2.setColor(new Color(10,10,10));
 		// g2.drawString("Made by Ewan Brown for his Comp.Sci final",20,h -
 		// 110);
+		Debugger.lastPaintDelay = System.nanoTime() - t0;
 	}
 
 	public Polygon transformPolygon(Polygon p, double xC, double yC, double zoom) {
@@ -236,7 +214,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 
 	@Override
 	public void run() {
-		timer = new Timer(10, this);
+		timer = new Timer(15, this);
 		timer.start();
 	}
 
