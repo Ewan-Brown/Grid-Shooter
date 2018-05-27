@@ -7,10 +7,10 @@ package main;
 public class Properties {
 
 	//Base stats to restart new game for player
-	static final int PLAYER_BASE_HEALTH = 1000;
-	static final int PLAYER_BASE_CALIBER = 30;
-	static final int PLAYER_BASE_ACCURACY = 5; 
-	static final int PLAYER_BASE_COOLDOWN = 20;
+	public static final int PLAYER_BASE_HEALTH = 1000;
+	public static final int PLAYER_BASE_CALIBER = 30;
+	public static final int PLAYER_BASE_ACCURACY = 5; 
+	public static final int PLAYER_BASE_COOLDOWN = 20;
 	/**
 	 * Current game Zoom value
 	 */

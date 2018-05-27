@@ -17,6 +17,8 @@ import entities.ParticleEffects;
 import entities.Ship;
 import entities.Structures;
 import entities.VoxelParticle;
+import input.InputGeneral;
+import input.Player;
 import tools.Debugger;
 
 public class Game implements Runnable, ActionListener {
@@ -25,8 +27,8 @@ public class Game implements Runnable, ActionListener {
 
 	public static final int PLAYER_TEAM = 0;
 	public static final int ENEMY_TEAM = 1;
-	static boolean gameOver = false;
-	static boolean debugPause = false;
+	public static boolean gameOver = false;
+	public static boolean debugPause = false;
 	static Timer timer;
 	static Point[] shipStructure;
 	public static Point[] turretPoints1;

@@ -11,6 +11,7 @@ import javax.swing.WindowConstants;
 
 import entities.EnemyCache;
 import entities.Structures;
+import input.InputGeneral;
 import tools.Debugger;
 
 /**

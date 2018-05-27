@@ -15,6 +15,7 @@ public class Ship extends Entity {
 	// TODO Rewrite weapon code with Turrets - Polymorphous!
 	public boolean laserOn = false;
 	public double turnSpeed = 8;
+	public double spinSpeed = 0;
 	public double speed = 0.03;
 	public int bulletCooldown = 0;
 	public int missileCooldown = 0;
@@ -63,11 +64,11 @@ public class Ship extends Entity {
 	
 	public void move(double angle, boolean arcade) {
 
-		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))), 1,arcade);
+		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / Math.PI))), 1,arcade);
 	}
 	public void move(double angle) {
 
-		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / 180D))), 1,false);
+		move(angle, 0.5 + (0.5 - (0.5 * (Math.abs(angle) / Math.PI))), 1,false);
 	}
 	public void move(double angle, double t, double particleT,boolean arcade) {
 		double ang = angle;

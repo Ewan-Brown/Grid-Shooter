@@ -1,4 +1,4 @@
-package main;
+package input;
 
 import java.awt.geom.Point2D;
 
@@ -11,6 +11,9 @@ import entities.Enemy;
 import entities.Entity;
 import entities.ParticleEffects;
 import entities.Ship;
+import main.Game;
+import main.Panel;
+import main.Properties;
 import main.Panel.CustColor;
 import tools.GameMath;
 
@@ -88,7 +91,7 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 		}
 
 		// Targetting
-		updateTarget();
+		updateTargetting();
 		if (isTargetting && target != null) {
 			double xT = target.xPos - playerShip.xPos;
 			double yT = target.yPos - playerShip.yPos;
@@ -134,7 +137,7 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 		}
 	}
 
-	public void updateTarget() {
+	public void updateTargetting() {
 		if (isTargetting && (target == null || target.isDead())) {
 			double d = Double.MAX_VALUE;
 			Ship c = null;

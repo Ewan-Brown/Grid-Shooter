@@ -76,7 +76,7 @@ public class Enemy extends Ship{
 			strafe(tempStrafe * 5);
 		}
 		else if(d < minDist){
-			//If target is in shooting range, shoot
+			//If target is in shooting range, shoot and thrust backwards!
 			if(diffAngle < 20){
 				shootBullet();
 			}

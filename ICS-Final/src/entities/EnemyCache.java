@@ -67,15 +67,44 @@ public class EnemyCache {
 				minDist = 200;
 				maxDist = 400;
 				strafeChance = 20;
+				turnSpeed = 6;
 			}
+
 			public void fumes(double t, double angle) {
 				Point2D p = centerPoint;
 				Game.addParticles(ParticleEffects.helix((float) (p.getX() + xPos), (float) (p.getY() + yPos), angle, 10,
 						30));
 			}
 		};
+		Enemy sniper = new Enemy(0, 0, Structures.MEDIUM, mediumTurrets, mediumLaunchers) {
+			{
+				int z = 0;
+				for (int i = 0; i < Structures.getStructure(Structures.MEDIUM).length; i++) {
+					Point p = Structures.getStructure(Structures.MEDIUM)[i];
+					int c = (int) GameMath.getDistance(0, 0, p.getX(), p.getY());
+					if (c > z) {
+						z = c;
+					}
+				}
+				radius = z;
+				maxHealth = 300;
+				health = 300;
+				caliber = 100;
+				muzzleVelocity = 14;
+				maxBulletCooldown = 200;
+				bulletAccuracy = 1;
+				speed = 0.01;
+				minDist = 400;
+				maxDist = 1000;
+				strafeChance = 20;
+				turnSpeed = 4;
+			}
+		};
+//		entityMap.put("sniper", sniper);
 		entityMap.put("light", light);
-		entityMap.put("medium", medium);
+//		entityMap.put("medium", medium);
+		
+		entityMap.put("medium", sniper);
 
 	}
 

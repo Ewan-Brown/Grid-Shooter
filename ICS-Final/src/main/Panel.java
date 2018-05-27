@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import entities.Drawable;
+import input.InputGeneral;
 import tools.Debugger;
 
 /**
@@ -25,10 +26,10 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	static Font customFont1 = new Font("myFont1", Font.BOLD, 30);
 	static Font customFont2 = new Font("myFont2", Font.BOLD, 100);
 	static Font customFont3 = new Font("myFont3", Font.BOLD, 20);
-	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
-	static ArrayList<Drawable> effects = new ArrayList<Drawable>();
+	public static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
+	public static ArrayList<Drawable> effects = new ArrayList<Drawable>();
 	static int targetCirclePadding = 4;
-	static boolean antialiasing = false;
+	public static boolean antialiasing = false;
 	static int currentCenterX = 0;
 	static int currentCenterY = 0;
 	static final double KP_PAN = 0.02;
