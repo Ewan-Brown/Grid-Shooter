@@ -18,6 +18,8 @@ public class Laser extends Projectile{
 		health = maxHealth;
 		centerPoint = new Point2D.Double(0, 1);
 		this.xPos = x;
+		fillMe = false;
+		outlineMe = true;
 	}
 	public void update(){
 		super.update();

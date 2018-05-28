@@ -20,12 +20,13 @@ public abstract class Drawable implements Cloneable{
 	
 	public double xPos;
 	public double yPos;
-//	public Point[] structure;
 	public int structType;
 	public double realAngle = 0;
 	public boolean transparency = false;
 	public Point2D centerPoint;
 	public CustColor color;
+	public boolean fillMe = true;
+	public boolean outlineMe = false;
 	public Drawable(double x, double y, int shape,CustColor c){
 		this.xPos = x;
 		this.yPos = y;
@@ -34,6 +35,12 @@ public abstract class Drawable implements Cloneable{
 		this.xPos -= centerPoint.getX();
 		this.yPos -= centerPoint.getY();
 		this.color = c;
+	}
+	public boolean isToBeFilled(){
+		return fillMe;
+	}
+	public boolean isToBeOutlined(){
+		return outlineMe;
 	}
 	public int getAlpha(){
 		return 255;
@@ -45,10 +52,6 @@ public abstract class Drawable implements Cloneable{
 	public double getY(){
 		return yPos + centerPoint.getY();
 	}
-	/**
-	 * @param p Point[] points to be translated
-	 * @return p points translated to the drawable's current location
-	 */
 	public Point[] translatePoints(Point[] p){
 		Point[] newPoints = new Point[p.length];
 		for(int i = 0; i < p.length;i++){
@@ -56,9 +59,6 @@ public abstract class Drawable implements Cloneable{
 		}
 		return newPoints;
 	}
-	/**
-	 * @return this drawable's points, translated and rotated
-	 */
 	public Point[] getRotatedPoints(){
 		Polygon poly = getRotatedPolygon();
 		Point[] p = new Point[poly.npoints];
@@ -67,9 +67,6 @@ public abstract class Drawable implements Cloneable{
 		}
 		return p;
 	}
-	/**
-	 * @return get this drawable's sides, translated and rotated
-	 */
 	public Line2D[] getRotatedSides(){
 		Point[] p = getRotatedPoints();
 		Line2D[] lines = new Line2D[p.length];
@@ -80,9 +77,6 @@ public abstract class Drawable implements Cloneable{
 		return lines;
 		
 	}
-	/**
-	 * @return this drawable's points as a Polygon object, translated and rotated
-	 */
 	public Polygon getRotatedPolygon(){
 		Point[] tempPoints = new Point[Structures.getStructure(structType).length];
 		for(int i = 0; i < tempPoints.length;i++){
@@ -92,10 +86,6 @@ public abstract class Drawable implements Cloneable{
 		return getPolygon(tempPoints);
 
 	}
-	/**
-	 * @param p points to be translated
-	 * @return translates points to drawable's location then returns as a polygon
-	 */
 	public Polygon getPolygon(Point[] p){
 
 		Point[] p2 = translatePoints(p);
@@ -121,10 +111,12 @@ public abstract class Drawable implements Cloneable{
 		return clone;
 	}
 	
+	
+	
 	/***************************************************************************************
 	*    Forum post "How to rotate a polygon/points around a point in Java"<p>
 	*    
-	*    From: Usernam TRU7H on Stackoverflow<p>
+	*    From: Username TRU7H on Stackoverflow<p>
 	*    
 	*    URL: http://stackoverflow.com/a/13788646<p>
 	*
@@ -142,6 +134,7 @@ public abstract class Drawable implements Cloneable{
 		.transform(origPoints,0,storeTo,0,Structures.getStructure(structType).length);
 
 	}
+	//Not mine, used it in an old project and never referenced it :( probably from somewhere on Stack Overflow
 	public static Point2D getCenter(Point[] points){
 		double centreX = 0;
 		double centreY = 0;

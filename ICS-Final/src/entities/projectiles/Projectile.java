@@ -15,6 +15,8 @@ public class Projectile extends Entity{
 	public Projectile(double x, double y, double dX, double dY,int shape,int damage) {
 		super(x, y, dX, dY,shape,CustColor.PROJECTILE);
 		this.damage = damage;
+		fillMe = true;
+		outlineMe = false;
 	}
 	/**
 	 * @param e Entity that has collided with this entity

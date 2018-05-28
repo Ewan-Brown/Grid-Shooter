@@ -43,6 +43,7 @@ public class Ship extends Entity {
 		super(x, y, 0, 0, shape,c);
 		this.bulletTurrets = turrets;
 		this.missileTurrets = missileTurrets;
+		outlineMe = true;
 	}
 	public int getAlpha(){
 		if(transparency){
