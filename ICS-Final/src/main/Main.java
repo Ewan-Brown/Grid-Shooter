@@ -19,7 +19,7 @@ import tools.Debugger;
  *	Main class where threads are started
  */
 class Main {
-	public static boolean DEBUGGING = false;
+	public static boolean DEBUGGING = true;
 	public static void main(String[] args){
 		if(DEBUGGING){
 			new Debugger();

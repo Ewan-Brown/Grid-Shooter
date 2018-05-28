@@ -1,30 +1,24 @@
 package entities.turrets;
 
-import java.awt.Point;
-
-import entities.Entity;
 import entities.Ship;
-import entities.Structures;
 import entities.projectiles.Projectile;
 
-public class Turret extends Entity {
+public class Turret{
 
 	Ship owner;
 	int cooldown;
 	int maxCooldown;
+	double angleRelativeToShip = 0;
+	double x;
+	double y;
 	enum TurretAttachmentType{
-		FIXED,FREE,SEMI,LIMIT
-	}
-	static Point[] points = new Point[4];
-	{
-		points[0] = new Point(0,0);
-		points[1] = new Point(4,0);
-		points[2] = new Point(4,4);
-		points[3] = new Point(0,4);
+		FIXED, //Glued to ship angle
+		FREE,  //Free from ship angle, full range
+		SEMI,  //Can move relative to ship angle
+		SEMI_LIMIT //Can move relative to ship angle within a given range
 	}
 	
 	public Turret(double x, double y,Ship owner) {
-		super(x, y, 0,0, Structures.TURRET,owner.color);
 		this.owner = owner;
 	}
 	public void update(){

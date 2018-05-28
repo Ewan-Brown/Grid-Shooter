@@ -81,7 +81,7 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 		for (int i = 0; i < effects.size(); i++) {
 			Drawable d = effects.get(i);
 			Color c = getColor(d);
-			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
+			g2.setColor(setGraphicsColor(d, true));
 			Polygon p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
 			fillThePolygon(g2, p);
 		}
@@ -92,13 +92,21 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 	public static void fillThePolygon(Graphics2D g2, Polygon p){
 		g2.fillPolygon(p);
 	}
+	public static void outlineThePolygon(Graphics2D g2, Polygon p){
+		g2.drawPolygon(p);
+	}
+	public Color setGraphicsColor(Drawable d,boolean alphaEnabled){
+		Color c = getColor(d);
+		return (alphaEnabled)? new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()): new Color(c.getRed(), c.getGreen(), c.getBlue());
+	}
 	public void drawDrawables(Graphics2D g2) {
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable d = drawables.get(i);
-			Color c = getColor(d);
-			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), d.getAlpha()));
 			Polygon p = null;
 			p = transformPolygon(d.getRotatedPolygon(), currentCenterX, currentCenterY, currentZoom);
+			g2.setColor(setGraphicsColor(d, false));
+			outlineThePolygon(g2, p);
+			g2.setColor(setGraphicsColor(d, true));
 			fillThePolygon(g2, p);
 		}
 	}
