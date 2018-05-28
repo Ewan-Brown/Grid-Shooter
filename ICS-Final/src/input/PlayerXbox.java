@@ -32,9 +32,9 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 		playerShip = ship;
 		playerShip.isPlayerControlled = true;
 		playerShip.maxHealth = Properties.PLAYER_BASE_HEALTH;
-		playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
-		playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
-		playerShip.caliber = Properties.PLAYER_BASE_CALIBER;
+//		playerShip.bulletAccuracy = Properties.PLAYER_BASE_ACCURACY;
+//		playerShip.maxBulletCooldown = Properties.PLAYER_BASE_COOLDOWN;
+//		playerShip.caliber = Properties.PLAYER_BASE_CALIBER;
 		playerShip.health = playerShip.maxHealth;
 		playerShip.team = Game.PLAYER_TEAM;
 		playerReady = false;
@@ -87,7 +87,7 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 			controller.setVibration((int)(lt * 65535f / 2f), (int) (rt * 65535f / 2f));
 		}
 		if (rt > 0) {
-			playerShip.shootBullet();
+//			playerShip.shootBullet(); //XXX Shoot
 		}
 
 		// Targetting

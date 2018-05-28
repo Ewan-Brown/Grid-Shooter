@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import entities.projectiles.Bullet;
 import entities.projectiles.Laser;
 import entities.projectiles.Missile;
+import entities.turrets.Turret;
 import main.Game;
 import main.Panel.CustColor;
 
@@ -17,33 +18,32 @@ public class Ship extends Entity {
 	public double turnSpeed = 8;
 	public double spinSpeed = 0;
 	public double speed = 0.03;
-	public int bulletCooldown = 0;
-	public int missileCooldown = 0;
-	public int laserCooldown = 30;
-	public int maxBulletCooldown = 30;
-	public double muzzleVelocity = 7;
-	public static final int MAX_MISSILE_COUNTDOWN = 50;
+//	public int bulletCooldown = 0;
+//	public int missileCooldown = 0;
+//	public int laserCooldown = 30;
+//	public int maxBulletCooldown = 30;
+//	public double muzzleVelocity = 7;
+//	public static final int MAX_MISSILE_COUNTDOWN = 50;
 	public static final int MAX_PARTICLE_COOLDOWN = 5;
-	public double bulletAccuracy = 10;
+//	public double bulletAccuracy = 10;
 	public double thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public double strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
 	public int MAX_BOOST_DRIVE_COOLDOWN = 100;
 	public static int ALPHACUTOFF = 10;
 	public int boostDriveCooldown = MAX_BOOST_DRIVE_COOLDOWN;
-	public int caliber = 10;
-	public int missiles = 0;
+//	public int caliber = 10;
+//	public int missiles = 0;
 	public int radius = 0;
 	{
 		super.transparency = true;
 	}
-	public Point[] bulletTurrets;
-	public Point[] missileTurrets;
-
-	public Ship(double x, double y, int shape, Point[] turrets, Point[] missileTurrets,CustColor c) {
+//	public Point[] bulletTurrets;
+//	public Point[] missileTurrets;
+	public ArrayList<Turret> turretList;
+	public Ship(double x, double y, int shape, ArrayList<Turret> tList,CustColor c) {
 		super(x, y, 0, 0, shape,c);
-		this.bulletTurrets = turrets;
-		this.missileTurrets = missileTurrets;
 		outlineMe = true;
+		turretList = tList;
 	}
 	public int getAlpha(){
 		if(transparency){
@@ -102,8 +102,8 @@ public class Ship extends Entity {
 
 	public void update() {
 		super.update();
-		bulletCooldown--;
-		missileCooldown--;
+//		bulletCooldown--;
+//		missileCooldown--;
 		thrustParticleCooldown--;
 		strafeParticleCooldown--;
 		boostDriveCooldown--;
@@ -129,79 +129,79 @@ public class Ship extends Entity {
 		Game.addParticles(a);
 	}
 
-	public void shootBullet() {
-		if (bulletCooldown < 0) {
-			bulletCooldown = maxBulletCooldown;
-			Point[] p = getTurrets();
-			for (int i = 0; i < p.length; i++) {
-				double x = p[i].x;
-				double y = p[i].y;
-				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
-				Entity b;
-				b = new Bullet(x, y, realAngle + a, muzzleVelocity, Structures.BULLET, caliber);
-				if (laserOn) {
-					b = new Laser(x, y, Structures.LASER, 0, 1);
-					b.realAngle = realAngle;
-				}
-				b.team = this.team;
-				Game.entityArray.add(b);
-
-			}
-		}
-	}
-
-	public void shootMissile() {
-		if (missileCooldown < 0) {
-			if (missiles > 0) {
-				missiles--;
-				missileCooldown = MAX_MISSILE_COUNTDOWN;
-				Point[] p = getMissileTurrets();
-				for (int i = 0; i < p.length; i++) {
-					double x = p[i].x;
-					double y = p[i].y;
-					Missile m = new Missile(x, y, realAngle, Structures.BULLET, 1000);
-					m.team = this.team;
-					Game.entityArray.add(m);
-
-				}
-			}
-		}
-	}
+//	public void shootBullet() {
+//		if (bulletCooldown < 0) {
+//			bulletCooldown = maxBulletCooldown;
+//			Point[] p = getTurrets();
+//			for (int i = 0; i < p.length; i++) {
+//				double x = p[i].x;
+//				double y = p[i].y;
+//				double a = (rand.nextDouble() - 0.5) * bulletAccuracy;
+//				Entity b;
+//				b = new Bullet(x, y, realAngle + a, muzzleVelocity, Structures.BULLET, caliber);
+//				if (laserOn) {
+//					b = new Laser(x, y, Structures.LASER, 0, 1);
+//					b.realAngle = realAngle;
+//				}
+//				b.team = this.team;
+//				Game.entityArray.add(b);
+//
+//			}
+//		}
+//	}
+//
+//	public void shootMissile() {
+//		if (missileCooldown < 0) {
+//			if (missiles > 0) {
+//				missiles--;
+//				missileCooldown = MAX_MISSILE_COUNTDOWN;
+//				Point[] p = getMissileTurrets();
+//				for (int i = 0; i < p.length; i++) {
+//					double x = p[i].x;
+//					double y = p[i].y;
+//					Missile m = new Missile(x, y, realAngle, Structures.BULLET, 1000);
+//					m.team = this.team;
+//					Game.entityArray.add(m);
+//
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * @return all turret points translated and rotated
 	 */
-	public Point[] getTurrets() {
-		Point[] tempPoints = new Point[bulletTurrets.length];
-		for (int i = 0; i < bulletTurrets.length; i++) {
-			tempPoints[i] = new Point(0, 0);
-		}
-		Point2D c = centerPoint;
-		AffineTransform.getRotateInstance(Math.toRadians(realAngle), c.getX(), c.getY()).transform(bulletTurrets, 0,
-				tempPoints, 0, bulletTurrets.length);
-		for (int i = 0; i < tempPoints.length; i++) {
-			Point point = tempPoints[i];
-			point.x += this.xPos;
-			point.y += this.yPos;
-		}
-		return tempPoints;
-	}
-
-	public Point[] getMissileTurrets() {
-		Point[] tempPoints = new Point[missileTurrets.length];
-		for (int i = 0; i < missileTurrets.length; i++) {
-			tempPoints[i] = new Point(0, 0);
-		}
-		Point2D c = centerPoint;
-		AffineTransform.getRotateInstance(Math.toRadians(realAngle), c.getX(), c.getY()).transform(missileTurrets, 0,
-				tempPoints, 0, missileTurrets.length);
-		for (int i = 0; i < tempPoints.length; i++) {
-			Point point = tempPoints[i];
-			point.x += this.xPos;
-			point.y += this.yPos;
-		}
-		return tempPoints;
-	}
+//	public Point[] getTurrets() {
+//		Point[] tempPoints = new Point[bulletTurrets.length];
+//		for (int i = 0; i < bulletTurrets.length; i++) {
+//			tempPoints[i] = new Point(0, 0);
+//		}
+//		Point2D c = centerPoint;
+//		AffineTransform.getRotateInstance(Math.toRadians(realAngle), c.getX(), c.getY()).transform(bulletTurrets, 0,
+//				tempPoints, 0, bulletTurrets.length);
+//		for (int i = 0; i < tempPoints.length; i++) {
+//			Point point = tempPoints[i];
+//			point.x += this.xPos;
+//			point.y += this.yPos;
+//		}
+//		return tempPoints;
+//	}
+//
+//	public Point[] getMissileTurrets() {
+//		Point[] tempPoints = new Point[missileTurrets.length];
+//		for (int i = 0; i < missileTurrets.length; i++) {
+//			tempPoints[i] = new Point(0, 0);
+//		}
+//		Point2D c = centerPoint;
+//		AffineTransform.getRotateInstance(Math.toRadians(realAngle), c.getX(), c.getY()).transform(missileTurrets, 0,
+//				tempPoints, 0, missileTurrets.length);
+//		for (int i = 0; i < tempPoints.length; i++) {
+//			Point point = tempPoints[i];
+//			point.x += this.xPos;
+//			point.y += this.yPos;
+//		}
+//		return tempPoints;
+//	}
 
 	public void turn(double throttle) {
 		realAngle += turnSpeed*throttle/5f;

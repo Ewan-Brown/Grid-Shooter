@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import entities.turrets.Turret;
 import main.Game;
 import main.Panel.CustColor;
 import tools.GameMath;
@@ -24,8 +25,8 @@ public class Enemy extends Ship{
 		maxHealth = 40;
 		health = maxHealth;
 	}
-	public Enemy(double x, double y,int points,Point[] turrets,Point[] missileTurrets) {
-		super(x, y,points,Game.turretPoints1, new Point[0],CustColor.ENEMY);
+	public Enemy(double x, double y,int points, ArrayList<Turret> tList) {
+		super(x, y,points,tList,CustColor.ENEMY);
 		team = Game.ENEMY_TEAM;
 	}
 	public void strafe(double t){
@@ -78,7 +79,7 @@ public class Enemy extends Ship{
 		else if(d < minDist){
 			//If target is in shooting range, shoot and thrust backwards!
 			if(diffAngle < 20){
-				shootBullet();
+				//XXX Shoot
 			}
 			thrust(-1);
 			strafe(tempStrafe * 2);
@@ -87,7 +88,7 @@ public class Enemy extends Ship{
 		else{
 			//If target is in shooting range, shoot
 			if(diffAngle < 20){
-				shootBullet();
+				//XXX SHOOT
 			}
 			strafeCount--;
 			if(strafeCount > 0){

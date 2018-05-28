@@ -30,42 +30,16 @@ public class Game implements Runnable, ActionListener {
 	public static boolean gameOver = false;
 	public static boolean debugPause = false;
 	static Timer timer;
-	static Point[] shipStructure;
-	public static Point[] turretPoints1;
-	static Point[] turretPoints2;
-	static Point[] turretPoints3;
-	static Point[] missilePoints;
 
-	// Initialized the ships' points and turret locations
-	public static void init() {
-		shipStructure = new Point[7];
-		shipStructure[0] = new Point(24, 12);
-		shipStructure[1] = new Point(8, 16);
-		shipStructure[2] = new Point(16, 24);
-		shipStructure[3] = new Point(0, 16);
-		shipStructure[4] = new Point(0, 8);
-		shipStructure[5] = new Point(16, 0);
-		shipStructure[6] = new Point(8, 8);
-		turretPoints1 = new Point[1];
-		turretPoints1[0] = shipStructure[0];
-		turretPoints2 = new Point[2];
-		turretPoints2[0] = shipStructure[6];
-		turretPoints2[1] = shipStructure[1];
-		turretPoints3 = new Point[5];
-		turretPoints3[0] = shipStructure[5];
-		turretPoints3[1] = shipStructure[6];
-		turretPoints3[2] = shipStructure[0];
-		turretPoints3[3] = shipStructure[1];
-		turretPoints3[4] = shipStructure[2];
-		missilePoints = new Point[1];
-		missilePoints[0] = shipStructure[0];
-	}
 
 	static Random rand = new Random();
 
 	/**
 	 * method called to start new game with fresh stats
 	 */
+	public static Ship generatePlayer(){
+		return null; //CREATE PLAYER
+	}
 	public static void startNew() {
 		Properties.level = 5;
 		Properties.score = 0;
@@ -73,7 +47,8 @@ public class Game implements Runnable, ActionListener {
 		effectsArray.clear();
 		gameOver = false;
 		for (Player p : InputGeneral.players) {
-			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints, p.playerColor);
+//			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints, p.playerColor);
+			Ship playerShip = generatePlayer();
 
 			entityArray.add(playerShip);
 
@@ -177,23 +152,7 @@ public class Game implements Runnable, ActionListener {
 		for (Player p : InputGeneral.players) {
 			if (!p.playerShip.isDead()) {
 				addParticles(ParticleEffects.explode(p.playerShip.xPos, p.playerShip.yPos, 3, 40, 80));
-				p.playerShip.missiles = (Properties.level / 2) + 1;
-				if (Properties.level == 5) {
-					p.playerShip.bulletTurrets = turretPoints2;
-				}
-				if (Properties.level == 10) {
-					p.playerShip.bulletAccuracy = 2;
-					p.playerShip.turnSpeed = 8;
-					p.playerShip.laserOn = true;
-				}
-				if (Properties.level == 20) {
-					p.playerShip.bulletTurrets = turretPoints3;
-					p.playerShip.maxBulletCooldown = 10;
-				}
-				if (Properties.level == 30) {
-				}
-				p.playerShip.maxHealth += 10;
-				p.playerShip.health = p.playerShip.maxHealth;
+				doPlayerUpgrades();
 			}
 		}
 		for (int i = 0; i < Properties.level; i++) {
@@ -209,7 +168,9 @@ public class Game implements Runnable, ActionListener {
 			entityArray.add(e);
 		}
 	}
-
+	public static void doPlayerUpgrades(){
+		//XXX player Upgrades
+	}
 	public void run() {
 		timer = new Timer(13 , this);
 		timer.start();

@@ -26,7 +26,6 @@ class Main {
 		}
 		InputGeneral.checkXInputDevices();
 		Structures.init();
-		Game.init();
 		System.setProperty("sun.java2d.opengl","True");
 		//The game code and panel code are independantly run on separate threads, for maximum performance and to prevent freezing.
 		ExecutorService e = Executors.newCachedThreadPool();
@@ -50,7 +49,6 @@ class Main {
 		if(optionPane.getValue() == "CANCEL" || optionPane.getValue() == null){
 			System.exit(0);
 		}
-		EnemyCache.loadCache();
 		JFrame frame = new JFrame("Grid Shooter");
 		Panel.panelInstance = new Panel();
 		Panel.panelInstance.setBackground(Color.BLACK);
