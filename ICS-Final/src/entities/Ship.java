@@ -39,11 +39,16 @@ public class Ship extends Entity {
 	}
 //	public Point[] bulletTurrets;
 //	public Point[] missileTurrets;
+	public ShipAI ai;
 	public ArrayList<Turret> turretList;
-	public Ship(double x, double y, int shape, ArrayList<Turret> tList,CustColor c) {
+	public Ship(double x, double y, int shape, ArrayList<Turret> tList,CustColor c,ShipAI startingAI) {
 		super(x, y, 0, 0, shape,c);
 		outlineMe = true;
 		turretList = tList;
+		ai = startingAI;
+	}
+	public void addAI(ShipAI a){
+		ai = a;
 	}
 	public int getAlpha(){
 		if(transparency){
@@ -85,7 +90,26 @@ public class Ship extends Entity {
 			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
 		}
 	}
-
+	public void strafe(double t){
+		double dX = (Math.cos(Math.toRadians(realAngle + 90)))*speed*t;
+		double dY = (Math.sin(Math.toRadians(realAngle + 90)))*speed*t;
+		this.xSpeed += dX;
+		this.ySpeed += dY;
+		if(strafeParticleCooldown < 0){
+			fumes(t, realAngle + 90);
+			strafeParticleCooldown = MAX_PARTICLE_COOLDOWN;
+		}
+	}
+	public void thrust(double t){
+		double dX = (Math.cos(Math.toRadians(realAngle)))*speed*t;
+		double dY = (Math.sin(Math.toRadians(realAngle)))*speed*t;
+		this.xSpeed += dX;
+		this.ySpeed += dY;
+		if(thrustParticleCooldown < 0){
+			fumes(t, realAngle);
+			thrustParticleCooldown = MAX_PARTICLE_COOLDOWN;
+		}
+	}
 	/**
 	 * Ejects particle effects in the opposite angle to simulate engine
 	 * smoke/fire
@@ -99,7 +123,6 @@ public class Ship extends Entity {
 		Point2D p = centerPoint;
 			Game.addParticles(ParticleEffects.helix((float) (p.getX() + xPos), (float) (p.getY() + yPos), angle, 20, getLife()*80));
 	}
-
 	public void update() {
 		super.update();
 //		bulletCooldown--;
@@ -206,21 +229,5 @@ public class Ship extends Entity {
 	public void turn(double throttle) {
 		realAngle += turnSpeed*throttle/5f;
 	}
-	public void turnToTarget(double targetAngle) {
-		double a = targetAngle - realAngle;
-		double f = 0;
-		// a = a % 360;
-		while (a > 180) {
-			a -= 360;
-		}
-		while (a < -180) {
-			a += 360;
-		}
-		if (a > 0)
-			f = Math.min(a, turnSpeed / 5.0); //TODO MAGIC NUMBERS HERE
-		else
-			f = Math.max(a, -turnSpeed / 5.0);
-
-		realAngle += f;
-	}
+	
 }

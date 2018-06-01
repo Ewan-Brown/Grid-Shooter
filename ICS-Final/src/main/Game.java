@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -8,17 +7,14 @@ import java.util.Random;
 
 import javax.swing.Timer;
 
-import com.ivan.xinput.enums.XInputButton;
-
-import entities.Enemy;
-import entities.EnemyCache;
 import entities.Entity;
 import entities.ParticleEffects;
 import entities.Ship;
-import entities.Structures;
+import entities.ShipCache;
 import entities.VoxelParticle;
 import input.InputGeneral;
 import input.Player;
+import main.Panel.CustColor;
 import tools.Debugger;
 
 public class Game implements Runnable, ActionListener {
@@ -31,15 +27,14 @@ public class Game implements Runnable, ActionListener {
 	public static boolean debugPause = false;
 	static Timer timer;
 
-
 	static Random rand = new Random();
 
-	/**
-	 * method called to start new game with fresh stats
-	 */
-	public static Ship generatePlayer(){
-		return null; //CREATE PLAYER
+	public static Ship generatePlayer(int playerNum) {
+		Ship e = ShipCache.getEntity("light",Panel.getPlayerColor(playerNum),true);
+		e.isPlayerControlled = true;
+		return e;
 	}
+
 	public static void startNew() {
 		Properties.level = 5;
 		Properties.score = 0;
@@ -47,8 +42,9 @@ public class Game implements Runnable, ActionListener {
 		effectsArray.clear();
 		gameOver = false;
 		for (Player p : InputGeneral.players) {
-//			Ship playerShip = new Ship(100, 100, Structures.PLAYER, turretPoints1, missilePoints, p.playerColor);
-			Ship playerShip = generatePlayer();
+			// Ship playerShip = new Ship(100, 100, Structures.PLAYER,
+			// turretPoints1, missilePoints, p.playerColor);
+			Ship playerShip = generatePlayer(p.playerNum);
 
 			entityArray.add(playerShip);
 
@@ -57,11 +53,11 @@ public class Game implements Runnable, ActionListener {
 
 		for (int i = 0; i < Properties.level; i++) {
 			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * (rand.nextInt(1000)+300);
-			double y = Math.sin(angle) * (rand.nextInt(1000)+300);
-			Entity e = EnemyCache.getEntity("light");
+			double x = Math.cos(angle) * (rand.nextInt(1000) + 300);
+			double y = Math.sin(angle) * (rand.nextInt(1000) + 300);
+			Entity e = ShipCache.getEntity("light",CustColor.ENEMY,false);
 			if (i % 2 == 0) {
-				e = EnemyCache.getEntity("medium");
+//				e = ShipCache.getEntity("mediuM",CustColor.ENEMY,false);
 			}
 			e.xPos = x;
 			e.yPos = y;
@@ -76,6 +72,7 @@ public class Game implements Runnable, ActionListener {
 	public static void addParticle(VoxelParticle p) {
 		effectsArray.add(p);
 	}
+
 	public static void loop() {
 		long t0 = System.nanoTime();
 		InputGeneral.updatePlayers();
@@ -85,15 +82,14 @@ public class Game implements Runnable, ActionListener {
 			lastArray.add(p);
 			if (p.isDead() && !p.isPlayerControlled) {
 				entityArray.remove(i);
-				if (p instanceof Enemy) {
+				if (p instanceof Ship && p.team == ENEMY_TEAM) {
 					Properties.score += Properties.level;
 				}
 				continue;
 			}
-			if(!debugPause){
+			if (!debugPause) {
 				p.update();
-			}
-			else if(p.isPlayerControlled){
+			} else if (p.isPlayerControlled) {
 				p.update();
 			}
 		}
@@ -118,7 +114,7 @@ public class Game implements Runnable, ActionListener {
 		boolean areaCleared = true;
 		for (int i = 0; i < entityArray.size(); i++) {
 			Entity p = entityArray.get(i);
-			if (p.team == ENEMY_TEAM && p instanceof Enemy) {
+			if (p.team == ENEMY_TEAM && p instanceof Ship) {
 				areaCleared = false;
 			}
 		}
@@ -157,22 +153,24 @@ public class Game implements Runnable, ActionListener {
 		}
 		for (int i = 0; i < Properties.level; i++) {
 			double angle = rand.nextDouble() * Math.PI * 2;
-			double x = Math.cos(angle) * (rand.nextInt(1000)+300);
-			double y = Math.sin(angle) * (rand.nextInt(1000)+300);
-			Entity e = EnemyCache.getEntity("light");
+			double x = Math.cos(angle) * (rand.nextInt(1000) + 300);
+			double y = Math.sin(angle) * (rand.nextInt(1000) + 300);
+			Entity e = ShipCache.getEntity("light",CustColor.ENEMY,false);
 			if (i % 2 == 0) {
-				e = EnemyCache.getEntity("medium");
+				// e = EnemyCache.getEntity("medium");
 			}
 			e.xPos = x;
 			e.yPos = y;
 			entityArray.add(e);
 		}
 	}
-	public static void doPlayerUpgrades(){
-		//XXX player Upgrades
+
+	public static void doPlayerUpgrades() {
+		// XXX player Upgrades
 	}
+
 	public void run() {
-		timer = new Timer(13 , this);
+		timer = new Timer(13, this);
 		timer.start();
 		timer.addActionListener(this);
 		startNew();

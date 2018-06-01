@@ -10,7 +10,7 @@ import main.Panel.CustColor;
 public class Player {
 
 	public Ship playerShip;
-	int playerNum;
+	public int playerNum;
 	String playerName;
 	public boolean playerReady = false; // TODO Maybe move this into game logic?
 	public CustColor playerColor;

@@ -8,17 +8,13 @@ import java.util.Hashtable;
 
 import entities.turrets.Turret;
 import main.Game;
+import main.Panel.CustColor;
 import tools.GameMath;
 
-public class EnemyCache {
+public class ShipCache {
 
-	private static Hashtable<String, Enemy> entityMap = new Hashtable<String, Enemy>();
+	private static Hashtable<String, Ship> entityMap = new Hashtable<>();
 	public static String[] types = { "light", "medium", "kamikaze", "sniper" };
-	static Point[] lightTurrets;
-	static Point[] lightLaunchers;
-	static Point[] mediumTurrets;
-	static Point[] mediumLaunchers;
-
 //	public static void loadCache() {
 //		lightTurrets = new Point[1];
 //		mediumTurrets = new Point[0];
@@ -109,12 +105,13 @@ public class EnemyCache {
 //		entityMap.put("medium", sniper);
 //
 //	}
-	public static Enemy getEntityByString(String id){
-		Enemy e = null;
+	public static Ship getEntity(String id, CustColor c, boolean player){
+		Ship e = null;
+		ShipAI ai = (player) ? new ShipAI(e) : new BasicAI(e);
 		switch(id){
 		case "light":
 			ArrayList<Turret> tList = new ArrayList<Turret>(0);
-			Enemy light = new Enemy(0, 0, Structures.LIGHT, tList) {
+			e = new Ship(0, 0, Structures.LIGHT, tList, c, ai) {
 				{
 					int z = 0;
 					for (int i = 0; i < Structures.getStructure(Structures.LIGHT).length; i++) {
@@ -135,8 +132,6 @@ public class EnemyCache {
 					Point2D p = centerPoint;
 					 double angle2 = angle + ((Math.random() - 0.5) * 50);
 					 Game.addParticles(ParticleEffects.fishtail(getX(), getY(), angle, 10,40));
-//					Game.addParticles(ParticleEffects.helix((float) (p.getX() + xPos), (float) (p.getY() + yPos), angle, 20,
-//							getLife() * 80));
 				}
 			};
 			break;
@@ -147,11 +142,8 @@ public class EnemyCache {
 			break;
 			
 		}
+		e.team = (player) ? Game.PLAYER_TEAM : Game.ENEMY_TEAM;
 		return e;
-	}
-	public static Enemy getEntity(String id) {
-		Enemy cachedEntity = entityMap.get(id);
-		return (Enemy) cachedEntity.clone();
 	}
 
 }

@@ -58,7 +58,9 @@ public class Panel extends JPanel implements Runnable, ActionListener {
 			return c;
 		}
 	}
-
+	public static CustColor getPlayerColor(int num){
+		return CustColor.values()[num + CustColor.PLAYER1.ordinal()];
+	}
 	public void paintGrid(Graphics g2, double xC, double yC, double zoom) {
 		double lineSpace = (double) GRID_SIZE * zoom;
 		int h = getHeight();

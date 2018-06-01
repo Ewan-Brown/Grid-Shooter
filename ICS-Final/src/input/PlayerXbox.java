@@ -7,7 +7,6 @@ import com.ivan.xinput.enums.XInputAxis;
 import com.ivan.xinput.enums.XInputButton;
 import com.ivan.xinput.listener.XInputDeviceListener;
 
-import entities.Enemy;
 import entities.Entity;
 import entities.ParticleEffects;
 import entities.Ship;
@@ -19,7 +18,7 @@ import tools.GameMath;
 
 public class PlayerXbox extends Player implements XInputDeviceListener{
 
-	public PlayerXbox(XInputDevice XInputDevice, CustColor c) {
+	public PlayerXbox(XInputDevice XInputDevice, CustColor c, int n) {
 		this.controller = XInputDevice;
 		XInputDevice.addListener(this);
 		playerColor = c;
@@ -95,7 +94,7 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 		if (isTargetting && target != null) {
 			double xT = target.xPos - playerShip.xPos;
 			double yT = target.yPos - playerShip.yPos;
-			playerShip.turnToTarget(Math.toDegrees(Math.atan2(yT, xT)));
+			playerShip.ai.turnToTarget(Math.toDegrees(Math.atan2(yT, xT)));
 		}
 
 	}
@@ -142,7 +141,7 @@ public class PlayerXbox extends Player implements XInputDeviceListener{
 			double d = Double.MAX_VALUE;
 			Ship c = null;
 			for (Entity e : Game.entityArray) {
-				if (e instanceof Enemy && !e.isDead()) {
+				if (e instanceof Ship && e.team == Game.ENEMY_TEAM && !e.isDead()) {
 					double d2 = GameMath.getDistance(playerShip, e);
 					if (d2 < d) {
 						d = d2;
