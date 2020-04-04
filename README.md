@@ -46,9 +46,3 @@ Planned:
 -Many more enemies
 -Way too many effects
 
-Terrible ideas:
-Format and tag this readme so it's legible and looks nice
-An in game menu???? WITH OPENGL???
-MULTIPLAYER? What is a socket please help me
-Client ship-designing
-SHIP ANIMATIONS BUT WITH POLYGONS? COULD MAYBE LOOK VAGUELY COOL (OR JUST SHIT)?
