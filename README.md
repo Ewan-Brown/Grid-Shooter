@@ -14,9 +14,6 @@ Everthing is drawn as polygons as i don't want to use images(to keep opportunity
 
 Polygon collisions are handled through a custom class that splits them into triangles using an ear split process, 
 
-Multithreading is ready to happen and i'm excited but it's going to be disgusting. probably.
-
-
 Current features:
 -a player controlled ship
 -2 kinds of enemies 
@@ -31,9 +28,9 @@ Current features:
 
 WIP:
 -Better(more varied) upgrades
--Porting from Graphics2D to OpenGL 3/4 with JOGL Wrapper. <------ THIS IS THE BIG ONE (Testing for this is located in my OpenGlShips repo)
+-Porting from Graphics2D to GLSL
 -Some more particle effects
--Multithreaded
+-Multithreading?
 
 Planned:
 -More ships + a player ship selection
